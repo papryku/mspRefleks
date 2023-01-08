@@ -88,3 +88,36 @@ void printScores(struct Score scores[], int n) {
     }
 }
 
+void sendScores(struct Score scores[], int n)
+{
+    int i;
+    for (i = 0; i < n; i++)
+    {
+        int j;
+        for (j = 0; j < strlen(scores[i].name); j++)
+        {
+            // Wys?anie znaku imienia gracza
+            while (!(UCA0IFG & UCTXIFG));
+            UCA0TXBUF = scores[i].name[j];
+        }
+
+        // Wys?anie znaku dwukropka i spacji
+        while (!(UCA0IFG & UCTXIFG));
+        UCA0TXBUF = ':';
+        while (!(UCA0IFG & UCTXIFG));
+        UCA0TXBUF = ' ';
+
+        // Konwersja punktów na tekst i wys?anie ich do programu Putty
+        char points_str[10];
+        sprintf(points_str, "%d", scores[i].points);
+        for (j = 0; j < strlen(points_str); j++)
+        {
+            while (!(UCA0IFG & UCTXIFG));
+            UCA0TXBUF = points_str[j];
+        }
+
+        // Wys?anie znaku nowej linii
+        while (!(UCA0IFG & UCTXIFG));
+        UCA0TXBUF = '\n';
+    }
+}
