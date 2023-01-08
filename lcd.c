@@ -118,6 +118,10 @@ void InitLCD(void)
     Delayx100us(250);
 }
 
-
-
-
+void ADD_CHARACTER (unsigned char *Pattern, const char Location)
+{ 
+int i=0; 
+lcd_cmd (0x40+(Location*8));     //Send the Address of CGRAM
+for (i=0; i<8; i++)
+lcd_data (Pattern [ i ] );         //Pass the bytes of pattern on LCD 
+}
