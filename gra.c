@@ -5,11 +5,22 @@
 #include "kafelek.h"
 
 void rozpocznijGre(char* inicjaly){
+    //pauza interrupta?
     SEND_CMD(CLR_DISP);
     SEND_CMD(CUR_OFF); //wylaczenie kursora
     SEND_CHAR(0);
     SEND_CMD(DD_RAM_ADDR2); //czyli SET_CURSOR(1,2)
     SEND_CHAR(0);
+
+    for(int i = 3; i>0; i--){
+        SET_CURSOR(8,1);
+        SEND_CHAR(48+i);
+        SEND_CHAR('.');
+        SEND_CHAR('.');
+    }
+
+    //tutaj wypadaloby interrupty jakos odapuzowac czy cos?
+    //juz powinny leciec sobie tyntyryn
 }
 
 //struct gotowego kafelka z parametrami bedzie tworzony
@@ -20,8 +31,24 @@ void nowyKafelek(Kafelek nowy){
     SEND_CHAR(1);
 }
 
-//znak lapania w obu liniach po lewej
-//SEND_CHAR(0);
-//SEND_CMD(DD_RAM_ADDR2);
-//odliczanie??
+//
+void przesunKafelki(Kafelek* kafelki){
+    int dl = sizeof(Kafelek)/sizeof(Kafelek[0]);
+    int stan1 = 0, stan2 = 1;
 
+    //inna mozliwosc to bezposrednia edycja 30 pol DDRAMU z odpowiednim przesunieciem w lewo pomijajac pola lapania
+    SEND_CMD(DATA_ROL_LEFT);
+    SET_CURSOR(1,2); SEND_CHAR(0);
+
+    for(int i=0; i<dl; i++){
+        if(kafelki[i].column==1){
+            SET_CURSOR(1,kafelki[i].row);
+            SEND_CHAR(2);
+        }
+    }
+    if(!stan1) { SET_CURSOR(1,1); SEND_CHAR(0); }
+    if(!stan2) { SET_CURSOR(1,2); SEND_CHAR(0); }
+
+    //nie wiem jeszcze jak zareagowac na kafelek==0 i gdzie, chyba w timerze??
+    //albo miec w powazaniu az nie okaze sie powodowac artefakty graficzne
+}
