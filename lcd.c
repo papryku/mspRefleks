@@ -9,7 +9,7 @@
 #include "io430x14x.h" //zamiennik dla msp430x14x.h, w sali uzywamy msp430x14x.h
 #include "lcd.h"
 #include "portyLcd.h"
-
+#include "znaki.h"
 
 
 #define bitset(var,bitno) ((var) |= 1 << (bitno))
@@ -27,8 +27,15 @@ void clearDisplay() {
     SEND_CMD(CLR_DISP);
     Delayx100us(10);
 }
+
 void gotoSecondLine() {
     SEND_CMD(DD_RAM_ADDR2);
+}
+
+//robocza wersja, gdybyśmy robili więcej niż 8 znaków to trzeba by było podmieniać znaki w trakcie gry
+//ale mamy tylko 3 także ez
+void loadCustomCharacters(){
+    
 }
 
 
