@@ -13,6 +13,7 @@
 main (void) {
   //wylaczenie watchdoga
   WDTCTL = WDTPW + WDTHOLD;
+
   //inicjalizacja bibliotek
   InitPortsLcd();
   InitLCD();
@@ -24,7 +25,7 @@ main (void) {
   CREATE_CHARACTER(zlapany,1);
   CREATE_CHARACTER(kafelek,2);
 
-  //ustawienie zegara
+  //inicjalizacja zegara
   BCSCTL1 |= XTS;
   do
   {

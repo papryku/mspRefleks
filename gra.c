@@ -4,8 +4,11 @@
 #include "znaki.h"
 #include "kafelek.h"
 
+//inicjaly chyba jednak niepotrzebne w tej sekcji tbh
 void rozpocznijGre(char* inicjaly){
-    //pauza interrupta?
+    //pauza interrupta
+    TACTL &= ~MC_1;
+
     SEND_CMD(CLR_DISP);
     SEND_CMD(CUR_OFF); //wylaczenie kursora
     SEND_CHAR(0);
@@ -19,7 +22,10 @@ void rozpocznijGre(char* inicjaly){
         SEND_CHAR('.');
     }
 
-    //tutaj wypadaloby interrupty jakos odapuzowac czy cos?
+    //może return jakby byl problem z odpauzowaniem interrupta
+    //odpauzowanie interrupta
+    TACTL |= MC_1;
+
     //juz powinny leciec sobie tyntyryn
 }
 
