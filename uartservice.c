@@ -1,4 +1,4 @@
-#include <msp430.h>
+#include "msp430x14x.h" //jak patrze na bledy to ile wywala chyba jednak nie jest zbyt dobrze xDD
 #include <stdio.h>
 #include <string.h>
 
@@ -8,7 +8,7 @@ struct Score {
     int points;
 };
 
-// Tablica wyników
+// Tablica wynikï¿½w
 struct Score scores[10];
 
 int main(void) {
@@ -19,7 +19,7 @@ int main(void) {
     P1SEL0 |= BIT0 | BIT1;      // P1.0 i P1.1 jako z??cza UCA0TXD i UCA0RXD
     P1SEL1 &= ~(BIT0 | BIT1);
 
-    UCA0CTLW0 = UCSSEL__SMCLK;  // Ustawienie SMCLK jako ?ród?a sygna?u zegarowego
+    UCA0CTLW0 = UCSSEL__SMCLK;  // Ustawienie SMCLK jako ?rï¿½d?a sygna?u zegarowego
     UCA0BRW = 6;                // Baud rate = 9600
     UCA0MCTLW = UCOS16 | UCBRF_1 | 0xD600;  // Modulacja UCBRSx = 1, UCBRFx = 0, UCOS16 = 1
 
@@ -27,7 +27,7 @@ int main(void) {
 
 
 
-    // Wysy?anie tablicy wyników do komputera
+    // Wysy?anie tablicy wynikï¿½w do komputera
     int i;
     for (i = 0; i < 10; i++) {
         char buffer[64];
@@ -107,7 +107,7 @@ void sendScores(struct Score scores[], int n)
         while (!(UCA0IFG & UCTXIFG));
         UCA0TXBUF = ' ';
 
-        // Konwersja punktów na tekst i wys?anie ich do programu Putty
+        // Konwersja punktï¿½w na tekst i wys?anie ich do programu Putty
         char points_str[10];
         sprintf(points_str, "%d", scores[i].points);
         for (j = 0; j < strlen(points_str); j++)
