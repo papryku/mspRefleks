@@ -125,7 +125,8 @@ void InitLCD(void)
     Delayx100us(250);
 }
 
-
+//addr od 0 do 7, przyszly kod ASCII custom znaku
+//data to bitmapa znaku
 void CREATE_CHAR(int addr, int *data){
   if (addr > 7 || addr < 0){
     return 0;
@@ -134,9 +135,9 @@ void CREATE_CHAR(int addr, int *data){
   SEND_CHAR(data);
 }
 
+
 //row 1 albo 2
 //column on 1 do 16
-
 void SET_CURSOR(int column, int row)
 {
   SEND_CMD(0x80 | ((row - 1) << 6) | (column - 1));

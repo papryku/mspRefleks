@@ -1,7 +1,7 @@
 #include "msp430x14x.h"
 #include "lcd.h"
 #include "portyLcd.h"
-//#include "portyUart.h" BRAKUJEEEEE
+#include "portyUart.h"
 #include "uart.h"
 #include "znaki.h"
 
@@ -11,9 +11,30 @@
 #define PRZYCISK4 (BIT7&P4IN) 
 
 main (void) {
+  //wylaczenie watchdoga
+
+  //inicjalizacja bibliotek
   InitPortsLcd();
   InitLCD();
-  ADD_CHARACTER(lapanie,0);
-  ADD_CHARACTER(zlapany,1);
-  ADD_CHARACTER(kafelek,2);
+  InitPortsUart();
+  InitUart(1200);
+
+  //zaladowanie znakow do tablicy
+  CREATE_CHARACTER(lapanie,0);
+  CREATE_CHARACTER(zlapany,1);
+  CREATE_CHARACTER(kafelek,2);
+
+  //ustawienie zegara
+
+
+  //nieskończona pętla, miejsce na nasz program
+  while(1){
+
+  }
 }
+
+//przerwania uart
+
+
+
+//przerwania zegara
