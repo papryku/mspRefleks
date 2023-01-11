@@ -1,7 +1,13 @@
-#include "msp430x14x.h"
+// #ifndef KAFELEK_H
+// #define KAFELEK_H
 
-struct Kafelek {
-    int linia;
-    int kolumna;
-};
+// struct Kafelek;
 
+// typedef struct Kafelek {
+//     int row;
+//     int column;
+// } Kafelek;
+
+// #endif
+
+//niepotrzebny plik
