@@ -6,9 +6,9 @@
 void rozpocznijGre(char* inicjaly){
     SEND_CMD(CLR_DISP);
     SEND_CMD(CUR_OFF); //wylaczenie kursora
-    SEND_CHAR(znak pola);
-    SEND_CMD(DD_RAM_ADDR2);
-    SEND_CHAR(znak pola);
+    SEND_CHAR(0);
+    SEND_CMD(DD_RAM_ADDR2); //czyli SET_CURSOR(2,1)
+    SEND_CHAR(0);
 }
 
 //znak lapania w obu liniach po lewej

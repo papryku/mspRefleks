@@ -12,6 +12,7 @@
 #define		ENTRY_DEC_ROL		0x05            // entry mode decrement witch rol dat
 #define		DISP_OFF		0x08	        // all display off
 #define		DISP_ON			0x0c	        // all display on
+#define     CUR_OFF         0x0c            // 40us
 
 #define         DATA_ROL_LEFT           0x18            // rol data left
 #define         DATA_ROL_RIGHT          0x1c            // rol data right
