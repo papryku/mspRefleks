@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "uart.h"
-#include "string.h"
 
 int numberOfScores = 0;
 int currentLetter = 'A';     // wartosc pierwszego znaku w tablicy ASCII
@@ -19,7 +18,6 @@ struct Score {
 
 char readChar() {
     currentLetter = 65;
-
     bool button1 = !(P4IN & BIT4);      // zdefiniowanie boola okreslajacego klikniecie przycisku pierwszego
     bool button2 = !(P4IN & BIT5);      // zdefiniowanie boola okreslajacego klikniecie przycisku drugiego
     bool button3 = !(P4IN & BIT6);      // zdefiniowanie boola okreslajacego klikniecie przycisku trzeciego
@@ -55,7 +53,7 @@ char *podajInicjaly(){
     return name;
 }
 
-// Tablica wynik�w
+// Tablica wynikow
 struct Score scores[10];
 
 int main(void) {
@@ -73,22 +71,6 @@ int main(void) {
 
     _EINT();                    // wylaczenie przerwan
 
-    // Wysylanie tablicy wynikow do komputera
-    int i;
-    for (i = 0; i < 10; i++) {
-        char buffer[64];
-        SEND_CHAR(scores[i].name[0]);
-        SEND_CHAR(scores[i].name[1]);
-        SEND_CHAR()
-        putc(buffer, "%s: %d points\n", scores[i].name, scores[i].points);
-        int j;
-        for (j = 0; j < strlen(buffer); j++) {
-            while (!(UCA0IFG & UCTXIFG));
-            UCA0TXBUF = buffer[j];
-        }
-    }
-
-    return 0;
 }
 
 void sendCharsToTerminal(char c[]){
@@ -115,26 +97,24 @@ void sortScores(struct Score scores[], int n) {
     }
 }
 
+struct Score createScore(char name[], int points) {
+    struct Score newScore;
+    strcpy(newScore.name, name);
+    newScore.points = points;
+    return newScore;
+}
+
 void addScore(struct Score scores[], int arraySize, struct Score newScore) {
-    int index = findEmptyIndex(scores[], arraySize);
-    numberOfScores++;
-    if (index <= 9) {
-        scores[index] = newScore;
+    if (numberOfScores <= 9) {
+        scores[numberOfScores] = newScore;
+        numberOfScores++;
     }
     if (newScore.points > scores[9].points) {
-        scores[9] = newScore
+        scores[9] = newScore;
     }
     sortScores(scores, arraySize);
 }
 
-int findEmptyIndex(struct Score scores[], int arraySize) {
-    for (int i = 0; i < arraySize; i++) {
-        if (scores[i].points == 0) {
-            return i;
-        }
-    }
-    return 0;
-}
 void printScores(struct Score scores[], int n) {
     int i;
     char points_str[10];
@@ -142,51 +122,42 @@ void printScores(struct Score scores[], int n) {
         sendCharsToTerminal(scores[i].name);
         SEND_CHAR('.');
         SEND_CHAR(' ');
-        points_str = (char)scores[i].points;
-        sendCharsToTerminal(points_str[]);
+        sprintf(points_str,"%ld", scores[i].points);
+        sendCharsToTerminal(points_str);
     }
 }
 
-void endOfTheGame(int result){
-    if(result){
+void endOfTheGame(bool isWin, int result){
+    if(isWin){
         sendCharsToTerminal("Wygrales! ");
-        //sendCharsToTerminal("Twoj wynik to: ");
+    } else {
+        sendCharsToTerminal("Przegrales! ");
+    }
+    printScores(scores,numberOfScores);
+}
+void menu() {
+    bool button1 = !(P4IN & BIT4);      // zdefiniowanie boola okreslajacego klikniecie przycisku pierwszego
+    bool button2 = !(P4IN & BIT5);      // zdefiniowanie boola okreslajacego klikniecie przycisku drugiego
+    bool button3 = !(P4IN & BIT6);      // zdefiniowanie boola okreslajacego klikniecie przycisku trzeciego
+    bool button4 = !(P4IN & BIT7);      // zdefiniowanie boola okreslajacego klikniecie przycisku czwartego
+
+
+    if (button1) {
+        Delayx100us(200);                           // opoznienie
+        clearDisplay();                             // wyczyszczenie wyswietlacza
+        // start new game
+    }
+
+    if (button2) {
+        Delayx100us(200);                           // opoznienie
+        clearDisplay();                             // wyczyszczenie wyswietlacza
+        //drukowanie wynikow
         printScores(scores,numberOfScores);
     }
-}
 
-
-
-void sendScores(struct Score scores[], int n)
-{
-    int i;
-    for (i = 0; i < n; i++)
-    {
-        int j;
-        for (j = 0; j < strlen(scores[i].name); j++)
-        {
-            // Wys?anie znaku imienia gracza
-            while (!(UCA0IFG & UCTXIFG));
-            UCA0TXBUF = scores[i].name[j];
-        }
-
-        // Wys?anie znaku dwukropka i spacji
-        while (!(UCA0IFG & UCTXIFG));
-        UCA0TXBUF = ':';
-        while (!(UCA0IFG & UCTXIFG));
-        UCA0TXBUF = ' ';
-
-        // Konwersja punkt�w na tekst i wyslanie ich do programu Putty
-        char points_str[10];
-        putc(points_str, "%d", scores[i].points);
-        for (j = 0; j < strlen(points_str); j++)
-        {
-            while (!(UCA0IFG & UCTXIFG));
-            UCA0TXBUF = points_str[j];
-        }
-
-        // Wys?anie znaku nowej linii
-        while (!(UCA0IFG & UCTXIFG));
-        UCA0TXBUF = '\n';
+    if (button3) {
+        Delayx100us(200);                           // opoznienie
+        clearDisplay();                             // wyczyszczenie wyswietlacza
+        //wyjscie z gry
     }
 }
