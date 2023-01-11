@@ -1,6 +1,8 @@
 #include "msp430x14x.h"
 #include "lcd.h"
 #include "portyLcd.h"
+//#include "portyUart.h" BRAKUJEEEEE
+#include "uart.h"
 #include "znaki.h"
 
 #define PRZYCISK1 (BIT4&P4IN)

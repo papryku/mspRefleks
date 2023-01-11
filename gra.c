@@ -16,7 +16,8 @@ void rozpocznijGre(char* inicjaly){
 //w przerwaniach zegara, poniewaz z poziomu namespace'a gra nie mamy
 //dostepu do tablicy istniejacych kafelkow, w skrocie informacji czy pozycja zajeta bla bla bla
 void nowyKafelek(Kafelek nowy){
-    SET_CURSOR(nowy.column, nowy.row)
+    SET_CURSOR(nowy.column, nowy.row);
+    SEND_CHAR(1);
 }
 
 //znak lapania w obu liniach po lewej
