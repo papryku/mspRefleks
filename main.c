@@ -25,7 +25,19 @@ main (void) {
   CREATE_CHARACTER(kafelek,2);
 
   //ustawienie zegara
-
+  BCSCTL1 |= XTS;
+  do
+  {
+    IFG1 &= ~OFIFG; // zerowanie flagi OSCFault
+    for (int i = 0xFF; i > 0; i--); // odczekujemy 50 μs
+  }
+  while ((IFG1 & OFIFG) == OFIFG);
+  BCSCTL1 |= DIVA_1;
+  BCSCTL2 |= SELM0 | SELM1;
+  TACTL = TASSEL_1 + MC_1 + ID_3;
+  CCTL0 = CCIE;
+  CCR0=50000;
+  _EINT();
 
   //nieskończona pętla, miejsce na nasz program
   while(1){
@@ -38,3 +50,7 @@ main (void) {
 
 
 //przerwania zegara
+#pragma vector=TIMERA0_VECTOR
+__interrupt void Timer_A (void){
+
+}
