@@ -12,7 +12,7 @@
 
 main (void) {
   //wylaczenie watchdoga
-
+  WDTCTL = WDTPW + WDTHOLD;
   //inicjalizacja bibliotek
   InitPortsLcd();
   InitLCD();
