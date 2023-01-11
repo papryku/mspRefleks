@@ -6,7 +6,7 @@
  ******************************************************************/
 
 
-#include "io430x14x.h" //zamiennik dla msp430x14x.h, w sali uzywamy msp430x14x.h
+#include "msp430x14x.h" //zamiennik dla msp430x14x.h, w sali uzywamy msp430x14x.h
 #include "lcd.h"
 #include "portyLcd.h"
 #include "znaki.h"
@@ -125,26 +125,20 @@ void InitLCD(void)
     Delayx100us(250);
 }
 
-void ADD_CHARACTER (unsigned char *Pattern, const char Location)
-{ 
-int i=0; 
-lcd_cmd (0x40+(Location*8));     //Send the Address of CGRAM
-for (i=0; i<8; i++)
-lcd_data (Pattern [ i ] );         //Pass the bytes of pattern on LCD 
-}
+//void ADD_CHARACTER (unsigned char *Pattern, const char Location)
+//{ 
+//int i=0; 
+//lcd_cmd (0x40+(Location*8));     //Send the Address of CGRAM
+//for (i=0; i<8; i++)
+//lcd_data (Pattern [ i ] );         //Pass the bytes of pattern on LCD 
+//}
 
-“Set DDRAM address” (0x80) sets the address of the display data memory. 
-This address has 7 bits width, and sets the position of the cursor at the LCD. 
-Bit #6 sets the line number (0 – first line, 1 – second line), 
-and bits #3-0 set the position within a line (0 to 15).
-
-void lcd_set_cursor (uint8_t x, uint8_t y) //Set cursor at the specified position
-{
-    if (y > 2)      //If we try to set the line number more than 2
-             y = 2;      //Set the line #2
-    if (x > 16)     //If we try to set the position number more than 16
-             x = 16;     //Set the position #16
-    lcd_command(0x80 | ((y - 1) << 6) | (x - 1)); //Set the cursor position at the LCD
+void CREATE_CHAR(int addr, int *data){
+  if (addr > 7 || addr < 0){
+    return 0;
+  }
+  SEND_CMD(0x40 | addr << 3);
+  SEND_CHAR(data);
 }
 
 //row 1 albo 2
@@ -152,5 +146,5 @@ void lcd_set_cursor (uint8_t x, uint8_t y) //Set cursor at the specified positio
 
 void SET_CURSOR(int column, int row)
 {
-  SEND_CMD(0x80 | ((row - 1) << 6) | (column - 1))
+  SEND_CMD(0x80 | ((row - 1) << 6) | (column - 1));
 }
