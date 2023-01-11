@@ -1,37 +1,86 @@
 #include "msp430x14x.h" //jak patrze na bledy to ile wywala chyba jednak nie jest zbyt dobrze xDD
+#include "portyLcd.h"
+#include "lcd.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
+#include "uart.h"
+#include "string.h"
 
-// Struktura przechowuj?ca wyniki z gry
+int numberOfScores = 0;
+int currentLetter = 'A';     // wartosc pierwszego znaku w tablicy ASCII
+// Struktura przechowujqca wyniki z gry
+
 struct Score {
-    char name[32];
+    char name[2];
     int points;
 };
+
+
+char readChar() {
+    currentLetter = 65;
+
+    bool button1 = !(P4IN & BIT4);      // zdefiniowanie boola okreslajacego klikniecie przycisku pierwszego
+    bool button2 = !(P4IN & BIT5);      // zdefiniowanie boola okreslajacego klikniecie przycisku drugiego
+    bool button3 = !(P4IN & BIT6);      // zdefiniowanie boola okreslajacego klikniecie przycisku trzeciego
+
+    if (button1) {
+        Delayx100us(200);                           // opoznienie
+        clearDisplay();                             // wyczyszczenie wyswietlacza
+
+        if (currentLetter > 65) {                    // sprawdzenie czy obecna wartosc znaku ASCII nie będzie ponizej 'A'
+            SEND_CHAR(--currentLetter);              // po jego dekrementacji
+        }
+    }
+
+    if (button2) {
+        Delayx100us(200);                           // opoznienie
+        UartCharTransmit(currentLetter);             // wyslanie obecnej litery do terminmala
+        return currentLetter;
+    }
+
+    if (button3) {
+        Delayx100us(200);                           // opoznienie
+        clearDisplay();                             // wyczyszczenie wyswietlacza
+        if (currentLetter < 90) {                    // sprawdzenie czy obecna wartosc znaku ASCII nie będzie powyzej 'Z'
+            SEND_CHAR(++currentLetter);              // po jego inkrementacji
+        }
+    }
+}
+
+char *podajInicjaly(){
+    char name[2];
+    name[0] = readChar();
+    name[1] = readChar();
+    return name;
+}
 
 // Tablica wynik�w
 struct Score scores[10];
 
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD;   // Disable watchdog timer
-    PM5CTL0 &= ~LOCKLPM5;       // Disable the GPIO power-on default high-impedance mode
+    P4DIR &= ~BIT4;             // zainicjalizowanie pierwszego przycisku
+    P4DIR &= ~BIT5;             // zainicjalizowanie drugiego przycisku
+    P4DIR &= ~BIT6;             // zainicjalizowanie trzeciego przycisku
+    P4DIR &= ~BIT7;             // zainicjalizowanie czwartego przycisku
+    WDTCTL = WDTPW + WDTHOLD;   // wylaczenie WDT
 
-    // Konfiguracja UART
-    P1SEL0 |= BIT0 | BIT1;      // P1.0 i P1.1 jako z??cza UCA0TXD i UCA0RXD
-    P1SEL1 &= ~(BIT0 | BIT1);
+    InitPortsLcd();             // inicjalizacja portow LCD
+    InitLCD();                  // inicjalizacja LCD
+    clearDisplay();             // czyszczenie wyswietlacza
+    InitUart(1200);             // inicjalizacja UARTa predkosci transmisji 2400 b/s
 
-    UCA0CTLW0 = UCSSEL__SMCLK;  // Ustawienie SMCLK jako ?r�d?a sygna?u zegarowego
-    UCA0BRW = 6;                // Baud rate = 9600
-    UCA0MCTLW = UCOS16 | UCBRF_1 | 0xD600;  // Modulacja UCBRSx = 1, UCBRFx = 0, UCOS16 = 1
+    _EINT();                    // wylaczenie przerwan
 
-    UCA0CTLW0 &= ~UCSWRST;     // Inicjalizacja UART
-
-
-
-    // Wysy?anie tablicy wynik�w do komputera
+    // Wysylanie tablicy wynikow do komputera
     int i;
     for (i = 0; i < 10; i++) {
         char buffer[64];
-        sprintf(buffer, "%s: %d points\n", scores[i].name, scores[i].points);
+        SEND_CHAR(scores[i].name[0]);
+        SEND_CHAR(scores[i].name[1]);
+        SEND_CHAR()
+        putc(buffer, "%s: %d points\n", scores[i].name, scores[i].points);
         int j;
         for (j = 0; j < strlen(buffer); j++) {
             while (!(UCA0IFG & UCTXIFG));
@@ -42,6 +91,11 @@ int main(void) {
     return 0;
 }
 
+void sendCharsToTerminal(char c[]){
+    for(int i = 0; i < sizeof(c); i++){
+        SEND_CHAR(c[i]);
+    }
+}
 
 void sortScores(struct Score scores[], int n) {
     int i, j;
@@ -63,6 +117,7 @@ void sortScores(struct Score scores[], int n) {
 
 void addScore(struct Score scores[], int arraySize, struct Score newScore) {
     int index = findEmptyIndex(scores[], arraySize);
+    numberOfScores++;
     if (index <= 9) {
         scores[index] = newScore;
     }
@@ -80,13 +135,27 @@ int findEmptyIndex(struct Score scores[], int arraySize) {
     }
     return 0;
 }
-
 void printScores(struct Score scores[], int n) {
     int i;
+    char points_str[10];
     for (i = 1; i <= n; i++) {
-        printf("%d. %s: %d points\n", i, scores[i].name, scores[i].points);
+        sendCharsToTerminal(scores[i].name);
+        SEND_CHAR('.');
+        SEND_CHAR(' ');
+        points_str = (char)scores[i].points;
+        sendCharsToTerminal(points_str[]);
     }
 }
+
+void endOfTheGame(int result){
+    if(result){
+        sendCharsToTerminal("Wygrales! ");
+        //sendCharsToTerminal("Twoj wynik to: ");
+        printScores(scores,numberOfScores);
+    }
+}
+
+
 
 void sendScores(struct Score scores[], int n)
 {
@@ -107,9 +176,9 @@ void sendScores(struct Score scores[], int n)
         while (!(UCA0IFG & UCTXIFG));
         UCA0TXBUF = ' ';
 
-        // Konwersja punkt�w na tekst i wys?anie ich do programu Putty
+        // Konwersja punkt�w na tekst i wyslanie ich do programu Putty
         char points_str[10];
-        sprintf(points_str, "%d", scores[i].points);
+        putc(points_str, "%d", scores[i].points);
         for (j = 0; j < strlen(points_str); j++)
         {
             while (!(UCA0IFG & UCTXIFG));
