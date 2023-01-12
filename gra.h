@@ -1,5 +1,5 @@
 #include "kafelek.h"
-
-void rozpocznijGre(char* inicjaly);
+bool rozpoczeta;
+void rozpocznijGre();
 void nowyKafelek(Kafelek nowy);
-void przesunKafelki(Kafelek* kafelki);
+void przesunKafelki(Kafelek *kafelki);

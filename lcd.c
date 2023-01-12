@@ -127,13 +127,21 @@ void InitLCD(void)
 
 //addr od 0 do 7, przyszly kod ASCII custom znaku
 //data to bitmapa znaku
-void CREATE_CHAR(int addr, int *data){
+void sendCharsToTerminal(char c[]){
+    for(int i = 0; i < sizeof(c); i++){
+        SEND_CHAR(c[i]);
+    }
+}
+
+void CREATE_CHAR(int addr, char *data){
   if (addr > 7 || addr < 0){
-    return 0;
+    return;
   }
   SEND_CMD(0x40 | addr << 3);
-  SEND_CHAR(data);
+  sendCharsToTerminal(data);
 }
+
+
 
 
 //row 1 albo 2

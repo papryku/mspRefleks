@@ -3,9 +3,12 @@
 #include "portyLcd.h"
 #include "znaki.h"
 #include "kafelek.h"
+#include <stdbool.h>
+
+int rozpoczeta = false;
 
 //inicjaly chyba jednak niepotrzebne w tej sekcji tbh
-void rozpocznijGre(char* inicjaly){
+void rozpocznijGre(){
     //pauza interrupta
     TACTL &= ~MC_1;
 
@@ -24,29 +27,32 @@ void rozpocznijGre(char* inicjaly){
 
     //może return jakby byl problem z odpauzowaniem interrupta
     //odpauzowanie interrupta
+    
     TACTL |= MC_1;
-
+    rozpoczeta = true;
     //juz powinny leciec sobie tyntyryn
 }
+
 
 //struct gotowego kafelka z parametrami bedzie tworzony
 //w przerwaniach zegara, poniewaz z poziomu namespace'a gra nie mamy
 //dostepu do tablicy istniejacych kafelkow, w skrocie informacji czy pozycja zajeta bla bla bla
-void nowyKafelek(Kafelek nowy){
-    SET_CURSOR(nowy.column, nowy.row);
+void nowyKafelek(Kafelek *nowy){
+    SET_CURSOR(nowy->column, nowy->row);
     SEND_CHAR(1);
 }
 
 //
-void przesunKafelki(Kafelek* kafelki){
-    int dl = sizeof(Kafelek)/sizeof(Kafelek[0]);
+void przesunKafelki(Kafelek *kafelki){
+    int dl = sizeof(kafelki)/sizeof(kafelki[0]);
     int stan1 = 0, stan2 = 1;
 
     //inna mozliwosc to bezposrednia edycja 30 pol DDRAMU z odpowiednim przesunieciem w lewo pomijajac pola lapania
     SEND_CMD(DATA_ROL_LEFT);
-    SET_CURSOR(1,2); SEND_CHAR(0);
+    //SET_CURSOR(1,2); SEND_CHAR(0);
 
     for(int i=0; i<dl; i++){
+        kafelki[i].column--;
         if(kafelki[i].column==1){
             SET_CURSOR(1,kafelki[i].row);
             SEND_CHAR(2);
