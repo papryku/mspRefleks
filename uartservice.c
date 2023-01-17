@@ -2,7 +2,7 @@
 #include "portyLcd.h"
 #include "lcd.h"
 #include <stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "uart.h"
 #include <string.h>
