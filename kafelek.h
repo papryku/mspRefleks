@@ -1,7 +1,3 @@
-#ifdef KAFELEK_H
-printf('t');
-#endif
-
 #ifndef KAFELEK_H
 #define KAFELEK_H
 

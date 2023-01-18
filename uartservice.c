@@ -7,15 +7,17 @@
 #include "uart.h"
 #include <string.h>
 #include "math.h"
+#include "uartservice.h"
 
 int numberOfScores = 0;
 int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
-// Struktura przechowujqca wyniki z gry
 
-struct Score {
-    char name[2];
-    int points;
-};
+// pobierane jest z uartservice.h
+// Struktura przechowujqca wyniki z gry
+// struct Score {
+//     char name[2];
+//     int points;
+// };
 
 char readChar() {
     currentLetter = 65;
