@@ -1,5 +1,6 @@
 //macie zmienne w uartservice.c, nie można ich przekazywać do maina w ten sposób także header dorabiam (nie pytajcie, też nic nie wiem)
-#include "msp430x14x.h" //jak patrze na bledy to ile wywala chyba jednak nie jest zbyt dobrze xDD
+//nie wiem nawet czy dobrze, szczerze kija w tym momencie umiem zrobic bez dostepu do IARa salowego
+#include "msp430x14x.h"
 #include "portyLcd.h"
 #include "lcd.h"
 #include <stdio.h>
