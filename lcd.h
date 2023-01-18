@@ -6,3 +6,4 @@ void MAKE_DEFINED_CHAR(unsigned char c);
 void Delayx100us(unsigned char b);
 void SET_CURSOR(int column, int row);
 void CREATE_CHAR(int addr, char *data);
+void SEND_CHARS(char * napis);

@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "uart.h"
 #include <string.h>
+#include "math.h"
 
 int numberOfScores = 0;
 int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
@@ -46,11 +47,7 @@ char readChar() {
 }
 //metoda wysylajaca tablice charow na terminal
 //wywala jakis blad
-void sendCharsToTerminal(char* c[]){
-    for(int i = 0; i < sizeof(c); i++){
-        UartCharTransmit(*c[i]); //wyslanie chara na terminal
-    }
-}
+
 
 //metoda wysylajaca tablice charow na plytke LCD
 void sendCharsToLCD(char* c[]){
@@ -63,8 +60,8 @@ char *podajInicjaly(){
     char name[2];
     name[0] = readChar(); //uzytkownik wybiera pierwsza litere swojego inicjalu
     name[1] = readChar(); //uzytkownik wybiera druga litere swojego inicjalu
-    char* send[32]= "utworzono inicjaly";
-    sendCharsToTerminal(send);
+    char send[32]= "utworzono inicjaly";
+    UartStringTransmit(send);
     return name;
 }
 
@@ -126,40 +123,34 @@ void addScore(struct Score scores[], int arraySize, struct Score newScore) {
     }
     sortScores(scores, arraySize);
 }
-char * toArray(int number)
-{
-    int n = log10(number) + 1;
-    int i;
-    char *numberArray = calloc(n, sizeof(char));
-    for (i = n-1; i >= 0; --i, number /= 10)
-    {
-        numberArray[i] = (number % 10) + '0';
-    }
-    return numberArray;
+
+char* intToCharArray(int num) {
+    static char arr[10];
+    sprintf(arr, "%d", num);
+    return arr;
 }
 
 //metoda wypisujaca tablice wynikow do terminala
 void printScores(struct Score scores[], int n) {
     int i;
-    char* points_str[10];
     for (i = 1; i <= n; i++) {
 //bledy
-        sendCharsToTerminal(scores[i].name);
+        UartStringTransmit(scores[i].name);
         UartCharTransmit('.');
         UartCharTransmit(' ');
 //bledy
-        points_str = toArray(scores[i].points);
-        sendCharsToTerminal(points_str);
+        char *points_str = intToCharArray(scores[i].points);
+        UartStringTransmit(points_str);
     }
 }
 
 //metoda wyswietlajaca na LCD zwyciestwo lub przegrana
 void endOfTheGame(bool isWin, int result){
     if(isWin){
-        char* send[32] ="Wygrales! ";
+        char send[32] ="Wygrales! ";
         sendCharsToLCD(send);
     } else {
-        char* send2[32] ="Przegrales! ";
+        char send2[32] ="Przegrales! ";
         sendCharsToLCD(send2);
     }
     printScores(scores,numberOfScores);
@@ -170,24 +161,24 @@ void menu() {
     bool button2 = !(P4IN & BIT5); // zdefiniowanie boola okreslajacego klikniecie przycisku drugiego
     bool button3 = !(P4IN & BIT6); // zdefiniowanie boola okreslajacego klikniecie przycisku trzeciego
     bool button4 = !(P4IN & BIT7); // zdefiniowanie boola okreslajacego klikniecie przycisku czwartego
-    char* nowaGra[32] = "1. Nowa gra.";
-    char* wyswietl[32] = "2. Wyswietl wyniki.";
-    char* zakoncz[32] = "3. Zakoncz gre.";
-    sendCharToTerminal(nowaGra);
-    sendCharToTerminal(wyswietl);
-    sendCharToTerminal(zakoncz);
+    char nowaGra[32] = "1. Nowa gra.";
+    char wyswietl[32] = "2. Wyswietl wyniki.";
+    char zakoncz[32] = "3. Zakoncz gre.";
+    UartStringTransmit(nowaGra);
+    UartStringTransmit(wyswietl);
+    UartStringTransmit(zakoncz);
 
     if (button1) {
         Delayx100us(200); // opoznienie
         clearDisplay(); // wyczyszczenie wyswietlacza
 // start new game
-/*sendCharToTerminal("Podaj inicjaly");
-char inicjaly[2] = podajInicjaly();
-int wynik = 0;//wynik z skadstam
-struct Score sc = createScore(inicjaly, wynik);
-addScore(scores, numberOfScores, sc);
-clearDisplay();
-endOfTheGame(wygrales, wynik);*/
+        SEND_CHARS("Podaj inicjaly");
+        char *inicjaly = podajInicjaly();
+        int wynik = 0;//wynik z skadstam
+        struct Score sc = createScore(inicjaly, wynik);
+        addScore(scores, numberOfScores, sc);
+        clearDisplay();
+        //endOfTheGame(wygrales, wynik);
     }
 
     if (button2) {
@@ -200,8 +191,8 @@ endOfTheGame(wygrales, wynik);*/
     if (button3) {
         Delayx100us(200); // opoznienie
         clearDisplay(); // wyczyszczenie wyswietlacza
-        char* send[32] = "Koniec gry!";
-        sendCharToTerminal(send);
+        char send[32] = "Koniec gry!";
+        UartStringTransmit(send);
 //wyjscie z gry
     }
 }
