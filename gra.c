@@ -4,6 +4,7 @@
 #include "znaki.h"
 #include "kafelek.h"
 #include <stdbool.h>
+#include "gra.h"
 
 int rozpoczeta = false;
 

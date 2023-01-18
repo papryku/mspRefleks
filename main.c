@@ -4,7 +4,7 @@
 #include "portyUart.h"
 #include "uart.h"
 #include "znaki.h"
-#include "uartservice.c"
+#include "uartservice.h"
 #include "kafelek.h"
 #include <stdio.h>
 #include <stdlib.h>

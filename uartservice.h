@@ -1,17 +1,17 @@
 //macie zmienne w uartservice.c, nie można ich przekazywać do maina w ten sposób także header dorabiam (nie pytajcie, też nic nie wiem)
 //nie wiem nawet czy dobrze, szczerze kija w tym momencie umiem zrobic bez dostepu do IARa salowego
-#include "msp430x14x.h"
-#include "portyLcd.h"
-#include "lcd.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "uart.h"
-#include <string.h>
-#include "math.h"
 
-int numberOfScores = 0;
-int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
+#include <stdbool.h> //jedyne tu potrzebne
+
+// int numberOfScores = 0;
+// int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
+// ^ to przyklad tego, co nie powinno byc includowane
+
+// int numberOfScores;
+// int currentLetter;
+// ^ to przyklad samej deklaracji, która może być przekazywana, wtedy stanie się zmienną globalną
+// można użyć jeśli te dwie zmienne mają być używane poza funkcjami z biblioteki uartservice
+
 // Struktura przechowujqca wyniki z gry
 
 struct Score {
