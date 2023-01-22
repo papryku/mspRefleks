@@ -6,7 +6,7 @@
  ******************************************************************/
 
 
-#include <msp430x14x.h> //zamiennik dla msp430x14x.h, w sali uzywamy msp430x14x.h
+#include "msp430x14x.h"
 #include "lcd.h"
 #include "portyLcd.h"
 

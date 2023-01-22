@@ -4,19 +4,11 @@
 #include "uart.h"
 #include "uartservice.h"
 
-#ifndef PRZYCISK1
+#ifndef PRZYCISKI
+#define PRZYCISKI
 #define PRZYCISK1 (BIT4&P4IN)
-#endif
-
-#ifndef PRZYCISK2
 #define PRZYCISK2 (BIT5&P4IN)
-#endif
-
-#ifndef PRZYCISK3
 #define PRZYCISK3 (BIT6&P4IN)
-#endif
-
-#ifndef PRZYCISK4
 #define PRZYCISK4 (BIT7&P4IN)
 #endif
 
@@ -33,31 +25,34 @@ int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
 
 char readChar() {
     currentLetter = 65;
-    
-    if (PRZYCISK1) {
-        Delayx100us(200); // opoznienie
-        clearDisplay(); // wyczyszczenie wyswietlacza
+    //pętla tu powinna być nieskończona np.
+    for(;;){
+        if (PRZYCISK1) {
+            Delayx100us(200); // opoznienie
+            clearDisplay(); // wyczyszczenie wyswietlacza
 
-        if (currentLetter > 65) { // sprawdzenie czy obecna wartosc znaku ASCII nie będzie ponizej 'A'
-            SEND_CHAR(--currentLetter); // po jego dekrementacji
+            if (currentLetter > 65) { // sprawdzenie czy obecna wartosc znaku ASCII nie będzie ponizej 'A'
+                SEND_CHAR(--currentLetter); // po jego dekrementacji
+            }
+        }
+
+        if (PRZYCISK2) {
+            Delayx100us(200); // opoznienie
+            return currentLetter;
+        }
+
+        if (PRZYCISK3) {
+            Delayx100us(200); // opoznienie
+            clearDisplay(); // wyczyszczenie wyswietlacza
+            if (currentLetter < 90) { // sprawdzenie czy obecna wartosc znaku ASCII nie będzie powyzej 'Z'
+                SEND_CHAR(++currentLetter); // po jego inkrementacji
+            }
         }
     }
-
-    if (PRZYCISK2) {
-        Delayx100us(200); // opoznienie
-        return currentLetter;
-    }
-
-    if (PRZYCISK3) {
-        Delayx100us(200); // opoznienie
-        clearDisplay(); // wyczyszczenie wyswietlacza
-        if (currentLetter < 90) { // sprawdzenie czy obecna wartosc znaku ASCII nie będzie powyzej 'Z'
-            SEND_CHAR(++currentLetter); // po jego inkrementacji
-        }
-    }
+    return 0; //moze zapobiegnie wywalanemu bledowi, ogolnie da znac, ze wynik jest zly
 }
 //metoda wysylajaca tablice charow na terminal
-//wywala jakis blad
+//wywala jakis blad << pewnie ze nic nie zwracala
 
 
 //metoda wysylajaca tablice charow na plytke LCD
@@ -91,7 +86,7 @@ int main(void) {
     InitPortsLcd(); // inicjalizacja portow LCD
     InitLCD(); // inicjalizacja LCD
     clearDisplay(); // czyszczenie wyswietlacza
-    InitUart(1200); // inicjalizacja UARTa predkosci transmisji 2400 b/s
+    InitUart(); // inicjalizacja UARTa predkosci transmisji 2400 b/s
 
     _EINT(); // wylaczenie przerwan
 }*/

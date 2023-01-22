@@ -6,19 +6,11 @@
 #include "kafelek.h"
 #include "gra.h"
 
-#ifndef PRZYCISK1
+#ifndef PRZYCISKI
+#define PRZYCISKI
 #define PRZYCISK1 (BIT4&P4IN)
-#endif
-
-#ifndef PRZYCISK2
 #define PRZYCISK2 (BIT5&P4IN)
-#endif
-
-#ifndef PRZYCISK3
 #define PRZYCISK3 (BIT6&P4IN)
-#endif
-
-#ifndef PRZYCISK4
 #define PRZYCISK4 (BIT7&P4IN)
 #endif
 
@@ -27,6 +19,11 @@ int czyJestKafelek(int row, int col);
 int w=0;
 int rozpoczeta = 0;
 Kafelek kafelki[32];
+//od razu inicjalizuję na startową (kafelki łapania(0) + spacje(-1))
+int tablicaLCD[2][16] = {
+  {0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+  {0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
+};
 int indeksKaf = 0;
 int licz=0;
 
@@ -80,11 +77,11 @@ void main (void) {
   P4DIR &= ~BIT6;             // zainicjalizowanie trzeciego przycisku
   P4DIR &= ~BIT7;             // zainicjalizowanie czwartego przycisku
   
-  //inicjal izacja bibliotek
+  //inicjalizacja bibliotek
   InitPortsLcd();
   InitLCD();
-//  InitPortsUart();
-//  InitUart(1200);
+  InitPortsUart();
+  InitUart();
   
   //zaladowanie znakow do tablicy
   CREATE_CHAR(0,lapanie);
@@ -134,7 +131,7 @@ void main (void) {
   }
 }
 
-int czyJestKafelek(int row, int col){
+int depracated_czyJestKafelek(int row, int col){
   int dl = sizeof(kafelki)/sizeof(kafelki[0]);
   for(int i=0; i<dl; i++){
       if((kafelki[i].row==row) && (kafelki[i].column==col)){
@@ -144,39 +141,57 @@ int czyJestKafelek(int row, int col){
   return 0;
 }
 
-//przerwania uart
+//tbh w trakcie się przekonam, czy to koniecznie
+//może wystarczy same sprawdzanie czy w 16. kolumnie jest wolne xD
+int czyPoleWolne(int row, int col){
+  if(tablicaLCD[row-1][col-1]>=0){
+    return 0;
+  } else{
+    return 1;
+  }
+}
+
+
 
 
 //przerwania zegara
 #pragma vector=TIMERA0_VECTOR
 __interrupt void Timer_A (void)
 {
+  //licznik do spowolnienia, z tym sie pobawimy troche
   licz++;
   if(licz==5){
-    if(!w){
-      licz=licz%5;
-       if(rozpoczeta){
-          int los = 2; //rand
-          switch(los){
-          case 1: break;
-          case 2: 
-            if(!czyJestKafelek(1,16)){
-              Kafelek nowy; nowy.row = 1; nowy.column = 16; nowyKafelek(&nowy); kafelki[indeksKaf++] = nowy;
-            } break;
-          case 3: 
-            if(!czyJestKafelek(2,16)){
-              Kafelek nowy; nowy.row = 2; nowy.column = 16; nowyKafelek(&nowy); kafelki[indeksKaf++] = nowy;
-            } break;
-          case 4: 
-            if(!czyJestKafelek(1,16) && !czyJestKafelek(2,16)){
-              Kafelek nowy1, nowy2; nowy1.row = 1; nowy2.row = 2; 
-              nowy1.column = 16; nowy2.column = 16; nowyKafelek(&nowy1); nowyKafelek(&nowy2); 
-              kafelki[indeksKaf++] = nowy1; kafelki[indeksKaf++] = nowy2;
-             } break;
-          default: break;
-          }
-          przesunKafelki(kafelki,&w);
+    licz=licz%5;
+    if(rozpoczeta){
+      //wpierw operacje na pierwszych dwoch kolumnach
+      for(r=0; r<2; r++){
+        if(tablicaLCD[r][1] == 2){
+          tablicaLCD[r][0] = 1;
+          tablicaLCD[r][1] = -1;
+        }else{
+          tablicaLCD[r][0] = 0;
         }
+      }
+      //potem przesuwa
+      for(r=0; r<2; r++){
+        for(c=2; c<16; c++){
+          if(tablicaLCD[r][c]==2){
+            tablicaLCD[r][c-1]=2;
+            tablicaLCD[r][c]=-1;
+          }
+        }
+      }
+      int los;
+
+      switch(los){
+			  case 0: break;
+		    case 1: tablicaLCD[0][15] = 2; break;
+		    case 2: tablicaLCD[1][15] = 2; break;
+		    case 3: tablicaLCD[0][15] = 2; tablicaLCD[1][15] = 2; break;
+		  }
+
+      //a na koniec
+      przesunKafelki(&tablicaLCD);
     }
   }
 }
