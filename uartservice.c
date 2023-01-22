@@ -1,13 +1,24 @@
 #include "msp430x14x.h" //jak patrze na bledy to ile wywala chyba jednak nie jest zbyt dobrze xDD
 #include "portyLcd.h"
 #include "lcd.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "uart.h"
-#include <string.h>
-#include "math.h"
 #include "uartservice.h"
+
+#ifndef PRZYCISK1
+#define PRZYCISK1 (BIT4&P4IN)
+#endif
+
+#ifndef PRZYCISK2
+#define PRZYCISK2 (BIT5&P4IN)
+#endif
+
+#ifndef PRZYCISK3
+#define PRZYCISK3 (BIT6&P4IN)
+#endif
+
+#ifndef PRZYCISK4
+#define PRZYCISK4 (BIT7&P4IN)
+#endif
 
 //jeśli potrzebne to będzie w operacjach poza biblioteką, to należy zdefiniować jedynie w pliku nagłówkowym i tu zostawić ustawienie wartości bez deklarowania jako int
 int numberOfScores = 0;
@@ -22,11 +33,8 @@ int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
 
 char readChar() {
     currentLetter = 65;
-    bool button1 = !(P4IN & BIT4); // zdefiniowanie boola okreslajacego klikniecie przycisku pierwszego
-    bool button2 = !(P4IN & BIT5); // zdefiniowanie boola okreslajacego klikniecie przycisku drugiego
-    bool button3 = !(P4IN & BIT6); // zdefiniowanie boola okreslajacego klikniecie przycisku trzeciego
-
-    if (button1) {
+    
+    if (PRZYCISK1) {
         Delayx100us(200); // opoznienie
         clearDisplay(); // wyczyszczenie wyswietlacza
 
@@ -35,12 +43,12 @@ char readChar() {
         }
     }
 
-    if (button2) {
+    if (PRZYCISK2) {
         Delayx100us(200); // opoznienie
         return currentLetter;
     }
 
-    if (button3) {
+    if (PRZYCISK3) {
         Delayx100us(200); // opoznienie
         clearDisplay(); // wyczyszczenie wyswietlacza
         if (currentLetter < 90) { // sprawdzenie czy obecna wartosc znaku ASCII nie będzie powyzej 'Z'
@@ -53,9 +61,9 @@ char readChar() {
 
 
 //metoda wysylajaca tablice charow na plytke LCD
-void sendCharsToLCD(char* c[]){
+void sendCharsToLCD(char c[]){
     for(int i = 0; i < sizeof(c); i++){
-        SEND_CHAR(*c[i]); //wyslanie chara na LCD
+        SEND_CHAR(c[i]); //wyslanie chara na LCD
     }
 }
 
@@ -71,6 +79,7 @@ char *podajInicjaly(){
 // Tablica wynikow
 struct Score scores[10];
 
+/*
 int main(void) {
     WDTCTL = WDTPW | WDTHOLD; // Disable watchdog timer
     P4DIR &= ~BIT4; // zainicjalizowanie pierwszego przycisku
@@ -85,7 +94,7 @@ int main(void) {
     InitUart(1200); // inicjalizacja UARTa predkosci transmisji 2400 b/s
 
     _EINT(); // wylaczenie przerwan
-}
+}*/
 
 
 //metoda sortujaca tablice wynikow
@@ -129,7 +138,6 @@ void addScore(struct Score scores[], int arraySize, struct Score newScore) {
 
 char* intToCharArray(int num) {
     static char arr[10];
-    sprintf(arr, "%d", num);
     return arr;
 }
 
@@ -148,7 +156,7 @@ void printScores(struct Score scores[], int n) {
 }
 
 //metoda wyswietlajaca na LCD zwyciestwo lub przegrana
-void endOfTheGame(bool isWin, int result){
+void endOfTheGame(int isWin, int result){
     if(isWin){
         char send[32] ="Wygrales! ";
         sendCharsToLCD(send);
@@ -160,42 +168,43 @@ void endOfTheGame(bool isWin, int result){
 }
 
 void menu() {
-    bool button1 = !(P4IN & BIT4); // zdefiniowanie boola okreslajacego klikniecie przycisku pierwszego
-    bool button2 = !(P4IN & BIT5); // zdefiniowanie boola okreslajacego klikniecie przycisku drugiego
-    bool button3 = !(P4IN & BIT6); // zdefiniowanie boola okreslajacego klikniecie przycisku trzeciego
-    bool button4 = !(P4IN & BIT7); // zdefiniowanie boola okreslajacego klikniecie przycisku czwartego
+    int b = 0;
     char nowaGra[32] = "1. Nowa gra.";
     char wyswietl[32] = "2. Wyswietl wyniki.";
     char zakoncz[32] = "3. Zakoncz gre.";
     UartStringTransmit(nowaGra);
     UartStringTransmit(wyswietl);
     UartStringTransmit(zakoncz);
-
-    if (button1) {
-        Delayx100us(200); // opoznienie
-        clearDisplay(); // wyczyszczenie wyswietlacza
-// start new game
-        SEND_CHARS("Podaj inicjaly");
-        char *inicjaly = podajInicjaly();
-        int wynik = 0;//wynik z skadstam
-        struct Score sc = createScore(inicjaly, wynik);
-        addScore(scores, numberOfScores, sc);
-        clearDisplay();
-        //endOfTheGame(wygrales, wynik);
-    }
-
-    if (button2) {
-        Delayx100us(200); // opoznienie
-        clearDisplay(); // wyczyszczenie wyswietlacza
-//drukowanie wynikow
-        printScores(scores,numberOfScores);
-    }
-
-    if (button3) {
-        Delayx100us(200); // opoznienie
-        clearDisplay(); // wyczyszczenie wyswietlacza
-        char send[32] = "Koniec gry!";
-        UartStringTransmit(send);
-//wyjscie z gry
-    }
+    while(b==0){
+      if (!(PRZYCISK1)) {
+          Delayx100us(200); // opoznienie
+          clearDisplay(); // wyczyszczenie wyswietlacza
+  // start new game
+          SEND_CHARS("Podaj inicjaly");
+          char *inicjaly = podajInicjaly();
+          int wynik = 0;//wynik z skadstam
+          struct Score sc = createScore(inicjaly, wynik);
+          addScore(scores, numberOfScores, sc);
+          clearDisplay();
+          //endOfTheGame(wygrales, wynik);
+          b=1;
+      }
+  
+      if (!(PRZYCISK2)) {
+          Delayx100us(200); // opoznienie
+          clearDisplay(); // wyczyszczenie wyswietlacza
+  //drukowanie wynikow
+          printScores(scores,numberOfScores);
+          b=1;
+      }
+  
+      if (!(PRZYCISK3)) {
+          Delayx100us(200); // opoznienie
+          clearDisplay(); // wyczyszczenie wyswietlacza
+          char send[32] = "Koniec gry!";
+          UartStringTransmit(send);
+          b=1;
+  //wyjscie z gry
+      }
+     }
 }

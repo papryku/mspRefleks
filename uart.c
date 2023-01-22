@@ -1,8 +1,6 @@
 #include <msp430x14x.h>
 #include "uart.h"
 
-
-
 void InitUart( int Speed)
 {
     int i;
@@ -18,6 +16,7 @@ void InitUart( int Speed)
     switch(Speed)
     {
         case 1200:{
+            BCSCTL2 |= SELM1+SELM0;
             ME1 |= UTXE0 + URXE0;                 // W��czenie USART0 TXD/RXD
             UCTL0 |= CHAR;                        // 8-bit�w
             UTCTL0 |= SSEL0;                      // UCLK = ACLK

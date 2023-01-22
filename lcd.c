@@ -6,11 +6,9 @@
  ******************************************************************/
 
 
-#include "msp430x14x.h" //zamiennik dla msp430x14x.h, w sali uzywamy msp430x14x.h
+#include <msp430x14x.h> //zamiennik dla msp430x14x.h, w sali uzywamy msp430x14x.h
 #include "lcd.h"
 #include "portyLcd.h"
-#include "znaki.h"
-
 
 #define bitset(var,bitno) ((var) |= 1 << (bitno))
 #define bitclr(var,bitno) ((var) &= ~(1 << (bitno)))
@@ -139,11 +137,8 @@ void sendCharsToTerminal(char c[]){
 }
 
 void CREATE_CHAR(int addr, char *data){
-    if (addr > 7 || addr < 0){
-        return;
-    }
-    SEND_CMD(0x40 | addr << 3);
-    sendCharsToTerminal(data);
+    SEND_CMD(0x40+addr*8);
+    SEND_CHARS(data);
 }
 
 

@@ -1,8 +1,6 @@
 //macie zmienne w uartservice.c, nie można ich przekazywać do maina w ten sposób także header dorabiam (nie pytajcie, też nic nie wiem)
 //nie wiem nawet czy dobrze, szczerze kija w tym momencie umiem zrobic bez dostepu do IARa salowego
 
-#include <stdbool.h> //jedyne tu potrzebne
-
 // int numberOfScores = 0;
 // int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
 // ^ to przyklad tego, co nie powinno byc includowane
@@ -25,7 +23,7 @@ char readChar();
 
 
 //metoda wysylajaca tablice charow na plytke LCD
-void sendCharsToLCD(char* c[]);
+void sendCharsToLCD(char c[]);
 
 char *podajInicjaly();
 
@@ -49,6 +47,6 @@ char* intToCharArray(int num);
 void printScores(struct Score scores[], int n);
 
 //metoda wyswietlajaca na LCD zwyciestwo lub przegrana
-void endOfTheGame(bool isWin, int result);
+void endOfTheGame(int isWin, int result);
 void menu();
 

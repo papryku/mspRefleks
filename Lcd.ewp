@@ -547,7 +547,7 @@
         </option>
         <option>
           <name>OutputFile</name>
-          <state>Refleks.d43</state>
+          <state>Lcd.d43</state>
         </option>
         <option>
           <name>OutputFormat</name>
@@ -741,7 +741,7 @@
         </option>
         <option>
           <name>ExtraOutputFile</name>
-          <state>Refleks.a43</state>
+          <state>Lcd.a43</state>
         </option>
         <option>
           <name>ExtraOutputFormat</name>
@@ -1724,10 +1724,7 @@
     <name>$PROJ_DIR$\uartservice.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\znaki.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\znaki.h</name>
+    <name>$PROJ_DIR$\uartservice.h</name>
   </file>
 </project>
 

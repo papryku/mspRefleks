@@ -2,7 +2,7 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\Refleks.ewp</path>
+    <path>$WS_DIR$\Lcd.ewp</path>
   </project>
   <batchBuild/>
 </workspace>

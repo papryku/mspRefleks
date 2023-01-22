@@ -22,7 +22,7 @@
 @REM but they are listed at the end of this file for reference.
 
 
-"C:\Program Files\IAR Systems\Embedded Workbench 4.0\common\bin\cspybat" "C:\Program Files\IAR Systems\Embedded Workbench 4.0\430\bin\430proc.dll" "C:\Program Files\IAR Systems\Embedded Workbench 4.0\430\bin\430sim.dll"  %1 --plugin "C:\Program Files\IAR Systems\Embedded Workbench 4.0\430\bin\<libsupport_plugin>" --backend -B "--hardware_multiplier" "16" "-p" "C:\Program Files\IAR Systems\Embedded Workbench 4.0\430\config\MSP430F149.ddf" "--odd_word_check" "-d" "sim" 
+"C:\Program Files\IAR Systems\Embedded Workbench 4.0\common\bin\cspybat" "C:\Program Files\IAR Systems\Embedded Workbench 4.0\430\bin\430proc.dll" "C:\Program Files\IAR Systems\Embedded Workbench 4.0\430\bin\430fet.dll"  %1 --plugin "C:\Program Files\IAR Systems\Embedded Workbench 4.0\430\bin\<libsupport_plugin>" --backend -B "--hardware_multiplier" "16" "-p" "C:\Program Files\IAR Systems\Embedded Workbench 4.0\430\config\MSP430F149.ddf" "-d" "fet" "--erase_main_and_info" "--derivative" "MSP430F149" "-lpt1" "--protocol" "4wire" "--eem" "EMEX_MEDIUM" "--connection" "ti_lpt" 
 
 
 @REM Loaded plugins:

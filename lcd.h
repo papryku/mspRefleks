@@ -1,4 +1,4 @@
-void InitLCD(void);
+void InitLCD();
 void clearDisplay();
 void SEND_CHAR (unsigned char c);
 void SEND_CMD (unsigned char e);

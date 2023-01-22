@@ -1,3 +1,0 @@
-/home/michal/CLionProjects/mspRefleks123/cmake-build-debug/CMakeFiles/mspRefleks.dir
-/home/michal/CLionProjects/mspRefleks123/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/michal/CLionProjects/mspRefleks123/cmake-build-debug/CMakeFiles/rebuild_cache.dir

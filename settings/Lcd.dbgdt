@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Project>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+        <Column0>181</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+      </Workspace>
+      <Disassembly>
+        
+        
+        
+      <MixedMode>1</MixedMode><CodeCovEnabled>0</CodeCovEnabled><CodeCovShow>0</CodeCovShow></Disassembly>
+      <Debug-Log/>
+      <Build><ColumnWidth0>21</ColumnWidth0><ColumnWidth1>723</ColumnWidth1><ColumnWidth2>192</ColumnWidth2><ColumnWidth3>48</ColumnWidth3></Build>
+    <LCD><LcdConfigFile>$TOOLKIT_DIR$\plugins\lcd\lcd7seg.lcd</LcdConfigFile><LcdControlReg>0x90</LcdControlReg></LCD></Static>
+    <Windows>
+      
+      
+      
+    <Wnd4>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-3495-13734</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>Lcd</ExpandedNode><ExpandedNode>Lcd/Output</ExpandedNode><ExpandedNode>Lcd/Output/Lcd.d43</ExpandedNode><ExpandedNode>Lcd/lcd.c</ExpandedNode><ExpandedNode>Lcd/main.c</ExpandedNode><ExpandedNode>Lcd/portyLcd.c</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd4><Wnd5>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-14243-13738</Identity>
+            <TabName>Disassembly</TabName>
+            <Factory>Disassembly</Factory>
+            <Session/>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd5><Wnd6>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-24992-13741</Identity>
+            <TabName>Debug Log</TabName>
+            <Factory>Debug-Log</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-2972-13744</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd6><Wnd7><Tabs><Tab><Identity>TabID-26009-9822</Identity><TabName>LCD</TabName><Factory>LCD</Factory><Session/></Tab></Tabs><SelectedTab>0</SelectedTab></Wnd7></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\portyLcd.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>150</SelStart><SelEnd>150</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\portyLcd.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\lcd.c</Filename><XPos>0</XPos><YPos>111</YPos><SelStart>2891</SelStart><SelEnd>2891</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\lcd.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>289</SelStart><SelEnd>289</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\main.c</Filename><XPos>0</XPos><YPos>51</YPos><SelStart>965</SelStart><SelEnd>965</SelEnd></Tab><ActiveTab>4</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\uartservice.h</Filename><XPos>0</XPos><YPos>15</YPos><SelStart>906</SelStart><SelEnd>906</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\uartservice.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>4820</SelStart><SelEnd>4827</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\gra.c</Filename><XPos>0</XPos><YPos>45</YPos><SelStart>1847</SelStart><SelEnd>1847</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\kafelek.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\kafelek.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>16</SelStart><SelEnd>16</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\uart.c</Filename><XPos>0</XPos><YPos>3</YPos><SelStart>1217</SelStart><SelEnd>1217</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\uart.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\portyUart.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>115</SelStart><SelEnd>115</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>C:\Users\student\Documents\3_LCD\kody\refleks\gra.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>144</SelStart><SelEnd>144</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-08777d00><key>430fet1</key></Toolbar-08777d00></Sizes></Row0><Row1><Sizes><Toolbar-011308b0><key>iaridepm.enu1</key></Toolbar-011308b0></Sizes></Row1><Row2><Sizes/></Row2><Row3><Sizes/></Row3><Row4><Sizes/></Row4><Row5><Sizes/></Row5><Row6><Sizes/></Row6><Row7><Sizes/></Row7><Row8><Sizes/></Row8><Row9><Sizes/></Row9></Top><Left><Row0><Sizes><Toolbar-08777de0><key>debuggergui.enu1</key></Toolbar-08777de0><Wnd4><Rect><Top>247</Top><Left>-2</Left><Bottom>907</Bottom><Right>272</Right><x>-2</x><y>247</y><xscreen>238</xscreen><yscreen>262</yscreen><sizeHorzCX>185938</sizeHorzCX><sizeHorzCY>275210</sizeHorzCY><sizeVertCX>214063</sizeVertCX><sizeVertCY>693277</sizeVertCY></Rect></Wnd4></Sizes></Row0></Left><Right><Row0><Sizes><Wnd5><Rect><Top>-2</Top><Left>-2</Left><Bottom>682</Bottom><Right>236</Right><x>-2</x><y>-2</y><xscreen>238</xscreen><yscreen>262</yscreen><sizeHorzCX>185938</sizeHorzCX><sizeHorzCY>275210</sizeHorzCY><sizeVertCX>185938</sizeVertCX><sizeVertCY>718487</sizeVertCY></Rect></Wnd5></Sizes></Row0></Right><Bottom><Row0><Sizes><Wnd6><Rect><Top>-2</Top><Left>-2</Left><Bottom>147</Bottom><Right>1282</Right><x>-2</x><y>-2</y><xscreen>1284</xscreen><yscreen>149</yscreen><sizeHorzCX>1003125</sizeHorzCX><sizeHorzCY>156513</sizeHorzCY><sizeVertCX>185938</sizeVertCX><sizeVertCY>275210</sizeVertCY></Rect></Wnd6></Sizes></Row0><Row1><Sizes><Wnd7><Rect><Top>145</Top><Left>-2</Left><Bottom>201</Bottom><Right>1282</Right><x>-2</x><y>145</y><xscreen>1284</xscreen><yscreen>56</yscreen><sizeHorzCX>1003125</sizeHorzCX><sizeHorzCY>58824</sizeHorzCY><sizeVertCX>173438</sizeVertCX><sizeVertCY>251050</sizeVertCY></Rect></Wnd7></Sizes></Row1></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Project>
+
+

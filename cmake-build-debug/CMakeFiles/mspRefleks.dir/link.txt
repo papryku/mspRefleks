@@ -1,1 +1,0 @@
-/usr/bin/cc -g CMakeFiles/mspRefleks.dir/gra.c.o CMakeFiles/mspRefleks.dir/kafelek.c.o CMakeFiles/mspRefleks.dir/lcd.c.o CMakeFiles/mspRefleks.dir/main.c.o CMakeFiles/mspRefleks.dir/portyLcd.c.o CMakeFiles/mspRefleks.dir/portyUart.c.o CMakeFiles/mspRefleks.dir/uart.c.o CMakeFiles/mspRefleks.dir/uartservice.c.o CMakeFiles/mspRefleks.dir/znaki.c.o -o mspRefleks 
