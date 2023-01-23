@@ -12,10 +12,11 @@
 
 // Struktura przechowujqca wyniki z gry
 
-struct Score {
+typedef struct Score {
     char name[2];
     int points;
-};
+} Score;
+
 
 char readChar();
 //metoda wysylajaca tablice charow na terminal
@@ -33,18 +34,18 @@ char *podajInicjaly();
 // int main(void); tutaj nawet nie chce tlumaczyc
 
 //metoda sortujaca tablice wynikow
-void sortScores(struct Score scores[], int n);
+void sortScores(int n);
 
 //metoda tworzaca nowy rekord po rozegraniu gry
 struct Score createScore(char name[], int points);
 
 //metoda dodajaca nowy rekord do tablicy wynikow
-void addScore(struct Score scores[], int arraySize, struct Score newScore);
+void addScore(struct Score newScore);
 
 char* intToCharArray(int num);
 
 //metoda wypisujaca tablice wynikow do terminala
-void printScores(struct Score scores[], int n);
+void printScores();
 
 //metoda wyswietlajaca na LCD zwyciestwo lub przegrana
 void endOfTheGame(int isWin, int result);

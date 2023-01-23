@@ -3,6 +3,9 @@
 #include "lcd.h"
 #include "uart.h"
 #include "uartservice.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #ifndef PRZYCISKI
 #define PRZYCISKI
@@ -30,9 +33,12 @@ char readChar()
     SEND_CHAR('A');
     while(1)
     {
-        DelayB(100); //git jest
+
         if (!(PRZYCISK1))
         {
+           DelayB(100);
+            //Delayx100us(100000000000); // opoznienie
+
             if (currentLetter > 65)
             {
                 clearDisplay();
@@ -44,12 +50,15 @@ char readChar()
 
         if (!(PRZYCISK3))
         {
-            clearDisplay();
+             DelayB(100);
+             clearDisplay();
             return currentLetter;
         }
 
         if (!(PRZYCISK2))
         {
+           DelayB(100);
+            //Delayx100us(99999999); // opoznienie
             if (currentLetter < 90)
             {
                 clearDisplay();
@@ -66,15 +75,19 @@ char *podajInicjaly()
     char name[2];
     name[0] = readChar(); //uzytkownik wybiera pierwsza litere swojego inicjalu
     SEND_CHARS("Podaj inicjaly:");
+    DelayB(50);
     gotoSecondLine();
     SEND_CHAR(name[0]);
     name[1] = readChar();
     SEND_CHARS("Podaj inicjaly:");
     gotoSecondLine();
+    clearDisplay();
+    SEND_CHARS("Utworzono gracza");
+    gotoSecondLine();
     SEND_CHAR(name[0]);
     SEND_CHAR(name[1]);
-//uzytkownik wybiera druga litere swojego inicjalu
-    SEND_CHARS("utworzono inicjaly");
+
+    DelayB(10000);
     return name;
 }
 
@@ -100,7 +113,7 @@ _EINT(); // wylaczenie przerwan
 
 
 //metoda sortujaca tablice wynikow
-void sortScores(struct Score scores[], int n)
+void sortScores(int n)
 {
     int i, j;
     for (i = 0; i < n - 1; i++)
@@ -125,15 +138,14 @@ void sortScores(struct Score scores[], int n)
 //metoda tworzaca nowy rekord po rozegraniu gry
 struct Score createScore(char name[], int points)
 {
-    struct Score newScore;
+    Score newScore;
     strcpy(newScore.name, name);
     newScore.points = points;
-    addScore(scores, numberOfScores, newScore);
     return newScore;
 }
 
 //metoda dodajaca nowy rekord do tablicy wynikow
-void addScore(struct Score scores[], int arraySize, struct Score newScore)
+void addScore(struct Score newScore)
 {
     if (numberOfScores <= 9)
     {
@@ -146,33 +158,26 @@ void addScore(struct Score scores[], int arraySize, struct Score newScore)
     }
 // sortScores(scores, arraySize);
 }
-
-char* intToCharArray(int num)
-{
-    static char arr[10];
-    return arr;
-}
-
 //metoda wypisujaca tablice wynikow do terminala
-void printScores(struct Score scores[], int n)
+void printScores()
 {
-    for (int i = 0; i <= n - 1; i++)
+    for (int i = 0; i <= numberOfScores-1; i++)
     {
 //bledy
+      clearDisplay();
         SEND_CHARS(scores[i].name);
         SEND_CHAR(':');
 //bledy
-        char *points_str = intToCharArray(scores[i].points);
-        SEND_CHARS(points_str);
+        SEND_NUMBERS(scores[i].points);
         gotoSecondLine();
 
-        SEND_CHARS(scores[i + 1].name);
+        /*SEND_CHARS(scores[i + 1].name);
         SEND_CHAR(':');
 //bledy
         char *points_str2 = intToCharArray(scores[i + 1].points);
         SEND_CHARS(points_str2);
         clearDisplay();
-        Delayx100us(1000);
+        DelayB(10000);*/
     }
 }
 
@@ -189,11 +194,19 @@ void endOfTheGame(int isWin, int result)
         char send2[32] ="Przegrales! ";
         sendCharsToLCD(send2);
     }
-    printScores(scores,numberOfScores);
+    printScores(scores);
 }
 
 void menu()
 {
+  Score patryk;
+  patryk.name[0] = 'P';
+  patryk.name[1] = 'U';
+  patryk.points = 5;
+  numberOfScores++;
+  addScore( patryk);
+  addScore(createScore("ZM", 15));
+ // printScores();
     int b = 0;
     SEND_CHARS("1.Nowa gra.");
     gotoSecondLine();
@@ -209,7 +222,7 @@ void menu()
             char *inicjaly = podajInicjaly();
             int wynik = 0;//wynik z skadstam
             struct Score sc = createScore(inicjaly, wynik);
-            addScore(scores, numberOfScores, sc);
+            addScore( sc);
             clearDisplay();
 //endOfTheGame(wygrales, wynik);
             b=1;
@@ -217,10 +230,10 @@ void menu()
 
         if (!(PRZYCISK2))
         {
-            Delayx100us(200); // opoznienie
+            DelayB(100); // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
 //drukowanie wynikow
-            printScores(scores,numberOfScores);
+            printScores(scores);
             b=1;
         }
 
