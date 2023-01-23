@@ -1,4 +1,4 @@
-#include "msp430x14x.h"
+#include <msp430x14x.h>
 
 void InitPortsLcd(void)
 {

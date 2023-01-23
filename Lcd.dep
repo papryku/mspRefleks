@@ -5,6 +5,22 @@
   <configuration>
     <name>Debug</name>
     <outputs>
+      <file>$PROJ_DIR$\msp430x14x.h</file>
+      <file>$PROJ_DIR$\gra.c</file>
+      <file>$PROJ_DIR$\gra.h</file>
+      <file>$PROJ_DIR$\kafelek.c</file>
+      <file>$PROJ_DIR$\kafelek.h</file>
+      <file>$PROJ_DIR$\lcd.c</file>
+      <file>$PROJ_DIR$\lcd.h</file>
+      <file>$PROJ_DIR$\main.c</file>
+      <file>$PROJ_DIR$\portyLcd.c</file>
+      <file>$PROJ_DIR$\portyLcd.h</file>
+      <file>$PROJ_DIR$\portyUart.c</file>
+      <file>$PROJ_DIR$\portyUart.h</file>
+      <file>$PROJ_DIR$\uart.c</file>
+      <file>$PROJ_DIR$\uart.h</file>
+      <file>$PROJ_DIR$\uartservice.c</file>
+      <file>$PROJ_DIR$\uartservice.h</file>
       <file>$PROJ_DIR$\Debug\Obj\uartservice.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\uart.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\portyUart.pbi</file>
@@ -14,22 +30,14 @@
       <file>$TOOLKIT_DIR$\inc\in430.h</file>
       <file>$PROJ_DIR$\Debug\Obj\portyLcd.pbi</file>
       <file>$TOOLKIT_DIR$\config\multiplier.xcl</file>
-      <file>$PROJ_DIR$\main.c</file>
       <file>$PROJ_DIR$\Debug\Obj\Lcd.pbd</file>
       <file>$PROJ_DIR$\Debug\Obj\portyLcd.r43</file>
       <file>$PROJ_DIR$\Debug\Obj\uart.r43</file>
       <file>$PROJ_DIR$\Debug\Obj\uartservice.r43</file>
       <file>$PROJ_DIR$\Debug\Obj\kafelek.r43</file>
       <file>$PROJ_DIR$\Debug\Obj\gra.r43</file>
-      <file>$PROJ_DIR$\uart.c</file>
-      <file>$PROJ_DIR$\uartservice.c</file>
-      <file>$PROJ_DIR$\uartservice.h</file>
       <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.r43</file>
       <file>$TOOLKIT_DIR$\config\lnk430F149.xcl</file>
-      <file>$PROJ_DIR$\portyLcd.c</file>
-      <file>$PROJ_DIR$\portyLcd.h</file>
-      <file>$PROJ_DIR$\portyUart.c</file>
-      <file>$PROJ_DIR$\portyUart.h</file>
       <file>$PROJ_DIR$\Debug\Obj\main.r43</file>
       <file>$PROJ_DIR$\Debug\Exe\Lcd.d43</file>
       <file>$TOOLKIT_DIR$\inc\msp430x14x.h</file>
@@ -37,130 +45,32 @@
       <file>$PROJ_DIR$\Debug\Obj\lcd.pbi</file>
       <file>$PROJ_DIR$\Debug\Obj\portyUart.r43</file>
       <file>$PROJ_DIR$\Debug\Obj\lcd.r43</file>
-      <file>$PROJ_DIR$\gra.c</file>
-      <file>$PROJ_DIR$\lcd.c</file>
-      <file>$PROJ_DIR$\uart.h</file>
-      <file>$PROJ_DIR$\kafelek.c</file>
-      <file>$PROJ_DIR$\lcd.h</file>
-      <file>$PROJ_DIR$\kafelek.h</file>
-      <file>$PROJ_DIR$\gra.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\string.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\yvals.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\stdlib.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\ysizet.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\DLib_Product.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\DLib_Threads.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\DLib_Defaults.h</file>
+      <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\ycheck.h</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
       <outputs>
         <tool>
           <name>XLINK</name>
-          <file> 26</file>
+          <file> 34</file>
         </tool>
       </outputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\main.c</name>
+      <name>$PROJ_DIR$\gra.c</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 5</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 25</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 27 6 28 36 22 24 37 38</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 27 6 28 36 22 24 37 38</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Debug\Obj\Lcd.pbd</name>
-      <inputs>
-        <tool>
-          <name>BILINK</name>
-          <file> 4 3 29 5 7 2 1 0</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\uart.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 1</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 12</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 27 6 28 34</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 27 6 28 34</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\uartservice.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 0</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 13</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 27 6 28 22 36 34 18</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 27 6 28 22 36 34 18</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\portyLcd.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 7</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 11</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 27 6 28</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 27 6 28</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\portyUart.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 2</file>
+          <file> 20</file>
         </tool>
         <tool>
           <name>ICC430</name>
@@ -170,66 +80,11 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 27 6 28 24</file>
+          <file> 35 22 36 6 9 4 2</file>
         </tool>
         <tool>
           <name>ICC430</name>
-          <file> 27 6 28 24</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\Debug\Exe\Lcd.d43</name>
-      <inputs>
-        <tool>
-          <name>XLINK</name>
-          <file> 20 8 15 14 31 25 11 30 12 13 19</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\gra.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 4</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 15</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 27 6 28 36 22 37 38</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 27 6 28 36 22 37 38</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\lcd.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 29</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 31</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 27 6 28 36 22</file>
-        </tool>
-        <tool>
-          <name>ICC430</name>
-          <file> 27 6 28 36 22</file>
+          <file> 35 22 36 6 9 4 2</file>
         </tool>
       </inputs>
     </file>
@@ -238,13 +93,169 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 3</file>
+          <file> 19</file>
         </tool>
         <tool>
           <name>ICC430</name>
-          <file> 14</file>
+          <file> 29</file>
         </tool>
       </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\lcd.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 37</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 39</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 35 22 36 6 9</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 35 22 36 6 9</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 21</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 33</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 35 22 36 6 9 11 2 4 43 49 42 47 45 41 46 44 40</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 35 22 36 6 9 11 2 4 43 49 42 47 48 45 41 46 44 40</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\portyLcd.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 23</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 26</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 35 22 36</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 35 22 36</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\portyUart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 18</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 38</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 35 22 36 11</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 35 22 36 11</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\uart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 17</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 27</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 35 22 36 13</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 35 22 36 13</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\uartservice.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 28</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 35 22 36 9 6 13 15</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 35 22 36 9 6 13 15</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Obj\Lcd.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 20 37 21 23 18 17 16</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\Lcd.d43</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 32 24 30 39 33 26 38 27 28 31</file>
+        </tool>
+      </inputs>
     </file>
   </configuration>
   <configuration>

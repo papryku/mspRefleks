@@ -3,8 +3,9 @@
 #include "portyLcd.h"
 #include "portyUart.h"
 //#include "uartservice.h"
-#include "kafelek.h"
 #include "gra.h"
+#include <stdlib.h>
+#include <string.h>
 
 #ifndef PRZYCISKI
 #define PRZYCISKI
@@ -14,18 +15,19 @@
 #define PRZYCISK4 (BIT7&P4IN)
 #endif
 
-int czyJestKafelek(int row, int col);
+int czyZlapany(int row);
 
 int w=0;
+int zycia = 10;
+int wynik = 0; int tmp;
 int rozpoczeta = 0;
-Kafelek kafelki[32];
-//od razu inicjalizuję na startową (kafelki łapania(0) + spacje(-1))
 int tablicaLCD[2][16] = {
   {0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
   {0,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}
 };
 int indeksKaf = 0;
 int licz=0;
+int przyciskNiewcisniety = 1;
 
 char lapanie[8] = {
 	31,//0b11111,
@@ -67,10 +69,6 @@ void main (void) {
   //wylaczenie watchdoga
   WDTCTL = WDTPW + WDTHOLD;
 
-  //inicjalizacja randa
-  //time_t t;
-  //srand(1);
-
   //inicjalizacja przyciskow
   P4DIR &= ~BIT4;             // zainicjalizowanie pierwszego przycisku
   P4DIR &= ~BIT5;             // zainicjalizowanie drugiego przycisku
@@ -94,6 +92,7 @@ void main (void) {
   //SEND_CHAR(2);
 
  // UartCharTransmit('x');
+  
   //inicjalizacja zegara
   BCSCTL1 |= XTS; // ACLK = LFXT1 = HF XTAL 8MHz
 
@@ -116,52 +115,77 @@ void main (void) {
   
   _EINT(); // w��czenie przerwa�
   
-  SEND_CHARS("zaladowane");
-  SET_CURSOR(1,2);
-  SEND_CHARS("dzialo");
-  
   //TACTL ^= MC_1;
+  
+  //menu();
   
   rozpocznijGre(&rozpoczeta);
   
-  
   //nieskończona pętla, miejsce na nasz program
-  while(1){
-   //SEND_CHAR(1);
+  while(rozpoczeta){
+  if(przyciskNiewcisniety){
+    if(!(PRZYCISK1)){
+      przyciskNiewcisniety=0;
+      if(czyZlapany(1)){
+        SET_CURSOR(1,1); SEND_CHAR(0);
+        wynik+=10;
+      }else{
+        wynik-=5; zycia--;
+      }
+    }
+    if(!(PRZYCISK2)){
+      przyciskNiewcisniety=0;
+      if(czyZlapany(2)){
+        SET_CURSOR(1,2); SEND_CHAR(0);
+        wynik+=10;
+      }else{
+        wynik-=5; zycia--;
+      }
+    }
+    
+    //do testow zatrzymywanie
+    
+    else if(!(PRZYCISK3)){
+      TACTL &= ~MC_1;
+    }
+    else if(!(PRZYCISK4)){
+      TACTL |= MC_1;
+    }
+    
+
+    
+    if(zycia<=0){
+      char inicjaly[2] = {'P','U'};
+      koniecGry(inicjaly, wynik, &rozpoczeta);
+    }
+  }   
   }
 }
 
-int depracated_czyJestKafelek(int row, int col){
-  int dl = sizeof(kafelki)/sizeof(kafelki[0]);
-  for(int i=0; i<dl; i++){
-      if((kafelki[i].row==row) && (kafelki[i].column==col)){
-        return 1;
-      }
-    }
-  return 0;
-}
 
 //tbh w trakcie się przekonam, czy to koniecznie
 //może wystarczy same sprawdzanie czy w 16. kolumnie jest wolne xD
-int czyPoleWolne(int row, int col){
-  if(tablicaLCD[row-1][col-1]>=0){
-    return 0;
-  } else{
+int czyZlapany(int row){
+  if(tablicaLCD[row-1][0]==1){
     return 1;
+  } else{
+    return 0;
   }
 }
 
 
 
+int los;
 
 //przerwania zegara
 #pragma vector=TIMERA0_VECTOR
 __interrupt void Timer_A (void)
 {
+  int r; int c;
   //licznik do spowolnienia, z tym sie pobawimy troche
   licz++;
-  if(licz==5){
-    licz=licz%5;
+  if(licz==8){
+    licz=licz%8;
     if(rozpoczeta){
       //wpierw operacje na pierwszych dwoch kolumnach
       for(r=0; r<2; r++){
@@ -181,17 +205,18 @@ __interrupt void Timer_A (void)
           }
         }
       }
-      int los;
-
+      los = rand() % 4;
       switch(los){
-			  case 0: break;
+	            case 0: break;
 		    case 1: tablicaLCD[0][15] = 2; break;
 		    case 2: tablicaLCD[1][15] = 2; break;
 		    case 3: tablicaLCD[0][15] = 2; tablicaLCD[1][15] = 2; break;
-		  }
-
+		 }
+    
       //a na koniec
-      przesunKafelki(&tablicaLCD);
+      przesunKafelki(tablicaLCD);
+      przyciskNiewcisniety=1;
+      //los++;
     }
   }
 }

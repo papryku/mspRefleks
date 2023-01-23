@@ -6,7 +6,7 @@
  ******************************************************************/
 
 
-#include "msp430x14x.h"
+#include <msp430x14x.h>
 #include "lcd.h"
 #include "portyLcd.h"
 
@@ -16,6 +16,7 @@
 
 
 void Delay (unsigned int a);
+void DelayB (unsigned int b);
 void Delayx100us(unsigned char b);
 void _E(void);
 
@@ -24,6 +25,22 @@ void SEND_CHARS(char * napis)
 {
     while( *napis)
         SEND_CHAR(*napis ++);
+}
+
+void SEND_NUMBER(int num){
+    int arr[10];
+    int i=0;
+    int j,r;
+    while(num != 0){
+      r = num%10;
+      arr[i] = r;
+      i++;
+
+      num = num/10;
+    }
+    for(j=i-1; j>=0; j--){
+        SEND_CHAR(arr[j]+48);
+    }
 }
 
 void clearDisplay() {
@@ -59,6 +76,11 @@ void Delayx100us(unsigned char b)
     for (j=0; j!=b; ++j) Delay (_100us);
 }
 
+void DelayB(unsigned int b)
+{
+    int j;
+    for (j=0; j!=b; ++j) Delay (_WOWIE);
+}
 
 void _E(void)
 {

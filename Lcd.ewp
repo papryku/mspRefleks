@@ -1688,9 +1688,6 @@
     <name>$PROJ_DIR$\gra.h</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\kafelek.c</name>
-  </file>
-  <file>
     <name>$PROJ_DIR$\kafelek.h</name>
   </file>
   <file>

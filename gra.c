@@ -1,4 +1,4 @@
-#include "msp430x14x.h"
+#include <msp430x14x.h>
 #include "lcd.h"
 #include "portyLcd.h"
 #include "kafelek.h"
@@ -25,7 +25,7 @@ void rozpocznijGre(int *rozpoczeta){
         SEND_CHAR(48+i);
         SEND_CHAR('.');
         SEND_CHAR('.');
-        Delayx100us(100000);
+        //_delay_cycles(1000);
     }
     
     SET_CURSOR(8,1);
@@ -41,19 +41,27 @@ void rozpocznijGre(int *rozpoczeta){
 void przesunKafelki(int tablicaLCD[][16]){
     int r; int c;
     for(r=0;r<2;r++){
-        for(c=0;c<2;c++){
-            if(tablicaLCD[r][c]!=poprzedniaTablica[r][c]){
-                SET_CURSOR(c+1, r+1);
-                if(tablicaLCD[r][c]>0){
-                    SEND_CHAR(tablicaLCD[r][c]);
-                }else{
-                    SEND_CHAR(' ');
-                }
-            }
-            poprzedniaTablica[r][c] = tablicaLCD[r][c];;
+      SET_CURSOR(1,r+1);
+      for(c=0;c<16;c++){
+        if(tablicaLCD[r][c]>=0){
+           SEND_CHAR(tablicaLCD[r][c]);
+        }else{
+           SEND_CHAR(' ');
         }
+      }
     }
 }
 
+
+void koniecGry(char inicjaly[2], int wynik, int *rozpoczeta){
+    TACTL &= ~MC_1;
+    
+    SET_CURSOR(4,1);
+    SEND_CHARS("PRZEGRALES");
+    SET_CURSOR(3,2);
+    SEND_CHARS("WYNIK:");
+    SEND_NUMBER(wynik);
+    *rozpoczeta = 0;
+}
 
 //tablica 2x16 przechowujaca jaki znak i wyslac
