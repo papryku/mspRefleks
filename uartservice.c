@@ -1,8 +1,9 @@
-#include <msp430x14x.h> //jak patrze na bledy to ile wywala chyba jednak nie jest zbyt dobrze xDD
+#include <msp430x14x.h> 
 #include "portyLcd.h"
 #include "lcd.h"
 #include "uart.h"
 #include "uartservice.h"
+#include "gra.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,13 +19,8 @@
 //jeśli potrzebne to będzie w operacjach poza biblioteką, to należy zdefiniować jedynie w pliku nagłówkowym i tu zostawić ustawienie wartości bez deklarowania jako int
 int numberOfScores = 0;
 int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
-
-// pobierane jest z uartservice.h
-// Struktura przechowujqca wyniki z gry
-// struct Score {
-// char name[2];
-// int points;
-// };
+int wynikAktualnej = 0;
+char inicjalyAktualnej[2];
 
 char readChar()
 {
@@ -36,9 +32,7 @@ char readChar()
 
         if (!(PRZYCISK1))
         {
-           DelayB(100);
-            //Delayx100us(100000000000); // opoznienie
-
+            DelayB(100);
             if (currentLetter > 65)
             {
                 clearDisplay();
@@ -50,15 +44,14 @@ char readChar()
 
         if (!(PRZYCISK3))
         {
-             DelayB(100);
-             clearDisplay();
+            DelayB(100);
+            clearDisplay();
             return currentLetter;
         }
 
         if (!(PRZYCISK2))
         {
-           DelayB(100);
-            //Delayx100us(99999999); // opoznienie
+            DelayB(100);
             if (currentLetter < 90)
             {
                 clearDisplay();
@@ -181,8 +174,9 @@ void printScores()
     }
 }
 
-//metoda wyswietlajaca na LCD zwyciestwo lub przegrana
-void endOfTheGame(int isWin, int result)
+//metoda wyswietlajaca na LCD zwyciestwo lub przegrana\
+//deprecated
+void endOfTheGame(int isWin, int result) //nie wiem co z tym resultem
 {
     if(isWin)
     {
@@ -199,19 +193,19 @@ void endOfTheGame(int isWin, int result)
 
 void menu()
 {
-  Score patryk;
-  patryk.name[0] = 'P';
-  patryk.name[1] = 'U';
-  patryk.points = 5;
-  numberOfScores++;
-  addScore( patryk);
-  addScore(createScore("ZM", 15));
+  //Score patryk;
+  //patryk.name[0] = 'P';
+  //patryk.name[1] = 'U';
+  //patryk.points = 5;
+  //numberOfScores++;
+  //addScore( patryk);
+  //addScore(createScore("ZM", 15));
  // printScores();
     int b = 0;
     SEND_CHARS("1.Nowa gra.");
     gotoSecondLine();
     SEND_CHARS("2.Wyswietl wyniki.");
-    while(b==0)
+    while(b==0) //podejscie z returnem w niesk. petli imo jest bardziej naturalne, ale to tez git
     {
         if (!(PRZYCISK1))
         {
@@ -219,11 +213,19 @@ void menu()
             clearDisplay(); // wyczyszczenie wyswietlacza
 // start new game
             SEND_CHARS("Podaj inicjaly");
-            char *inicjaly = podajInicjaly();
+
+    //w skrócie chcę mieć globalne inicjały i wynik w uartservice, które będą zmieniały się co rozpoczęcie gry
+    //potem w każdej potrzebnej funkcji będzie można wykorzystać te wartości zamiast się bawić we wskaźniki
+            //char *inicjaly = podajInicjaly();
+            strcpy(inicjalyAktualnej, podajInicjaly()); //oby to dzialalo
+            
+            //rozpoczyna gre (gra.c)
+            rozpocznijGre();
+
             int wynik = 0;//wynik z skadstam
-            struct Score sc = createScore(inicjaly, wynik);
-            addScore( sc);
-            clearDisplay();
+            struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej);
+            addScore(sc);
+            //clearDisplay();
 //endOfTheGame(wygrales, wynik);
             b=1;
         }
@@ -237,5 +239,29 @@ void menu()
             b=1;
         }
 
+    }
+}
+
+
+//przerzucam swoje z gry.c zeby nie bawic sie w rzucanie wskaznikiem do inicjalow
+void koniecGry(){
+    //pauza timerA
+    TACTL &= ~MC_1;
+    SEND_CMD(CLR_DISP);
+    SET_CURSOR(4,1);
+    SEND_CHARS("PRZEGRALES");
+    SET_CURSOR(2,2);
+    SEND_CHARS(inicjalyAktualnej);
+    SEND_CHARS(", WYNIK:");
+    SEND_NUMBER(wynikAktualnej);
+
+    DelayB(200);
+    //dopoki nie jest wcisniety
+    while(1){
+      if(!(PRZYCISK1)||!(PRZYCISK2)||!(PRZYCISK3)||!(PRZYCISK4)){
+        SEND_CMD(CLR_DISP);
+        //mam nadzieje, ze to juz zapewni tak naprawde mozliwosc ponownego zagrania
+        menu();
+      }
     }
 }

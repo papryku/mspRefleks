@@ -1,6 +1,4 @@
-#include "kafelek.h"
-
-void rozpocznijGre(int *rozpoczeta);
-void nowyKafelek(Kafelek *nowy);
+void rozpocznijGre();
 void przesunKafelki(int tablicaLCD[][16]);
-void koniecGry(char inicjaly[2], int wynik, int *rozpoczeta);
+//void koniecGry(char inicjaly[2], int wynik);
+//trafilo do uartservice

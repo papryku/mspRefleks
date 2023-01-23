@@ -1,17 +1,11 @@
-//macie zmienne w uartservice.c, nie można ich przekazywać do maina w ten sposób także header dorabiam (nie pytajcie, też nic nie wiem)
-//nie wiem nawet czy dobrze, szczerze kija w tym momencie umiem zrobic bez dostepu do IARa salowego
-
-// int numberOfScores = 0;
-// int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
-// ^ to przyklad tego, co nie powinno byc includowane
-
-// int numberOfScores;
-// int currentLetter;
-// ^ to przyklad samej deklaracji, która może być przekazywana, wtedy stanie się zmienną globalną
-// można użyć jeśli te dwie zmienne mają być używane poza funkcjami z biblioteki uartservice
+//zmienna globalna, która będzie modyfikowana z poziomu main.c, a następnie używana w uartservice.h
+//flagowanie chyba niepotrzebne, ale nie zaszkodzi
+#ifndef WYNIK
+#define WYNIK
+int wynikAktualnej;
+#endif
 
 // Struktura przechowujqca wyniki z gry
-
 typedef struct Score {
     char name[2];
     int points;
@@ -20,18 +14,11 @@ typedef struct Score {
 
 char readChar();
 //metoda wysylajaca tablice charow na terminal
-//wywala jakis blad
-
 
 //metoda wysylajaca tablice charow na plytke LCD
 void sendCharsToLCD(char c[]);
 
 char *podajInicjaly();
-
-// Tablica wynikow
-// struct Score scores[10]; 
-
-// int main(void); tutaj nawet nie chce tlumaczyc
 
 //metoda sortujaca tablice wynikow
 void sortScores(int n);
@@ -48,6 +35,11 @@ char* intToCharArray(int num);
 void printScores();
 
 //metoda wyswietlajaca na LCD zwyciestwo lub przegrana
+//zmienie dzialanie troche
 void endOfTheGame(int isWin, int result);
+
+//najwazniejsze co tu jest
 void menu();
 
+//przerzucam swoje z gry.c zeby nie bawic sie w rzucanie wskaznikiem do inicjalow
+void koniecGry(char inicjaly[2], int wynik);
