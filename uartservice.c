@@ -1,7 +1,6 @@
 #include <msp430x14x.h>
 #include "portyLcd.h"
 #include "lcd.h"
-#include "uart.h"
 #include "uartservice.h"
 #include "gra.h"
 #include <stdio.h>
@@ -22,6 +21,8 @@ int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
 int wynikAktualnej = 0;
 char inicjalyAktualnej[2];
 
+
+//drugie podejscie z punktami to celnosc malejaca na bazie nietrafionych kafelkow (trafione/wszystkie klikniecia)
 void zmienWynik(int num)
 {
     wynikAktualnej = wynikAktualnej + num;
