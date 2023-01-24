@@ -1,9 +1,3 @@
-//zmienna globalna, która będzie modyfikowana z poziomu main.c, a następnie używana w uartservice.h
-//flagowanie chyba niepotrzebne, ale nie zaszkodzi
-#ifndef WYNIK
-#define WYNIK
-int wynikAktualnej;
-#endif
 
 // Struktura przechowujqca wyniki z gry
 typedef struct Score {
@@ -11,6 +5,8 @@ typedef struct Score {
     int points;
 } Score;
 
+//modyfikuje wynik aktualnej gry
+void zmienWynik(int num);
 
 char readChar();
 //metoda wysylajaca tablice charow na terminal
@@ -39,7 +35,7 @@ void printScores();
 void endOfTheGame(int isWin, int result);
 
 //najwazniejsze co tu jest
-void menu();
+void menu(int * rozpoczeta);
 
 //przerzucam swoje z gry.c zeby nie bawic sie w rzucanie wskaznikiem do inicjalow
-void koniecGry(char inicjaly[2], int wynik);
+void koniecGry(int * rozpoczeta); //char inicjaly[2], int wynik

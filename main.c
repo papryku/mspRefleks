@@ -15,10 +15,14 @@
 #define PRZYCISK4 (BIT7 & P4IN)
 #endif
 
+int rozpoczeta = 0;
+
 int czyZlapany(int row);
 
+void resetTablicy();
+
 // zmienna przyjmuje 1, gdy kafelek nie zostanie złapany, co spowoduje przegraną
-int niezlapany = 0;
+int niezlapany[2] = {0,0};
 
 // tyle razy można za wcześnie wcisnąć przycisk, później przegrywa się grę
 int zycia = 10;
@@ -58,8 +62,8 @@ void main(void)
   // inicjalizacja bibliotek
   InitPortsLcd();
   InitLCD();
-  InitPortsUart();
-  InitUart();
+  //InitPortsUart();
+  //InitUart();
 
   // zaladowanie wlasnych znakow do CGRAMu
   CREATE_CHAR(0, lapanie);
@@ -76,8 +80,8 @@ void main(void)
   do
   {
     IFG1 &= ~OFIFG; // Czyszczenie flgi OSCFault
-    for (int i = 0xFF; i > 0; i--)
-      ;                              // odczekanie
+    for (int i = 0xFF; i > 0; i--);                              // odczekanie
+    //SEND_CHAR('X');
   } while ((IFG1 & OFIFG) == OFIFG); // dop�ki OSCFault jest ci�gle ustawiona
 
   BCSCTL1 |= DIVA_1;        // ACLK=8 MHz/2=4 MHz
@@ -89,15 +93,16 @@ void main(void)
   CCTL0 = CCIE;                   // w��czenie przerwa� od CCR0
   CCR0 = 500000;                  // podzielnik 5000: przerwanie co 10 ms
   //^tym sie trzeba pobawic jeszcze
-
+  
   _EINT(); // w��czenie przerwa�
+  TACTL &= ~MC_1;
 
-  menu();
-  // rozpocznijGre(); niby jest to w menu
+  menu(&rozpoczeta);
 
   // nieskończona pętla, miejsce na nasz program
   while (1)
   {
+	if(rozpoczeta){
     if (!(PRZYCISK1) && przycisk1Niewcisniety)
     {
       przycisk1Niewcisniety = 0;
@@ -105,11 +110,12 @@ void main(void)
       {
         SET_CURSOR(1, 1);
         SEND_CHAR(0);
-        wynikAktualnej += 10;
+        zmienWynik(10);
+		niezlapany[0]=0;
       }
       else
       {
-        wynikAktualnej -= 5;
+        zmienWynik(-5);
         zycia--;
       }
     }
@@ -120,17 +126,18 @@ void main(void)
       {
         SET_CURSOR(1, 2);
         SEND_CHAR(0);
-        wynikAktualnej += 10;
+        zmienWynik(10);
+		niezlapany[1]=0;
       }
       else
       {
-        wynikAktualnej -= 5;
+        zmienWynik(-5);
         zycia--;
       }
     }
-
+	
     // do testow zatrzymywanie
-
+//
     else if (!(PRZYCISK3))
     {
       TACTL &= ~MC_1;
@@ -139,13 +146,9 @@ void main(void)
     {
       TACTL |= MC_1;
     }
-
-    if (zycia <= 0 || niezlapany)
-    {
-      niezlapany = 0;
-      zycia = 10;
-      koniecGry();
-    }
+//    -----------------------
+    
+  }
   }
 }
 
@@ -178,29 +181,23 @@ __interrupt void Timer_A(void)
   if (licz == 8)
   {
     licz = licz % 8;
-
-    if (1)
-    {
-
       // wpierw operacje na pierwszych dwoch kolumnach
       for (r = 0; r < 2; r++)
       {
-        // sprawdzenie, czy kafelek nie ucieknie
-        if (tablicaLCD[r][0] == 1)
-        {
-          niezlapany = 1;
-        }
-
         // ustawienie odpowiedniego znaku pola lapania(z kafelkiek lub bez)
         if (tablicaLCD[r][1] == 2)
         {
           tablicaLCD[r][0] = 1;
           tablicaLCD[r][1] = -1;
+		  niezlapany[r] = 1;
         }
         else
         {
           tablicaLCD[r][0] = 0;
         }
+		if(niezlapany[r] == 1){
+		  niezlapany[r] = 2;
+		}
       }
       // potem przesuwa kafelki
       for (r = 0; r < 2; r++)
@@ -230,14 +227,30 @@ __interrupt void Timer_A(void)
         tablicaLCD[1][15] = 2;
         break;
       }
-      // sprawdzenie, czy jakiś kafelek nie został niezłapany
-      if (tablicaLCD[])
 
-        // a na koniec
-        przesunKafelki(tablicaLCD);
+
+      // a na koniec
+      przesunKafelki(tablicaLCD);
       przycisk1Niewcisniety = 1;
       przycisk2Niewcisniety = 1;
-      // los++;
-    }
+	  
+	  if (zycia <= 0 || niezlapany[0]==2 || niezlapany[1]==2)
+      {
+		  niezlapany[0] = 0; niezlapany[1] = 0;
+		  zycia = 10;
+		  resetTablicy();
+		  TACTL &= ~MC_1;
+		  koniecGry(&rozpoczeta);
+      }
   }
+}
+
+void resetTablicy(){
+  	int x,z;
+	for(x=0;x<2;x++){
+	  tablicaLCD[x][0]=0;
+	  for(z=1;z<16;z++){
+	  	tablicaLCD[x][z]=-1;
+	  }
+	}
 }

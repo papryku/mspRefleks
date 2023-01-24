@@ -22,6 +22,13 @@ int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
 int wynikAktualnej = 0;
 char inicjalyAktualnej[2];
 
+void zmienWynik(int num){
+  wynikAktualnej = wynikAktualnej + num;
+  if(wynikAktualnej < 0){
+  	wynikAktualnej = 0;
+  }
+}
+
 char readChar()
 {
     gotoSecondLine();
@@ -80,7 +87,7 @@ char *podajInicjaly()
     SEND_CHAR(name[0]);
     SEND_CHAR(name[1]);
 
-    DelayB(10000);
+    DelayB(250);
     return name;
 }
 
@@ -161,7 +168,7 @@ void printScores()
         SEND_CHARS(scores[i].name);
         SEND_CHAR(':');
 //bledy
-        SEND_NUMBERS(scores[i].points);
+        SEND_NUMBER(scores[i].points);
         gotoSecondLine();
 
         /*SEND_CHARS(scores[i + 1].name);
@@ -191,43 +198,31 @@ void endOfTheGame(int isWin, int result) //nie wiem co z tym resultem
     printScores(scores);
 }
 
-void menu()
+void menu(int *rozpoczeta)
 {
-  //Score patryk;
-  //patryk.name[0] = 'P';
-  //patryk.name[1] = 'U';
-  //patryk.points = 5;
-  //numberOfScores++;
-  //addScore( patryk);
-  //addScore(createScore("ZM", 15));
- // printScores();
-    int b = 0;
     SEND_CHARS("1.Nowa gra.");
     gotoSecondLine();
     SEND_CHARS("2.Wyswietl wyniki.");
-    while(b==0) //podejscie z returnem w niesk. petli imo jest bardziej naturalne, ale to tez git
+	DelayB(100);
+    while(1)
     {
         if (!(PRZYCISK1))
         {
-            Delayx100us(200); // opoznienie
+            DelayB(100); // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
 // start new game
             SEND_CHARS("Podaj inicjaly");
 
     //w skrócie chcę mieć globalne inicjały i wynik w uartservice, które będą zmieniały się co rozpoczęcie gry
     //potem w każdej potrzebnej funkcji będzie można wykorzystać te wartości zamiast się bawić we wskaźniki
-            //char *inicjaly = podajInicjaly();
-            strcpy(inicjalyAktualnej, podajInicjaly()); //oby to dzialalo
-            
+            char *inicjaly = podajInicjaly();
+            strcpy(inicjalyAktualnej, inicjaly); //oby to dzialalo
+       		SEND_CMD(CLR_DISP);
             //rozpoczyna gre (gra.c)
             rozpocznijGre();
+			*rozpoczeta = 1;
 
-            int wynik = 0;//wynik z skadstam
-            struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej);
-            addScore(sc);
-            //clearDisplay();
-//endOfTheGame(wygrales, wynik);
-            b=1;
+            return;
         }
 
         if (!(PRZYCISK2))
@@ -236,7 +231,7 @@ void menu()
             clearDisplay(); // wyczyszczenie wyswietlacza
 //drukowanie wynikow
             printScores(scores);
-            b=1;
+            return;
         }
 
     }
@@ -244,24 +239,30 @@ void menu()
 
 
 //przerzucam swoje z gry.c zeby nie bawic sie w rzucanie wskaznikiem do inicjalow
-void koniecGry(){
-    //pauza timerA
+void koniecGry(int * rozpoczeta){
     TACTL &= ~MC_1;
+  	*rozpoczeta = 0;
+    
     SEND_CMD(CLR_DISP);
     SET_CURSOR(4,1);
     SEND_CHARS("PRZEGRALES");
     SET_CURSOR(2,2);
-    SEND_CHARS(inicjalyAktualnej);
+    SEND_CHAR(inicjalyAktualnej[0]); SEND_CHAR(inicjalyAktualnej[1]);
     SEND_CHARS(", WYNIK:");
-    SEND_NUMBER(wynikAktualnej);
-
+	if(wynikAktualnej==0) { SEND_CHAR('0'); }
+    else { SEND_NUMBER(wynikAktualnej); }
+	
+	//struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej);
+    //addScore(sc);
+	
     DelayB(200);
     //dopoki nie jest wcisniety
-    while(1){
+    while(*rozpoczeta!=1){
       if(!(PRZYCISK1)||!(PRZYCISK2)||!(PRZYCISK3)||!(PRZYCISK4)){
         SEND_CMD(CLR_DISP);
         //mam nadzieje, ze to juz zapewni tak naprawde mozliwosc ponownego zagrania
-        menu();
+        menu(rozpoczeta);
       }
     }
-}
+	//menu(rozpoczeta);
+} 

@@ -16,11 +16,10 @@ int poprzedniaTablica[2][16] = {
     {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
 
 // inicjaly chyba jednak niepotrzebne w tej sekcji tbh
-void rozpocznijGre(char inicjaly[2])
+void rozpocznijGre()
 {
   // pauza interrupta
-  TACTL &= ~MC_1;
-
+  //TACTL &= ~MC_1;
   SEND_CMD(CLR_DISP);
   SEND_CMD(CUR_OFF); // wylaczenie kursora
   SEND_CHAR(0);
@@ -33,7 +32,7 @@ void rozpocznijGre(char inicjaly[2])
     SEND_CHAR(48 + i);
     SEND_CHAR('.');
     SEND_CHAR('.');
-    //_delay_cycles(1000);
+    DelayB(100);
   }
 
   SET_CURSOR(8, 1);
@@ -43,7 +42,6 @@ void rozpocznijGre(char inicjaly[2])
 
   TACTL |= MC_1;
 
-  // return inicjaly?
   // juz powinny leciec sobie tyntyryn
 }
 

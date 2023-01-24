@@ -9,11 +9,11 @@ ActionState=1
 NumStates=_ 1
 State 1=_ 1
 [State Storage]
-Control Register=6514
+Control Register=7228
 [Sequencer]
-Control Register=6514
-NextState0=6514
-NextState1=6514
+Control Register=7228
+NextState0=7228
+NextState1=7228
 [Action Register]
 Break=1
 State Storage=1
@@ -29,6 +29,13 @@ LimitSize=0
 ByteLimit=50
 [Profiling]
 Enabled=0
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [Breakpoints]
 Count=0
 [FET]
@@ -49,10 +56,3 @@ SP=0
 SR=0
 all registers=0
 File name=
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
