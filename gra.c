@@ -65,5 +65,3 @@ void przesunKafelki(int tablicaLCD[][16])
     }
   }
 }
-
-// tablica 2x16 przechowujaca jaki znak i wyslac

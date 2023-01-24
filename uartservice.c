@@ -172,7 +172,7 @@ void menu(int *rozpoczeta)
     SEND_CMD(CLR_DISP);
     SEND_CHARS("1.Nowa gra.");
     gotoSecondLine();
-    SEND_CHARS("2.Wyswietl wyniki.");
+    SEND_CHARS("2.Pokaz wyniki.");
     DelayB(100);
     while (1)
     {
@@ -181,7 +181,7 @@ void menu(int *rozpoczeta)
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
                             // start new game
-            SEND_CHARS("Podaj inicjaly");
+            SEND_CHARS("Podaj inicjaly:");
 
             // w skrócie chcę mieć globalne inicjały i wynik w uartservice, które będą zmieniały się co rozpoczęcie gry
             // potem w każdej potrzebnej funkcji będzie można wykorzystać te wartości zamiast się bawić we wskaźniki
@@ -190,6 +190,7 @@ void menu(int *rozpoczeta)
             SEND_CMD(CLR_DISP);
             // rozpoczyna gre (gra.c)
             rozpocznijGre();
+            
             *rozpoczeta = 1;
 
             return;
@@ -223,7 +224,7 @@ void koniecGry(int *rozpoczeta)
     SEND_CHARS(", WYNIK:");
     if (wynikAktualnej == 0)
     {
-        SEND_CHARS('0 cielaku');
+        SEND_CHARS("0 cielaku");
     }
     else
     {
