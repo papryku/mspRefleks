@@ -7,12 +7,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef PRZYCISKI
-#define PRZYCISKI
-#define PRZYCISK1 (BIT4 & P4IN)
-#define PRZYCISK2 (BIT5 & P4IN)
-#define PRZYCISK3 (BIT6 & P4IN)
-#define PRZYCISK4 (BIT7 & P4IN)
+#ifndef BUTTONS
+#define BUTTONS
+#define BUTTON1 (BIT4 & P4IN)
+#define BUTTON2 (BIT5 & P4IN)
+#define BUTTON3 (BIT6 & P4IN)
+#define BUTTON4 (BIT7 & P4IN)
 #endif
 
 
@@ -50,7 +50,7 @@ char readChar() {
     SEND_CHAR('A');
     while (1) {
 
-        if (!(PRZYCISK1)) //zmiejszenie aktualnej litery
+        if (!(BUTTON1)) //zmiejszenie aktualnej litery
         {
             DelayB(100);
             if (currentLetter > 65) {
@@ -61,14 +61,14 @@ char readChar() {
             }
         }
 
-        if (!(PRZYCISK3)) //zwrocenie atualnej litery
+        if (!(BUTTON3)) //zwrocenie atualnej litery
         {
             DelayB(100);
             clearDisplay();
             return currentLetter;
         }
 
-        if (!(PRZYCISK2))  // zmieniejszenie aktualnej litery
+        if (!(BUTTON2))  // zmieniejszenie aktualnej litery
         {
             DelayB(100);
             if (currentLetter < 90) {
@@ -186,19 +186,19 @@ void printScores(int *rozpoczeta) {
         //delay wyłapujące w miarę dokładnie przycisk
         //chyba
         for (int j = 0; j < 500; j++) { //DelayB(500);
-            if (!(PRZYCISK1)) { //przejscie do kolejnego wyniku
+            if (!(BUTTON1)) { //przejscie do kolejnego wyniku
                 if (i < numberOfScores) {
                     i++;
                 } else { i = numberOfScores--; }
                 DelayB(50);
                 break;
-            } else if (!(PRZYCISK2)) { //powrot do poprzedniego wyniku
+            } else if (!(BUTTON2)) { //powrot do poprzedniego wyniku
                 if (i > 0) {
                     i--;
                 } else { i = 0; }
                 DelayB(50);
                 break;
-            } else if (!(PRZYCISK4)) { //powrot do menu
+            } else if (!(BUTTON4)) { //powrot do menu
                 menu(rozpoczeta);
                 return;
             }
@@ -224,7 +224,7 @@ void menu(int *rozpoczeta) {
     DelayB(100);
     while (1) {
 
-        if (!(PRZYCISK1))   // rozpoczecie gry
+        if (!(BUTTON1))   // rozpoczecie gry
         {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
@@ -240,7 +240,7 @@ void menu(int *rozpoczeta) {
             return;
         }
 
-        if (!(PRZYCISK2))   // wyswietlenie wynikow
+        if (!(BUTTON2))   // wyswietlenie wynikow
         {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
