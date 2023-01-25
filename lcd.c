@@ -20,13 +20,22 @@ void DelayB (unsigned int b);
 void Delayx100us(unsigned char b);
 void _E(void);
 
-
+/**
+ * @brief funkcja przyjmująca tablicę char'ów I wypisująca ją po koleji przez funkcję SEND_CHAR
+ * 
+ * @param napis 
+ */
 void SEND_CHARS(char * napis)
 {
     while( *napis)
         SEND_CHAR(*napis ++);
 }
 
+/**
+ * @brief funkcja wypisująca liczbę na ekran od najmniej znaczącej do najbardziej wysyłając jednostki do funkcji SEND_CHAR
+ * 
+ * @param num 
+ */
 void SEND_NUMBER(int num){
     int arr[10];
     int i=0;
@@ -43,11 +52,19 @@ void SEND_NUMBER(int num){
     }
 }
 
+/**
+ * @brief funkcja służąca do czyszczenia wyświetlacza LCD
+ * 
+ */
 void clearDisplay() {
     SEND_CMD(CLR_DISP);
     Delayx100us(10);
 }
 
+/**
+ * @brief funkcja służąca do przerzucenia kursora na LCD na drugą linię
+ * 
+ */
 void gotoSecondLine() {
     SEND_CMD(DD_RAM_ADDR2);
 }
@@ -58,7 +75,11 @@ void loadCustomCharacters(){
 
 }
 
-
+/**
+ * @brief funkcja opóźniająca program o ilość taktów zawartą w zmiennej a
+ * 
+ * @param a 
+ */
 void Delay (unsigned int a)
 {
     int k;
@@ -70,11 +91,17 @@ void Delay (unsigned int a)
     }
 }
 
+/**
+ * @brief funkcja opóźniająca program o 100us * zmienna b
+ * 
+ * @param b 
+ */
 void Delayx100us(unsigned char b)
 {
     int j;
     for (j=0; j!=b; ++j) Delay (_100us);
 }
+
 
 void DelayB(unsigned int b)
 {
@@ -82,6 +109,10 @@ void DelayB(unsigned int b)
     for (j=0; j!=b; ++j) Delay (_WOWIE);
 }
 
+/**
+ * @brief funkcja służąca do przełączania wartości podanej na pin E ekranu LCD
+ * 
+ */
 void _E(void)
 {
     bitset(P2OUT,E);		//toggle E for LCD
@@ -89,7 +120,11 @@ void _E(void)
     bitclr(P2OUT,E);
 }
 
-
+/**
+ * @brief funkcja służąca do wysłania pojedyńczego znaku na ekran LCD
+ * 
+ * @param d 
+ */
 void SEND_CHAR (unsigned char d)
 {
     int temp;
@@ -107,6 +142,11 @@ void SEND_CHAR (unsigned char d)
     _E();                           //toggle E for LCD
 }
 
+/**
+ * @brief funkcja służąca do wysłania komendy do ekranu LCD
+ * 
+ * @param e 
+ */
 void SEND_CMD (unsigned char e)
 {
     int temp;
@@ -124,6 +164,10 @@ void SEND_CMD (unsigned char e)
     _E();                           //toggle E for LCD
 }
 
+/**
+ * @brief funkcja służąca do inicjalizacji ekranu lcd
+ * 
+ */
 void InitLCD(void)
 {
     bitclr(P2OUT,RS);
@@ -152,12 +196,19 @@ void InitLCD(void)
 
 //addr od 0 do 7, przyszly kod ASCII custom znaku
 //data to bitmapa znaku
+
 void sendCharsToTerminal(char c[]){
     for(int i = 0; i < sizeof(c); i++){
         SEND_CHAR(c[i]);
     }
 }
 
+/**
+ * @brief funkcja służąca do tworzenia niestandardowych znaków
+ * 
+ * @param addr 
+ * @param data 
+ */
 void CREATE_CHAR(int addr, char *data){
     SEND_CMD(0x40+addr*8);
     SEND_CHARS(data);
@@ -168,6 +219,12 @@ void CREATE_CHAR(int addr, char *data){
 
 //row 1 albo 2
 //column on 1 do 16
+/**
+ * @brief funkcja służąca do ustawienia kursora LCD na pozycję podaną w parametrach
+ * 
+ * @param column 
+ * @param row 
+ */
 void SET_CURSOR(int column, int row)
 {
     SEND_CMD(0x80 | ((row - 1) << 6) | (column - 1));
