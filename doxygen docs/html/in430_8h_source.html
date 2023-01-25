@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>mspRefleks: Plik źródłowy in430.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">mspRefleks<span id="projectnumber">&#160;1</span>
+   </div>
+   <div id="projectbrief">Projekt gry opierającej się na łapaniu w odpowiednim momencie spadających kafelków.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('in430_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Wczytywanie...</div>
+<div class="SRStatus" id="Searching">Szukanie...</div>
+<div class="SRStatus" id="NoMatches">Brak dopasowań</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">in430.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="in430_8h.html">Idź do dokumentacji tego pliku.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/*----------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/* in430.h      - Intrinsic function prototypes and convenience mapping       */</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">/*                macros for migrating code from the IAR platform.            */</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">/*  Ver | dd mmm yyyy | Who  | Description of changes                         */</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">/* =====|=============|======|=============================================   */</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">/*  0.01| 06 Apr 2004 | A.D. | First Prototype                                */</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">/*  0.02| 22 Jun 2004 | A.D. | File reformatted                               */</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">/*                                                                            */</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">/*----------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#ifndef __IN430_H</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define __IN430_H</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">/*----------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">/* COMPILER INTRINSIC FUNCTIONS                                               */</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">/*----------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="in430_8h.html#aef08db9a04b80e81034f6c6e882fdbc1">   19</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="in430_8h.html#aef08db9a04b80e81034f6c6e882fdbc1">_enable_interrupts</a>(<span class="keywordtype">void</span>); </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="in430_8h.html#aba3494d60dbb83d7c392e011ad102024">   20</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="in430_8h.html#aba3494d60dbb83d7c392e011ad102024">_disable_interrupts</a>(<span class="keywordtype">void</span>); </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="in430_8h.html#af99f8002a7db8054887b7664357e673b">   21</a></span><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code hl_function" href="in430_8h.html#af99f8002a7db8054887b7664357e673b">_bic_SR_register</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> mask);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="in430_8h.html#a1ec9d56fc2812b5b08a885656eca8a3e">   22</a></span><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code hl_function" href="in430_8h.html#a1ec9d56fc2812b5b08a885656eca8a3e">_bic_SR_register_on_exit</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> mask); </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="in430_8h.html#afefed0033d6c59f82cc4c0122052f076">   23</a></span><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code hl_function" href="in430_8h.html#afefed0033d6c59f82cc4c0122052f076">_bis_SR_register</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> mask); </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="in430_8h.html#a57d3f17b72cc8ea39b3b56de48b93cc9">   24</a></span><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code hl_function" href="in430_8h.html#a57d3f17b72cc8ea39b3b56de48b93cc9">_bis_SR_register_on_exit</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> mask);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="in430_8h.html#a2e32640064a876c4f03f5c9a69bd7290">   25</a></span><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code hl_function" href="in430_8h.html#a2e32640064a876c4f03f5c9a69bd7290">_get_SR_register</a>(<span class="keywordtype">void</span>); </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="in430_8h.html#aee28017e9fdbf080ff9d7c6a186584d1">   26</a></span><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code hl_function" href="in430_8h.html#aee28017e9fdbf080ff9d7c6a186584d1">_get_SR_register_on_exit</a>(<span class="keywordtype">void</span>); </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="in430_8h.html#a426f99a4bcdc5e453910fcf7e666673b">   27</a></span><span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> <a class="code hl_function" href="in430_8h.html#a426f99a4bcdc5e453910fcf7e666673b">_swap_bytes</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> src); </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="in430_8h.html#a40ce0080d2dab7ff5bcc18e13b4b6ab4">   28</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="in430_8h.html#a40ce0080d2dab7ff5bcc18e13b4b6ab4">_nop</a>(<span class="keywordtype">void</span>); </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="in430_8h.html#a44aae01cd84d2a8d1be135d9cc81c398">   29</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="in430_8h.html#a44aae01cd84d2a8d1be135d9cc81c398">_never_executed</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">/*----------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">/* INTRINSIC MAPPING FOR IAR V1.XX                                            */</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">/*----------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="in430_8h.html#a3d2eeb9a3f3fd2a5d54072c377999285">   35</a></span><span class="preprocessor">#define _EINT()                         _enable_interrupts()</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="in430_8h.html#a4dd7974171a0f0d3e27978619d2b341c">   36</a></span><span class="preprocessor">#define _DINT()                         _disable_interrupts()</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="in430_8h.html#ac30dc942b222b9a3ed8f2ab967d9d369">   37</a></span><span class="preprocessor">#define _BIC_SR(x)                      _bic_SR_register(x)</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="in430_8h.html#aabb096a62c438c05eeb205b94ad3c155">   38</a></span><span class="preprocessor">#define _BIC_SR_IRQ(x)                  _bic_SR_register_on_exit(x)</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="in430_8h.html#a193b03a2fe36231ca32bcc385dc45acf">   39</a></span><span class="preprocessor">#define _BIS_SR(x)                      _bis_SR_register(x)</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="in430_8h.html#acfe51ca0fa833fa46f4caf7ec7c08708">   40</a></span><span class="preprocessor">#define _BIS_SR_IRQ(x)                  _bis_SR_register_on_exit(x)</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="in430_8h.html#a93944e229bf0d3be61bf2e5289d1b265">   41</a></span><span class="preprocessor">#define _SWAP_BYTES(x)                  _swap_bytes(x)</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="in430_8h.html#a46388d9db8422abfea56ae2323f7a77c">   42</a></span><span class="preprocessor">#define _NOP()                          _nop()</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment">/*----------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">/* INTRINSIC MAPPING FOR IAR V2.XX/V3.XX                                      */</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">/*----------------------------------------------------------------------------*/</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="in430_8h.html#a86d591d9706bd611e4e993f8a50cb9f6">   48</a></span><span class="preprocessor">#define __enable_interrupt()            _enable_interrupts()</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="in430_8h.html#a092ab05b5ab0b31086141ff01df5909d">   49</a></span><span class="preprocessor">#define __disable_interrupt()           _disable_interrupts()</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="in430_8h.html#a2bff6adb397e478e2ce34df724b3d53f">   50</a></span><span class="preprocessor">#define __bic_SR_register(x)            _bic_SR_register(x)</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="in430_8h.html#aba3ce283a3a83d7ba7f3c14365870477">   51</a></span><span class="preprocessor">#define __bic_SR_register_on_exit(x)    _bic_SR_register_on_exit(x)</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="in430_8h.html#aeeab1508d1a7be65ca9181319a974226">   52</a></span><span class="preprocessor">#define __bis_SR_register(x)            _bis_SR_register(x)</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="in430_8h.html#a2d157273a8c1d992f9b0b9e50422e563">   53</a></span><span class="preprocessor">#define __bis_SR_register_on_exit(x)    _bis_SR_register_on_exit(x)</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="in430_8h.html#ab7d9cbe538825121dd4b09ac0fb3ed66">   54</a></span><span class="preprocessor">#define __get_SR_register()             _get_SR_register()</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="in430_8h.html#a83da0027cf4e33ba43f10965192ca1ad">   55</a></span><span class="preprocessor">#define __get_SR_register_on_exit()     _get_SR_register_on_exit()</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="in430_8h.html#abb21a429b9fe9dad5772ed4489a750e6">   56</a></span><span class="preprocessor">#define __swap_bytes(x)                 _swap_bytes(x)</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="in430_8h.html#a32f1786e1d1dd4784062e262725d1466">   57</a></span><span class="preprocessor">#define __no_operation()                _nop()</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#endif </span><span class="comment">/* __IN430_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="ain430_8h_html_a1ec9d56fc2812b5b08a885656eca8a3e"><div class="ttname"><a href="in430_8h.html#a1ec9d56fc2812b5b08a885656eca8a3e">_bic_SR_register_on_exit</a></div><div class="ttdeci">unsigned short _bic_SR_register_on_exit(unsigned short mask)</div></div>
+<div class="ttc" id="ain430_8h_html_a2e32640064a876c4f03f5c9a69bd7290"><div class="ttname"><a href="in430_8h.html#a2e32640064a876c4f03f5c9a69bd7290">_get_SR_register</a></div><div class="ttdeci">unsigned short _get_SR_register(void)</div></div>
+<div class="ttc" id="ain430_8h_html_a40ce0080d2dab7ff5bcc18e13b4b6ab4"><div class="ttname"><a href="in430_8h.html#a40ce0080d2dab7ff5bcc18e13b4b6ab4">_nop</a></div><div class="ttdeci">void _nop(void)</div></div>
+<div class="ttc" id="ain430_8h_html_a426f99a4bcdc5e453910fcf7e666673b"><div class="ttname"><a href="in430_8h.html#a426f99a4bcdc5e453910fcf7e666673b">_swap_bytes</a></div><div class="ttdeci">unsigned short _swap_bytes(unsigned short src)</div></div>
+<div class="ttc" id="ain430_8h_html_a44aae01cd84d2a8d1be135d9cc81c398"><div class="ttname"><a href="in430_8h.html#a44aae01cd84d2a8d1be135d9cc81c398">_never_executed</a></div><div class="ttdeci">void _never_executed(void)</div></div>
+<div class="ttc" id="ain430_8h_html_a57d3f17b72cc8ea39b3b56de48b93cc9"><div class="ttname"><a href="in430_8h.html#a57d3f17b72cc8ea39b3b56de48b93cc9">_bis_SR_register_on_exit</a></div><div class="ttdeci">unsigned short _bis_SR_register_on_exit(unsigned short mask)</div></div>
+<div class="ttc" id="ain430_8h_html_aba3494d60dbb83d7c392e011ad102024"><div class="ttname"><a href="in430_8h.html#aba3494d60dbb83d7c392e011ad102024">_disable_interrupts</a></div><div class="ttdeci">void _disable_interrupts(void)</div></div>
+<div class="ttc" id="ain430_8h_html_aee28017e9fdbf080ff9d7c6a186584d1"><div class="ttname"><a href="in430_8h.html#aee28017e9fdbf080ff9d7c6a186584d1">_get_SR_register_on_exit</a></div><div class="ttdeci">unsigned short _get_SR_register_on_exit(void)</div></div>
+<div class="ttc" id="ain430_8h_html_aef08db9a04b80e81034f6c6e882fdbc1"><div class="ttname"><a href="in430_8h.html#aef08db9a04b80e81034f6c6e882fdbc1">_enable_interrupts</a></div><div class="ttdeci">void _enable_interrupts(void)</div></div>
+<div class="ttc" id="ain430_8h_html_af99f8002a7db8054887b7664357e673b"><div class="ttname"><a href="in430_8h.html#af99f8002a7db8054887b7664357e673b">_bic_SR_register</a></div><div class="ttdeci">unsigned short _bic_SR_register(unsigned short mask)</div></div>
+<div class="ttc" id="ain430_8h_html_afefed0033d6c59f82cc4c0122052f076"><div class="ttname"><a href="in430_8h.html#afefed0033d6c59f82cc4c0122052f076">_bis_SR_register</a></div><div class="ttdeci">unsigned short _bis_SR_register(unsigned short mask)</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="in430_8h.html">in430.h</a></li>
+    <li class="footer">Wygenerowano przez <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

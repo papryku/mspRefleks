@@ -1,19 +1,18 @@
-/******************************************************************
- *****                                                        *****
- *****  Name: display.c                                       *****
- *****  modified version of Andreas Dannenberg                *****
- *****  Includes only display specific code.		      *****                                                        *****
- ******************************************************************/
-
-
 #include <msp430x14x.h>
 #include "lcd.h"
 #include "portyLcd.h"
 
+/** @brief ustawia podany bit liczby na 1
+ *  @param var liczba do modyfikacji
+ *  @param bitno numer bitu do modyfikacji 
+ */
 #define bitset(var,bitno) ((var) |= 1 << (bitno))
+
+/** @brief ustawia podany bit liczby na 0
+ *  @param var liczba do modyfikacji
+ *  @param bitno numer bitu do modyfikacji 
+ */
 #define bitclr(var,bitno) ((var) &= ~(1 << (bitno)))
-
-
 
 void Delay (unsigned int a);
 void DelayB (unsigned int b);
@@ -21,9 +20,9 @@ void Delayx100us(unsigned char b);
 void _E(void);
 
 /**
- * @brief funkcja przyjmująca tablicę char'ów I wypisująca ją po koleji przez funkcję SEND_CHAR
+ * @brief funkcja wypisująca po kolei zawartość tablicy charów przez funkcję SEND_CHAR
  * 
- * @param napis 
+ * @param napis tablica charów do wypisania 
  */
 void SEND_CHARS(char * napis)
 {
@@ -32,9 +31,9 @@ void SEND_CHARS(char * napis)
 }
 
 /**
- * @brief funkcja wypisująca liczbę na ekran od najmniej znaczącej do najbardziej wysyłając jednostki do funkcji SEND_CHAR
+ * @brief funkcja wypisująca liczbę na ekran od najmniej znaczącej do najbardziej wysyłając cyfry do funkcji SEND_CHAR
  * 
- * @param num 
+ * @param num liczba do wypisania
  */
 void SEND_NUMBER(int num){
     int arr[10];
@@ -53,7 +52,7 @@ void SEND_NUMBER(int num){
 }
 
 /**
- * @brief funkcja służąca do czyszczenia wyświetlacza LCD
+ * @brief funkcja służąca do czyszczenia LCD
  * 
  */
 void clearDisplay() {
@@ -62,23 +61,17 @@ void clearDisplay() {
 }
 
 /**
- * @brief funkcja służąca do przerzucenia kursora na LCD na drugą linię
+ * @brief funkcja służąca do przerzucenia kursora LCD na drugą linię
  * 
  */
 void gotoSecondLine() {
     SEND_CMD(DD_RAM_ADDR2);
 }
 
-//robocza wersja, gdybyśmy robili więcej niż 8 znaków to trzeba by było podmieniać znaki w trakcie gry
-//ale mamy tylko 3 także ez
-void loadCustomCharacters(){
-
-}
-
 /**
- * @brief funkcja opóźniająca program o ilość taktów zawartą w zmiennej a
+ * @brief funkcja opóźniająca program o podaną ilość taktów
  * 
- * @param a 
+ * @param a ilość taktów
  */
 void Delay (unsigned int a)
 {
@@ -92,9 +85,9 @@ void Delay (unsigned int a)
 }
 
 /**
- * @brief funkcja opóźniająca program o 100us * zmienna b
+ * @brief funkcja opóźniająca program o 300 taktów * podany parametr
  * 
- * @param b 
+ * @param b ilość 300etek taktów
  */
 void Delayx100us(unsigned char b)
 {
@@ -102,7 +95,11 @@ void Delayx100us(unsigned char b)
     for (j=0; j!=b; ++j) Delay (_100us);
 }
 
-
+/**
+ * @brief funkcja opóźniająca program o 2137 taktów * podany parametr
+ * 
+ * @param b ilość 2137emek taktów
+ */
 void DelayB(unsigned int b)
 {
     int j;
@@ -110,7 +107,7 @@ void DelayB(unsigned int b)
 }
 
 /**
- * @brief funkcja służąca do przełączania wartości podanej na pin E ekranu LCD
+ * @brief funkcja służąca do przełączania wartości podanej na pin E LCD
  * 
  */
 void _E(void)
@@ -121,9 +118,9 @@ void _E(void)
 }
 
 /**
- * @brief funkcja służąca do wysłania pojedyńczego znaku na ekran LCD
+ * @brief funkcja służąca do wysłania pojedyńczego znaku na LCD
  * 
- * @param d 
+ * @param d znak do wysłania
  */
 void SEND_CHAR (unsigned char d)
 {
@@ -143,9 +140,9 @@ void SEND_CHAR (unsigned char d)
 }
 
 /**
- * @brief funkcja służąca do wysłania komendy do ekranu LCD
+ * @brief funkcja służąca do wysłania komendy do LCD
  * 
- * @param e 
+ * @param e kod instrukcji komendy
  */
 void SEND_CMD (unsigned char e)
 {
@@ -165,7 +162,7 @@ void SEND_CMD (unsigned char e)
 }
 
 /**
- * @brief funkcja służąca do inicjalizacji ekranu lcd
+ * @brief funkcja służąca do inicjalizacji LCD
  * 
  */
 void InitLCD(void)
@@ -194,36 +191,22 @@ void InitLCD(void)
     Delayx100us(250);
 }
 
-//addr od 0 do 7, przyszly kod ASCII custom znaku
-//data to bitmapa znaku
-
-void sendCharsToTerminal(char c[]){
-    for(int i = 0; i < sizeof(c); i++){
-        SEND_CHAR(c[i]);
-    }
-}
-
 /**
  * @brief funkcja służąca do tworzenia niestandardowych znaków
  * 
- * @param addr 
- * @param data 
+ * @param addr miejsce w pamięci CGRAM, które ma zająć znak <0,7>
+ * @param data tablica zawierająca dane niestandardowego znaku
  */
 void CREATE_CHAR(int addr, char *data){
     SEND_CMD(0x40+addr*8);
     SEND_CHARS(data);
 }
 
-
-
-
-//row 1 albo 2
-//column on 1 do 16
 /**
  * @brief funkcja służąca do ustawienia kursora LCD na pozycję podaną w parametrach
  * 
- * @param column 
- * @param row 
+ * @param column kolumna, w której będzie ustawiony kursor <1,16>
+ * @param row rząd, w którym będzie ustawiony kursor <1,2>
  */
 void SET_CURSOR(int column, int row)
 {
