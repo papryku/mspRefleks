@@ -86,7 +86,7 @@ char *podajInicjaly()
     DelayB(50);
     gotoSecondLine();
     SEND_CHAR(name[0]);
-    name[1] = readChar();
+    name[1] = readChar(); // uzytkownik wybiera druga litere swojego inicjalu
     SEND_CHARS("Podaj inicjaly:");
     gotoSecondLine();
     clearDisplay();
@@ -108,7 +108,7 @@ void sortScores(int n)
     int i, j;
     for (i = 0; i < n - 1; i++)
     {
-        // Szukanie najwi?kszego elementu w tablicy
+        // Szukanie najwiekszego elementu w tablicy
         int max_idx = i;
         for (j = i + 1; j < n; j++)
         {
@@ -148,7 +148,7 @@ void addScore(struct Score newScore)
     }
     sortScores(numberOfScores);
 }
-// metoda wypisujaca tablice wynikow do terminala
+// metoda wypisujaca tablice wynikow w kolejnosci malejacej
 void printScores(int *rozpoczeta)
 {
     int i = 0;
@@ -160,10 +160,11 @@ void printScores(int *rozpoczeta)
         SEND_NUMBER(i + 1);
         SEND_CHARS(". miejsce");
         gotoSecondLine();
+        //wypisanie inicjalow na aktualnej pozycji
         SEND_CHAR(scores[i].name[0]);
         SEND_CHAR(scores[i].name[1]);
         SEND_CHARS(" : ");
-        // bledy
+        //wypisanie punktow na aktualnej pozycji
         SEND_NUMBER(scores[i].points);
 
 
@@ -233,6 +234,7 @@ void menu(int *rozpoczeta)
 }
 
 // przerzucam swoje z gry.c zeby nie bawic sie w rzucanie wskaznikiem do inicjalow
+// metoda wypisujaca wynik koncowy bo zakonczeniu rozgrywki
 void koniecGry(int *rozpoczeta)
 {
  	// wylaczenie watchdoga
@@ -241,35 +243,38 @@ void koniecGry(int *rozpoczeta)
     *rozpoczeta = 0;
 
     //int zeby potem nie castowac wypisujac
+    //ustawienie celnosci jako iloczyn zlapanych kafelkow i iloraz klikniec
     int celnosc = 100.0 * iloscZlapanych / iloscKlikniec;
     int koncowyWynik = (float)wynikAktualnej * (float)celnosc / 100.0;
 	
     SEND_CMD(CLR_DISP);
     if (koncowyWynik == 0){
         SET_CURSOR(1,1);
-        SEND_CHARS("PRZEGRYWASZ XD");
+        SEND_CHARS("PRZEGRYWASZ");
     }else{
         SET_CURSOR(4, 1);
         SEND_CHARS("PRZEGRYWASZ");
     }
     SET_CURSOR(2, 2);
+    //wypisanie inicjalow aktualnego gracza
     SEND_CHAR(inicjalyAktualnej[0]);
     SEND_CHAR(inicjalyAktualnej[1]);
 	SEND_CHARS(", WYNIK:");
 	if(wynikAktualnej==0){
 	 	SEND_CHAR('0');
     }else{
+        //wyslanie wyniku koncowego
     	SEND_NUMBER(koncowyWynik);
 	}
+    //utworzenie nowego wyniku w strukturze Score i dodanie go do tablicy wynikow
 	if(wynikAktualnej==0){
 	  struct Score sc = createScore(inicjalyAktualnej, koncowyWynik); addScore(sc);
     }else{
 	  struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej); addScore(sc);
 	}
-	
-
     wynikAktualnej = 0;
 
     //DelayB(100);
+    //Ponowne wywolanie metody menu pozwalajace na kontynuowanie gry
     menu(rozpoczeta);
 }
