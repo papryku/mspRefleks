@@ -18,43 +18,42 @@
 
 int numberOfScores = 0;
 int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
-int wynikAktualnej = 0; int iloscKlikniec = 0; int iloscZlapanych = 0;
+int wynikAktualnej = 0;
+int iloscKlikniec = 0;
+int iloscZlapanych = 0;
 char inicjalyAktualnej[2];
 
 /**
  * @brief modyfikuje wynik aktualnej gry
  * @param num przekazuje nowy wynik
  */
-void changeScore(int num)
-{
+void changeScore(int num) {
     wynikAktualnej = wynikAktualnej + num;
-    if (wynikAktualnej < 0)
-    {
+    if (wynikAktualnej < 0) {
         wynikAktualnej = 0;
     }
-    if(num>0){ //próba implementacji accuracy zeby nam mnie punktow ujebal, zamiast odejmowania jest zmniejszany
-        iloscKlikniec++; iloscZlapanych++;
-    }else{
+    if (num > 0) { //próba implementacji accuracy zeby nam mnie punktow ujebal, zamiast odejmowania jest zmniejszany
+        iloscKlikniec++;
+        iloscZlapanych++;
+    } else {
         iloscKlikniec++;
     }
 }
+
 /**
  * @brief funkcja pozwalająca wybrać literę
  * @return wybrana litere
  */
-char readChar()
-{
+char readChar() {
     gotoSecondLine();
     currentLetter = 65;
     SEND_CHAR('A');
-    while (1)
-    {
+    while (1) {
 
         if (!(PRZYCISK1)) //zmiejszenie aktualnej litery
         {
             DelayB(100);
-            if (currentLetter > 65)
-            {
+            if (currentLetter > 65) {
                 clearDisplay();
                 SEND_CHARS("Podaj inicjaly:");
                 gotoSecondLine();           // sprawdzenie czy obecna wartosc znaku ASCII nie będzie ponizej 'A'
@@ -72,8 +71,7 @@ char readChar()
         if (!(PRZYCISK2))  // zmieniejszenie aktualnej litery
         {
             DelayB(100);
-            if (currentLetter < 90)
-            {
+            if (currentLetter < 90) {
                 clearDisplay();
                 SEND_CHARS("Podaj inicjaly:");
                 gotoSecondLine();           // sprawdzenie czy obecna wartosc znaku ASCII nie będzie powyzej 'Z'
@@ -82,12 +80,12 @@ char readChar()
         }
     }
 }
+
 /**
  * @brief funkcja pozwalająca wybrać inicjały, które później zwraca w tablicy
  * @return tablica inicjalow
  */
-char *getInitials()
-{
+char *getInitials() {
     char name[2];
     name[0] = readChar(); // uzytkownik wybiera pierwsza litere swojego inicjalu
     SEND_CHARS("Podaj inicjaly:");
@@ -115,17 +113,13 @@ struct Score scores[10];
  * @brief funkcja sortujaca tablice wynikow
  * @param n ilosc elementow w talicy wynikow
  */
-void sortScores(int n)
-{
+void sortScores(int n) {
     int i, j;
-    for (i = 0; i < n - 1; i++)
-    {
+    for (i = 0; i < n - 1; i++) {
         // Szukanie najwiekszego elementu w tablicy
         int max_idx = i;
-        for (j = i + 1; j < n; j++)
-        {
-            if (scores[j].points > scores[max_idx].points)
-            {
+        for (j = i + 1; j < n; j++) {
+            if (scores[j].points > scores[max_idx].points) {
                 max_idx = j;
             }
         }
@@ -143,8 +137,7 @@ void sortScores(int n)
  * @param points zdobyte przez niego punkty
  * @return ilosc elementow w tablicy wynikow
  */
-struct Score createScore(char name[], int points)
-{
+struct Score createScore(char name[], int points) {
     Score newScore;
     strcpy(newScore.name, name);
     newScore.points = points;
@@ -157,15 +150,12 @@ struct Score createScore(char name[], int points)
  * @return rekord nowego wyniku
  */
 
-void addScore(struct Score newScore)
-{
-    if (numberOfScores <= 9)
-    {
+void addScore(struct Score newScore) {
+    if (numberOfScores <= 9) {
         scores[numberOfScores] = newScore;
         numberOfScores++;
     }
-    if (newScore.points > scores[9].points)
-    {
+    if (newScore.points > scores[9].points) {
         scores[9] = newScore;
     }
     sortScores(numberOfScores);
@@ -175,11 +165,10 @@ void addScore(struct Score newScore)
  * @brief metoda wypisujaca tablice wynikow rosnaco
  * @param rozpoczeta status rozgrywki
  */
-void printScores(int *rozpoczeta)
-{
+void printScores(int *rozpoczeta) {
     int i = 0;
     //for (int i = 0; i < numberOfScores; i++)
-    while(1) //wyjście tylko za pomocą przycisku 4, możliwość porzuszania w górę i dół, możliwość pauzy
+    while (1) //wyjście tylko za pomocą przycisku 4, możliwość porzuszania w górę i dół, możliwość pauzy
     {
         // bledy
         clearDisplay();
@@ -196,28 +185,27 @@ void printScores(int *rozpoczeta)
 
         //delay wyłapujące w miarę dokładnie przycisk
         //chyba
-        for(int j = 0; j < 500; j++){ //DelayB(500);
-            if(!(PRZYCISK1)){ //przejscie do kolejnego wyniku
-                if(i < numberOfScores){
+        for (int j = 0; j < 500; j++) { //DelayB(500);
+            if (!(PRZYCISK1)) { //przejscie do kolejnego wyniku
+                if (i < numberOfScores) {
                     i++;
                 } else { i = numberOfScores--; }
                 DelayB(50);
                 break;
-            }
-            else if(!(PRZYCISK2)){ //powrot do poprzedniego wyniku
-                if(i > 0){
+            } else if (!(PRZYCISK2)) { //powrot do poprzedniego wyniku
+                if (i > 0) {
                     i--;
                 } else { i = 0; }
                 DelayB(50);
                 break;
-            }
-            else if(!(PRZYCISK4)){ //powrot do menu
+            } else if (!(PRZYCISK4)) { //powrot do menu
                 menu(rozpoczeta);
                 return;
             }
             DelayB(1);
-        } i++;
-        if(i>=numberOfScores) { i = 0; }
+        }
+        i++;
+        if (i >= numberOfScores) { i = 0; }
     }
 }
 
@@ -226,8 +214,7 @@ void printScores(int *rozpoczeta)
  * @param rozpoczeta status rozgrywki
  */
 
-void menu(int *rozpoczeta)
-{
+void menu(int *rozpoczeta) {
     // wylaczenie watchdoga
     WDTCTL = WDTPW + WDTHOLD;
     SEND_CMD(CLR_DISP);
@@ -235,8 +222,7 @@ void menu(int *rozpoczeta)
     gotoSecondLine();
     SEND_CHARS("2.Pokaz wyniki.");
     DelayB(100);
-    while (1)
-    {
+    while (1) {
 
         if (!(PRZYCISK1))   // rozpoczecie gry
         {
@@ -269,8 +255,7 @@ void menu(int *rozpoczeta)
  * @brief funkcja kończąca rozgrywkę, wyświetla końcowy wynik i inicjały, przekazuje je do tabeli wyników i powraca do menu()
  * @param rozpoczeta status rozgrywki
  */
-void endOfGame(int *rozpoczeta)
-{
+void endOfGame(int *rozpoczeta) {
     // wylaczenie watchdoga
     WDTCTL = WDTPW + WDTHOLD;
     TACTL &= ~MC_1;
@@ -279,13 +264,13 @@ void endOfGame(int *rozpoczeta)
     //int zeby potem nie castowac wypisujac
     //ustawienie celnosci jako iloczyn zlapanych kafelkow i iloraz klikniec
     int celnosc = 100.0 * iloscZlapanych / iloscKlikniec;
-    int koncowyWynik = (float)wynikAktualnej * (float)celnosc / 100.0;
+    int koncowyWynik = (float) wynikAktualnej * (float) celnosc / 100.0;
 
     SEND_CMD(CLR_DISP);
-    if (koncowyWynik == 0){
-        SET_CURSOR(1,1);
+    if (koncowyWynik == 0) {
+        SET_CURSOR(1, 1);
         SEND_CHARS("PRZEGRYWASZ");
-    }else{
+    } else {
         SET_CURSOR(4, 1);
         SEND_CHARS("PRZEGRYWASZ");
     }
@@ -294,17 +279,19 @@ void endOfGame(int *rozpoczeta)
     SEND_CHAR(inicjalyAktualnej[0]);
     SEND_CHAR(inicjalyAktualnej[1]);
     SEND_CHARS(", WYNIK:");
-    if(wynikAktualnej==0){
+    if (wynikAktualnej == 0) {
         SEND_CHAR('0');
-    }else{
+    } else {
         //wyslanie wyniku koncowego
         SEND_NUMBER(koncowyWynik);
     }
     //utworzenie nowego wyniku w strukturze Score i dodanie go do tablicy wynikow
-    if(wynikAktualnej==0){
-        struct Score sc = createScore(inicjalyAktualnej, koncowyWynik); addScore(sc);
-    }else{
-        struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej); addScore(sc);
+    if (wynikAktualnej == 0) {
+        struct Score sc = createScore(inicjalyAktualnej, koncowyWynik);
+        addScore(sc);
+    } else {
+        struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej);
+        addScore(sc);
     }
     wynikAktualnej = 0;
     menu(rozpoczeta);

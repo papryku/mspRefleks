@@ -43,8 +43,7 @@ char lapanie[8] = {31, 17, 17, 17, 17, 17, 17, 31};
 char kafek[8] = {4, 4, 4, 4, 4, 4, 4, 4};
 char zlapany[8] = {31, 21, 21, 21, 21, 21, 21, 31};
 
-void main(void)
-{
+void main(void) {
     // wylaczenie watchdoga
     WDTCTL = WDTPW + WDTHOLD;
 
@@ -70,11 +69,9 @@ void main(void)
     // inicjalizacja zegara
     BCSCTL1 |= XTS; // ACLK = LFXT1 = HF XTAL 8MHz
 
-    do
-    {
+    do {
         IFG1 &= ~OFIFG; // Czyszczenie flgi OSCFault
-        for (int i = 0xFF; i > 0; i--)
-            ; // odczekanie
+        for (int i = 0xFF; i > 0; i--); // odczekanie
         // SEND_CHAR('X');
     } while ((IFG1 & OFIFG) == OFIFG); // dop�ki OSCFault jest ci�gle ustawiona
 
@@ -94,38 +91,28 @@ void main(void)
     menu(&rozpoczeta);
 
     // nieskończona pętla, obsługa przycisków w trakcie gry
-    while (1)
-    {
-        if (rozpoczeta)
-        {
-            if (!(PRZYCISK1) && przycisk1Niewcisniety)
-            {
+    while (1) {
+        if (rozpoczeta) {
+            if (!(PRZYCISK1) && przycisk1Niewcisniety) {
                 przycisk1Niewcisniety = 0;
-                if (czyZlapany(1))
-                {
+                if (czyZlapany(1)) {
                     SET_CURSOR(1, 1);
                     SEND_CHAR(0);
                     changeScore(10);
-                    if(stanLapania[0]==1) stanLapania[0] = 0;
-                }
-                else
-                {
+                    if (stanLapania[0] == 1) stanLapania[0] = 0;
+                } else {
                     changeScore(-5);
                     zycia--;
                 }
             }
-            if (!(PRZYCISK2) && przycisk2Niewcisniety)
-            {
+            if (!(PRZYCISK2) && przycisk2Niewcisniety) {
                 przycisk2Niewcisniety = 0;
-                if (czyZlapany(2))
-                {
+                if (czyZlapany(2)) {
                     SET_CURSOR(1, 2);
                     SEND_CHAR(0);
                     changeScore(10);
-                    if(stanLapania[1]==1) stanLapania[1] = 0;
-                }
-                else
-                {
+                    if (stanLapania[1] == 1) stanLapania[1] = 0;
+                } else {
                     changeScore(-5);
                     zycia--;
                 }
@@ -133,12 +120,9 @@ void main(void)
 
                 // do testow zatrzymywanie
                 //
-            else if (!(PRZYCISK3))
-            {
+            else if (!(PRZYCISK3)) {
                 TACTL &= ~MC_1;
-            }
-            else if (!(PRZYCISK4))
-            {
+            } else if (!(PRZYCISK4)) {
                 TACTL |= MC_1;
             }
             //    -----------------------
@@ -147,14 +131,10 @@ void main(void)
 }
 
 //sprawdza czy pole łapania w podanej linii ma w sobie kafelek
-int czyZlapany(int row)
-{
-    if (tablicaLCD[row - 1][0] == 1)
-    {
+int czyZlapany(int row) {
+    if (tablicaLCD[row - 1][0] == 1) {
         return 1;
-    }
-    else
-    {
+    } else {
         return 0;
     }
 }
@@ -164,43 +144,34 @@ int los;
 
 // przerwania zegara
 #pragma vector = TIMERA0_VECTOR
-__interrupt void Timer_A(void)
-{
+
+__interrupt void Timer_A(void) {
     int r, c;
 
     // licznik do spowolnienia, z tym sie pobawimy troche
     licz++;
-    if (licz == 8)
-    {
+    if (licz == 8) {
         licz = licz % 8;
         // wpierw operacje na pierwszych dwoch kolumnach
-        for (r = 0; r < 2; r++)
-        {
+        for (r = 0; r < 2; r++) {
             // kafelek spierdolil, gejmower
-            if (stanLapania[r] == 1)
-            {
+            if (stanLapania[r] == 1) {
                 stanLapania[r] = 2;
             }
 
             // ustawienie odpowiedniego znaku pola lapania(z kafelkiem lub bez)
-            if (tablicaLCD[r][1] == 2)
-            {
+            if (tablicaLCD[r][1] == 2) {
                 tablicaLCD[r][0] = 1;
                 tablicaLCD[r][1] = -1;
                 stanLapania[r] = 1;
-            }
-            else
-            {
+            } else {
                 tablicaLCD[r][0] = 0;
             }
         }
         // potem przesuwa kafelki
-        for (r = 0; r < 2; r++)
-        {
-            for (c = 2; c < 16; c++)
-            {
-                if (tablicaLCD[r][c] == 2)
-                {
+        for (r = 0; r < 2; r++) {
+            for (c = 2; c < 16; c++) {
+                if (tablicaLCD[r][c] == 2) {
                     tablicaLCD[r][c - 1] = 2;
                     tablicaLCD[r][c] = -1;
                 }
@@ -231,8 +202,7 @@ __interrupt void Timer_A(void)
         przycisk2Niewcisniety = 1;
 
         // obsługa sytuacji kończących grę
-        if (zycia <= 0 || stanLapania[0] == 2 || stanLapania[1] == 2)
-        {
+        if (zycia <= 0 || stanLapania[0] == 2 || stanLapania[1] == 2) {
             stanLapania[0] = 0;
             stanLapania[1] = 0;
             zycia = 10;
@@ -243,14 +213,11 @@ __interrupt void Timer_A(void)
     }
 }
 
-void resetTablicy()
-{
+void resetTablicy() {
     int x, z;
-    for (x = 0; x < 2; x++)
-    {
+    for (x = 0; x < 2; x++) {
         tablicaLCD[x][0] = 0;
-        for (z = 1; z < 16; z++)
-        {
+        for (z = 1; z < 16; z++) {
             tablicaLCD[x][z] = -1;
         }
     }
