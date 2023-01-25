@@ -1,7 +1,7 @@
 #include <msp430x14x.h>
 #include "lcd.h"
 #include "portyLcd.h"
-#include "uartservice.h"
+#include "menu.h"
 #include "gra.h"
 #include <stdlib.h>
 #include <string.h>
