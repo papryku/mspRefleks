@@ -15,15 +15,17 @@
 #define PRZYCISK4 (BIT7 & P4IN)
 #endif
 
-// jeśli potrzebne to będzie w operacjach poza biblioteką, to należy zdefiniować jedynie w pliku nagłówkowym i tu zostawić ustawienie wartości bez deklarowania jako int
+
 int numberOfScores = 0;
 int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
 int wynikAktualnej = 0; int iloscKlikniec = 0; int iloscZlapanych = 0;
 char inicjalyAktualnej[2];
 
-
-//drugie podejscie z punktami to celnosc malejaca na bazie nietrafionych kafelkow (trafione/wszystkie klikniecia)
-void zmienWynik(int num)
+/**
+ * @brief modyfikuje wynik aktualnej gry
+ * @param num przekazuje nowy wynik
+ */
+void changeScore(int num)
 {
     wynikAktualnej = wynikAktualnej + num;
     if (wynikAktualnej < 0)
@@ -36,8 +38,10 @@ void zmienWynik(int num)
         iloscKlikniec++;
     }
 }
-
-//metoda pozwalajaca na wygranie uzytkownikowi jego inicjalow za pomoca przyciskow
+/**
+ * @brief funkcja pozwalająca wybrać literę
+ * @return wybrana litere
+ */
 char readChar()
 {
     gotoSecondLine();
@@ -78,9 +82,11 @@ char readChar()
         }
     }
 }
-
-//metoda dodajaca wybrane przez uzytkownika inicjaly do tablicy inicjalow
-char *podajInicjaly()
+/**
+ * @brief funkcja pozwalająca wybrać inicjały, które później zwraca w tablicy
+ * @return tablica inicjalow
+ */
+char *getInitials()
 {
     char name[2];
     name[0] = readChar(); // uzytkownik wybiera pierwsza litere swojego inicjalu
@@ -101,10 +107,14 @@ char *podajInicjaly()
     return name;
 }
 
-// Tablica wynikow
+// tablica wynikow
 struct Score scores[10];
 
-// metoda sortujaca tablice wynikow
+
+/**
+ * @brief funkcja sortujaca tablice wynikow
+ * @param n ilosc elementow w talicy wynikow
+ */
 void sortScores(int n)
 {
     int i, j;
@@ -128,10 +138,10 @@ void sortScores(int n)
 }
 
 /**
- * metoda tworzaca nowy rekord po rozegraniu gry
+ * @brief funkcja tworzaca nowy rekord po rozegraniu gry
  * @param name inicjaly zawodnika
- * @param points punkty zdobyte przez zawodnika
- * @return zwraca dobry
+ * @param points zdobyte przez niego punkty
+ * @return ilosc elementow w tablicy wynikow
  */
 struct Score createScore(char name[], int points)
 {
@@ -142,9 +152,11 @@ struct Score createScore(char name[], int points)
 }
 
 /**
- * metoda dodajaca nowe rekordy do tablicy wynikow
+ * @brief metoda dodajaca nowy rekord do tablicy wynikow
  * @param newScore nowy wynik
+ * @return rekord nowego wyniku
  */
+
 void addScore(struct Score newScore)
 {
     if (numberOfScores <= 9)
@@ -158,15 +170,16 @@ void addScore(struct Score newScore)
     }
     sortScores(numberOfScores);
 }
+
 /**
- * metoda wypisujaca tablice wynikow w kolejnosci malejacej
+ * @brief metoda wypisujaca tablice wynikow rosnaco
  * @param rozpoczeta status rozgrywki
  */
 void printScores(int *rozpoczeta)
 {
     int i = 0;
     //for (int i = 0; i < numberOfScores; i++)
-    while(1) //wyjście tylko za pomocą przycisku 4, możliwość porzuszania w górę i dół, możliwość pauzy 
+    while(1) //wyjście tylko za pomocą przycisku 4, możliwość porzuszania w górę i dół, możliwość pauzy
     {
         // bledy
         clearDisplay();
@@ -182,7 +195,7 @@ void printScores(int *rozpoczeta)
 
 
         //delay wyłapujące w miarę dokładnie przycisk
-        //chyba 
+        //chyba
         for(int j = 0; j < 500; j++){ //DelayB(500);
             if(!(PRZYCISK1)){ //przejscie do kolejnego wyniku
                 if(i < numberOfScores){
@@ -209,14 +222,14 @@ void printScores(int *rozpoczeta)
 }
 
 /**
- * metoda wyswietlajaca na plytce mozliwe akcje jakie, ktore moze wykonac zawodnik
- * moga za pomoca przyciskow zadecydowac czy chca rozpoczac nowa gre lub wyswielisc dotychczasowe wyniki
+ * @brief metoda wyswietlajaca na plytce mozliwe akcje jakie, ktore moze wykonac zawodnik moga za pomoca przyciskow zadecydowac czy chca rozpoczac nowa gre lub wyswielisc dotychczasowe wyniki
  * @param rozpoczeta status rozgrywki
  */
+
 void menu(int *rozpoczeta)
 {
-  	// wylaczenie watchdoga
-  	WDTCTL = WDTPW + WDTHOLD;
+    // wylaczenie watchdoga
+    WDTCTL = WDTPW + WDTHOLD;
     SEND_CMD(CLR_DISP);
     SEND_CHARS("1.Nowa gra.");
     gotoSecondLine();
@@ -224,18 +237,19 @@ void menu(int *rozpoczeta)
     DelayB(100);
     while (1)
     {
+
         if (!(PRZYCISK1))   // rozpoczecie gry
         {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
-                            // start new game
+            // start new game
             SEND_CHARS("Podaj inicjaly:");
 
-            char *inicjaly = podajInicjaly();
+            char *inicjaly = getInitials();
             strcpy(inicjalyAktualnej, inicjaly);
             SEND_CMD(CLR_DISP);
             // rozpoczyna gre (gra.c)
-            rozpocznijGre();
+            startGame();
             *rozpoczeta = 1;
             return;
         }
@@ -244,23 +258,21 @@ void menu(int *rozpoczeta)
         {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
-                            // drukowanie wynikow
-            printScores(rozpoczeta);
+            printScores(rozpoczeta); // drukowanie wynikow
             return;
         }
     }
 }
 
-// przerzucam swoje z gry.c zeby nie bawic sie w rzucanie wskaznikiem do inicjalow
-// metoda wypisujaca wynik koncowy bo zakonczeniu rozgrywki
+
 /**
- * metoda odpowiada za rozpatrzenie za wynikow koncowych
+ * @brief funkcja kończąca rozgrywkę, wyświetla końcowy wynik i inicjały, przekazuje je do tabeli wyników i powraca do menu()
  * @param rozpoczeta status rozgrywki
  */
-void koniecGry(int *rozpoczeta)
+void endOfGame(int *rozpoczeta)
 {
- 	// wylaczenie watchdoga
- 	WDTCTL = WDTPW + WDTHOLD;
+    // wylaczenie watchdoga
+    WDTCTL = WDTPW + WDTHOLD;
     TACTL &= ~MC_1;
     *rozpoczeta = 0;
 
@@ -268,7 +280,7 @@ void koniecGry(int *rozpoczeta)
     //ustawienie celnosci jako iloczyn zlapanych kafelkow i iloraz klikniec
     int celnosc = 100.0 * iloscZlapanych / iloscKlikniec;
     int koncowyWynik = (float)wynikAktualnej * (float)celnosc / 100.0;
-	
+
     SEND_CMD(CLR_DISP);
     if (koncowyWynik == 0){
         SET_CURSOR(1,1);
@@ -281,19 +293,19 @@ void koniecGry(int *rozpoczeta)
     //wypisanie inicjalow aktualnego gracza
     SEND_CHAR(inicjalyAktualnej[0]);
     SEND_CHAR(inicjalyAktualnej[1]);
-	SEND_CHARS(", WYNIK:");
-	if(wynikAktualnej==0){
-	 	SEND_CHAR('0');
+    SEND_CHARS(", WYNIK:");
+    if(wynikAktualnej==0){
+        SEND_CHAR('0');
     }else{
         //wyslanie wyniku koncowego
-    	SEND_NUMBER(koncowyWynik);
-	}
+        SEND_NUMBER(koncowyWynik);
+    }
     //utworzenie nowego wyniku w strukturze Score i dodanie go do tablicy wynikow
-	if(wynikAktualnej==0){
-	  struct Score sc = createScore(inicjalyAktualnej, koncowyWynik); addScore(sc);
+    if(wynikAktualnej==0){
+        struct Score sc = createScore(inicjalyAktualnej, koncowyWynik); addScore(sc);
     }else{
-	  struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej); addScore(sc);
-	}
+        struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej); addScore(sc);
+    }
     wynikAktualnej = 0;
     menu(rozpoczeta);
 }

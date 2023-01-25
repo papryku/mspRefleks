@@ -1,2 +1,2 @@
-void rozpocznijGre();
-void przesunKafelki(int tablicaLCD[][16]);
+void startGame();
+void moveTiles(int tableLCD[][16]);
