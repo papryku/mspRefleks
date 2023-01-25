@@ -9,11 +9,11 @@ ActionState=1
 NumStates=_ 1
 State 1=_ 1
 [State Storage]
-Control Register=7228
+Control Register=8700
 [Sequencer]
-Control Register=7228
-NextState0=7228
-NextState1=7228
+Control Register=8700
+NextState0=8700
+NextState1=8700
 [Action Register]
 Break=1
 State Storage=1

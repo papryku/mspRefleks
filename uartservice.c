@@ -165,11 +165,7 @@ void printScores(int *rozpoczeta)
         SEND_CHARS(" : ");
         // bledy
         SEND_NUMBER(scores[i].points);
-        //    gotoSecondLine();
-        SEND_CHARS(scores[i + 1].name);
-        SEND_CHARS(" : ");
-        // bledy
-        SEND_NUMBER(scores[i+1].points);
+
 
         //delay wyłapujące w miarę dokładnie przycisk
         //chyba 
@@ -200,6 +196,8 @@ void printScores(int *rozpoczeta)
 
 void menu(int *rozpoczeta)
 {
+  	// wylaczenie watchdoga
+  	WDTCTL = WDTPW + WDTHOLD;
     SEND_CMD(CLR_DISP);
     SEND_CHARS("1.Nowa gra.");
     gotoSecondLine();
@@ -237,13 +235,15 @@ void menu(int *rozpoczeta)
 // przerzucam swoje z gry.c zeby nie bawic sie w rzucanie wskaznikiem do inicjalow
 void koniecGry(int *rozpoczeta)
 {
+ 	// wylaczenie watchdoga
+ 	WDTCTL = WDTPW + WDTHOLD;
     TACTL &= ~MC_1;
     *rozpoczeta = 0;
 
     //int zeby potem nie castowac wypisujac
     int celnosc = 100.0 * iloscZlapanych / iloscKlikniec;
     int koncowyWynik = (float)wynikAktualnej * (float)celnosc / 100.0;
-
+	
     SEND_CMD(CLR_DISP);
     if (koncowyWynik == 0){
         SET_CURSOR(1,1);
@@ -255,26 +255,21 @@ void koniecGry(int *rozpoczeta)
     SET_CURSOR(2, 2);
     SEND_CHAR(inicjalyAktualnej[0]);
     SEND_CHAR(inicjalyAktualnej[1]);
-    SEND_CHARS(", WYNIK:");
-    SEND_NUMBER(koncowyWynik);
-    SEND_CHAR(',');
-    SEND_NUMBER(celnosc);
-    SEND_CHAR('%');
-
-    struct Score sc = createScore(inicjalyAktualnej, koncowyWynik);
-    addScore(sc);
+	SEND_CHARS(", WYNIK:");
+	if(wynikAktualnej==0){
+	 	SEND_CHAR('0');
+    }else{
+    	SEND_NUMBER(koncowyWynik);
+	}
+	if(wynikAktualnej==0){
+	  struct Score sc = createScore(inicjalyAktualnej, koncowyWynik); addScore(sc);
+    }else{
+	  struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej); addScore(sc);
+	}
+	
 
     wynikAktualnej = 0;
 
-    DelayB(200);
-    while (*rozpoczeta != 1)
-    {
-        if (!(PRZYCISK1) || !(PRZYCISK2) || !(PRZYCISK3) || !(PRZYCISK4))
-        {
-            SEND_CMD(CLR_DISP);
-            menu(rozpoczeta);
-            return;
-        }
-    }
-    return;
+    //DelayB(100);
+    menu(rozpoczeta);
 }

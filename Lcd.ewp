@@ -1688,9 +1688,6 @@
     <name>$PROJ_DIR$\gra.h</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\kafelek.h</name>
-  </file>
-  <file>
     <name>$PROJ_DIR$\lcd.c</name>
   </file>
   <file>
@@ -1704,18 +1701,6 @@
   </file>
   <file>
     <name>$PROJ_DIR$\portyLcd.h</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\portyUart.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\portyUart.h</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\uart.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\uart.h</name>
   </file>
   <file>
     <name>$PROJ_DIR$\uartservice.c</name>
