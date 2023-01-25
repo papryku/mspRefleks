@@ -37,6 +37,7 @@ void zmienWynik(int num)
     }
 }
 
+//metoda pozwalajaca na wygranie uzytkownikowi jego inicjalow za pomoca przyciskow
 char readChar()
 {
     gotoSecondLine();
@@ -45,7 +46,7 @@ char readChar()
     while (1)
     {
 
-        if (!(PRZYCISK1))
+        if (!(PRZYCISK1)) //zmiejszenie aktualnej litery
         {
             DelayB(100);
             if (currentLetter > 65)
@@ -57,14 +58,14 @@ char readChar()
             }
         }
 
-        if (!(PRZYCISK3))
+        if (!(PRZYCISK3)) //zwrocenie atualnej litery
         {
             DelayB(100);
             clearDisplay();
             return currentLetter;
         }
 
-        if (!(PRZYCISK2))
+        if (!(PRZYCISK2))  // zmieniejszenie aktualnej litery
         {
             DelayB(100);
             if (currentLetter < 90)
@@ -78,6 +79,7 @@ char readChar()
     }
 }
 
+//metoda dodajaca wybrane przez uzytkownika inicjaly do tablicy inicjalow
 char *podajInicjaly()
 {
     char name[2];
@@ -273,8 +275,5 @@ void koniecGry(int *rozpoczeta)
 	  struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej); addScore(sc);
 	}
     wynikAktualnej = 0;
-
-    //DelayB(100);
-    //Ponowne wywolanie metody menu pozwalajace na kontynuowanie gry
     menu(rozpoczeta);
 }
