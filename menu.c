@@ -127,7 +127,12 @@ void sortScores(int n)
     }
 }
 
-// metoda tworzaca nowy rekord po rozegraniu gry
+/**
+ * metoda tworzaca nowy rekord po rozegraniu gry
+ * @param name inicjaly zawodnika
+ * @param points punkty zdobyte przez zawodnika
+ * @return zwraca dobry
+ */
 struct Score createScore(char name[], int points)
 {
     Score newScore;
@@ -136,7 +141,10 @@ struct Score createScore(char name[], int points)
     return newScore;
 }
 
-// metoda dodajaca nowy rekord do tablicy wynikow
+/**
+ * metoda dodajaca nowe rekordy do tablicy wynikow
+ * @param newScore nowy wynik
+ */
 void addScore(struct Score newScore)
 {
     if (numberOfScores <= 9)
@@ -150,7 +158,10 @@ void addScore(struct Score newScore)
     }
     sortScores(numberOfScores);
 }
-// metoda wypisujaca tablice wynikow w kolejnosci malejacej
+/**
+ * metoda wypisujaca tablice wynikow w kolejnosci malejacej
+ * @param rozpoczeta status rozgrywki
+ */
 void printScores(int *rozpoczeta)
 {
     int i = 0;
@@ -197,6 +208,11 @@ void printScores(int *rozpoczeta)
     }
 }
 
+/**
+ * metoda wyswietlajaca na plytce mozliwe akcje jakie, ktore moze wykonac zawodnik
+ * moga za pomoca przyciskow zadecydowac czy chca rozpoczac nowa gre lub wyswielisc dotychczasowe wyniki
+ * @param rozpoczeta status rozgrywki
+ */
 void menu(int *rozpoczeta)
 {
   	// wylaczenie watchdoga
@@ -208,7 +224,7 @@ void menu(int *rozpoczeta)
     DelayB(100);
     while (1)
     {
-        if (!(PRZYCISK1))
+        if (!(PRZYCISK1))   // rozpoczecie gry
         {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
@@ -224,7 +240,7 @@ void menu(int *rozpoczeta)
             return;
         }
 
-        if (!(PRZYCISK2))
+        if (!(PRZYCISK2))   // wyswietlenie wynikow
         {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
@@ -237,6 +253,10 @@ void menu(int *rozpoczeta)
 
 // przerzucam swoje z gry.c zeby nie bawic sie w rzucanie wskaznikiem do inicjalow
 // metoda wypisujaca wynik koncowy bo zakonczeniu rozgrywki
+/**
+ * metoda odpowiada za rozpatrzenie za wynikow koncowych
+ * @param rozpoczeta status rozgrywki
+ */
 void koniecGry(int *rozpoczeta)
 {
  	// wylaczenie watchdoga
