@@ -11,10 +11,6 @@
 #define PRZYCISK4 (BIT7 & P4IN)
 #endif
 
-int poprzedniaTablica[2][16] = {
-    {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-    {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
-
 // inicjaly chyba jednak niepotrzebne w tej sekcji tbh
 void rozpocznijGre()
 {

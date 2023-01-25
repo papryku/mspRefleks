@@ -18,7 +18,7 @@
 // jeśli potrzebne to będzie w operacjach poza biblioteką, to należy zdefiniować jedynie w pliku nagłówkowym i tu zostawić ustawienie wartości bez deklarowania jako int
 int numberOfScores = 0;
 int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
-int wynikAktualnej = 0;
+int wynikAktualnej = 0; int iloscKlikniec = 0; int iloscZlapanych = 0;
 char inicjalyAktualnej[2];
 
 
@@ -29,6 +29,11 @@ void zmienWynik(int num)
     if (wynikAktualnej < 0)
     {
         wynikAktualnej = 0;
+    }
+    if(num>0){ //próba implementacji accuracy zeby nam mnie punktow ujebal, zamiast odejmowania jest zmniejszany
+        iloscKlikniec++; iloscZlapanych++;
+    }else{
+        iloscKlikniec++;
     }
 }
 
@@ -46,7 +51,7 @@ char readChar()
             if (currentLetter > 65)
             {
                 clearDisplay();
-                SEND_CHARS("Podaj Inicjaly");
+                SEND_CHARS("Podaj inicjaly:");
                 gotoSecondLine();           // sprawdzenie czy obecna wartosc znaku ASCII nie będzie ponizej 'A'
                 SEND_CHAR(--currentLetter); // po jego dekrementacji
             }
@@ -65,7 +70,7 @@ char readChar()
             if (currentLetter < 90)
             {
                 clearDisplay();
-                SEND_CHARS("Podaj Inicjaly");
+                SEND_CHARS("Podaj inicjaly:");
                 gotoSecondLine();           // sprawdzenie czy obecna wartosc znaku ASCII nie będzie powyzej 'Z'
                 SEND_CHAR(++currentLetter); // po jego inkrementacji
             }
@@ -144,9 +149,11 @@ void addScore(struct Score newScore)
     sortScores(numberOfScores);
 }
 // metoda wypisujaca tablice wynikow do terminala
-void printScores()
+void printScores(int *rozpoczeta)
 {
-    for (int i = 0; i < numberOfScores; i++)
+    int i = 0;
+    //for (int i = 0; i < numberOfScores; i++)
+    while(1) //wyjście tylko za pomocą przycisku 4, możliwość porzuszania w górę i dół, możliwość pauzy 
     {
         // bledy
         clearDisplay();
@@ -159,13 +166,37 @@ void printScores()
         // bledy
         SEND_NUMBER(scores[i].points);
         //    gotoSecondLine();
-        DelayB(500);
-        //     SEND_CHARS(scores[i + 1].name);
-        //    SEND_CHARS(" : ");
+        SEND_CHARS(scores[i + 1].name);
+        SEND_CHARS(" : ");
         // bledy
-        //     SEND_NUMBER(scores[i+1].points);
+        SEND_NUMBER(scores[i+1].points);
+
+        //delay wyłapujące w miarę dokładnie przycisk
+        //chyba 
+        for(int j = 0; j < 500; j++){ //DelayB(500);
+            if(!(PRZYCISK1)){ //przejscie do kolejnego wyniku
+                if(i < numberOfScores){
+                    i++;
+                } else { i = numberOfScores--; }
+                DelayB(50);
+                break;
+            }
+            else if(!(PRZYCISK2)){ //powrot do poprzedniego wyniku
+                if(i > 0){
+                    i--;
+                } else { i = 0; }
+                DelayB(50);
+                break;
+            }
+            else if(!(PRZYCISK4)){ //powrot do menu
+                menu(rozpoczeta);
+                return;
+            }
+            DelayB(1);
+        } i++;
+        if(i>=numberOfScores) { i = 0; }
     }
-} // brakuje wychodzenia z tego i ogolnie wszystkiego co tam wam nie dziala
+}
 
 void menu(int *rozpoczeta)
 {
@@ -183,16 +214,12 @@ void menu(int *rozpoczeta)
                             // start new game
             SEND_CHARS("Podaj inicjaly:");
 
-            // w skrócie chcę mieć globalne inicjały i wynik w uartservice, które będą zmieniały się co rozpoczęcie gry
-            // potem w każdej potrzebnej funkcji będzie można wykorzystać te wartości zamiast się bawić we wskaźniki
             char *inicjaly = podajInicjaly();
-            strcpy(inicjalyAktualnej, inicjaly); // oby to dzialalo
+            strcpy(inicjalyAktualnej, inicjaly);
             SEND_CMD(CLR_DISP);
             // rozpoczyna gre (gra.c)
             rozpocznijGre();
-            
             *rozpoczeta = 1;
-
             return;
         }
 
@@ -201,7 +228,7 @@ void menu(int *rozpoczeta)
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
                             // drukowanie wynikow
-            printScores(scores);
+            printScores(rozpoczeta);
             return;
         }
     }
@@ -213,26 +240,31 @@ void koniecGry(int *rozpoczeta)
     TACTL &= ~MC_1;
     *rozpoczeta = 0;
 
+    //int zeby potem nie castowac wypisujac
+    int celnosc = 100.0 * iloscZlapanych / iloscKlikniec;
+    int koncowyWynik = (float)wynikAktualnej * (float)celnosc / 100.0;
+
     SEND_CMD(CLR_DISP);
-    SET_CURSOR(4, 1);
-    SEND_CHARS("PRZEGRYWASZ");
-    if (wynikAktualnej == 0)
-        SEND_CHARS(" XDDD");
+    if (koncowyWynik == 0){
+        SET_CURSOR(1,1);
+        SEND_CHARS("PRZEGRYWASZ XD");
+    }else{
+        SET_CURSOR(4, 1);
+        SEND_CHARS("PRZEGRYWASZ");
+    }
     SET_CURSOR(2, 2);
     SEND_CHAR(inicjalyAktualnej[0]);
     SEND_CHAR(inicjalyAktualnej[1]);
     SEND_CHARS(", WYNIK:");
-    if (wynikAktualnej == 0)
-    {
-        SEND_CHARS("0 cielaku");
-    }
-    else
-    {
-        SEND_NUMBER(wynikAktualnej);
-    }
+    SEND_NUMBER(koncowyWynik);
+    SEND_CHAR(',');
+    SEND_NUMBER(celnosc);
+    SEND_CHAR('%');
 
-    struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej);
+    struct Score sc = createScore(inicjalyAktualnej, koncowyWynik);
     addScore(sc);
+
+    wynikAktualnej = 0;
 
     DelayB(200);
     while (*rozpoczeta != 1)
@@ -241,6 +273,8 @@ void koniecGry(int *rozpoczeta)
         {
             SEND_CMD(CLR_DISP);
             menu(rozpoczeta);
+            return;
         }
     }
+    return;
 }

@@ -207,7 +207,7 @@ __interrupt void Timer_A(void)
       }
     }
     los = rand() % 8;
-    switch (los) // polowe razy pojedynczy kafelek, raz na 8 razy podwojny, 3/8 razy nic
+    switch (los) // 4/8 razy pojedynczy kafelek, 1/8 razy podwojny, 3/8 razy nic
     {
     case 1:
     case 2:

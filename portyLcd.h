@@ -1,7 +1,7 @@
 #define          LCD_Data           P2OUT
-#define          _100us             100                //
-#define          _10us              10                 //
-#define          _WOWIE             2137
+#define          _100us             250                //zwiększam by wyeliminować
+#define          _10us              25                 //potencjalne błędy przy biblitoce LCD
+#define          _WOWIE             2137               //bo czas wykonywania wazny byl
 #define          E                  3                 //P2.3
 #define          RS                 2                 //P2.2
 
