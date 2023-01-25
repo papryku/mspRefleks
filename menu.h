@@ -1,11 +1,12 @@
-/**
- * @struct Struktura przechowujqca wyniki z gry
+/** @brief Struktura przechowujqca wyniki z gry
  */
 typedef struct Score {
-    char name[2];
-    int points;
+    char name[2]; /**< inicjały gracza */
+    int points;   /**< punkty gracza*/
 } Score;
 
+
+/// @cond NIE
 void changeScore(int num);
 
 char readChar();
@@ -23,3 +24,4 @@ void printScores(int *rozpoczeta);
 void menu(int *rozpoczeta);
 
 void endOfGame(int *rozpoczeta);
+/// @endcond

@@ -2,6 +2,8 @@
 #include "lcd.h"
 #include "portyLcd.h"
 
+/** @file */
+
 /** @brief ustawia podany bit liczby na 1
  *  @param var liczba do modyfikacji
  *  @param bitno numer bitu do modyfikacji 

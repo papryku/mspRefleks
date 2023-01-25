@@ -1,7 +1,7 @@
 #include <msp430x14x.h>
 #include "lcd.h"
 #include "portyLcd.h"
-#include "gra.h"
+#include "game.h"
 
 #ifndef BUTTONS
 #define BUTTONS
@@ -10,6 +10,8 @@
 #define BUTTON3 (BIT6 & P4IN)
 #define BUTTON4 (BIT7 & P4IN)
 #endif
+
+/** @file */
 
 /**
  * @brief funkcja odpowiadajaca ustawieni kursorow i przygotowanie wyswietlacza do przeprowadzenia rozgrywki

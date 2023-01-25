@@ -2,46 +2,91 @@
 #include "lcd.h"
 #include "portyLcd.h"
 #include "menu.h"
-#include "gra.h"
+#include "game.h"
 #include <stdlib.h>
 #include <string.h>
 
+/** @file */
+
 #ifndef BUTTONS
-#define BUTTONS
-#define BUTTON1 (BIT4 & P4IN)
-#define BUTTON2 (BIT5 & P4IN)
-#define BUTTON3 (BIT6 & P4IN)
-#define BUTTON4 (BIT7 & P4IN)
+
+#define BUTTONS //!< flaga powstrzymująca program od wielokrotnego definiowania przycisków
+#define BUTTON1 (BIT4 & P4IN) //!< definicja pierwszego przycisku od lewej
+#define BUTTON2 (BIT5 & P4IN) //!< definicja drugiego przycisku od lewej
+#define BUTTON3 (BIT6 & P4IN) //!< definicja trzeciego przycisku od lewej
+#define BUTTON4 (BIT7 & P4IN) //!< definicja czwartego przycisku od lewej
+
 #endif
 
+/**
+ * @brief zmienna przechowuje informację, czy gra aktualnie trwa, czy nie
+ * @brief wynosi 0, gdy gra nie jest w toku (menu, tabela wyników, odliczanie, ekran porażki)
+ * @brief wynosi 1, gdy gra jest w toku
+ */
 int gameStatus = 0;
 
+/**
+ * @brief funkcja sprawdza, czy w polu łapania danego rzędu znajduje się kafelek 
+ * @param row rząd, który ma sprawdzić 
+ * @retval 0 jeśli nie ma tam kafelka
+ * @retval 1 jeśli jest tak kafelek
+ */
 int isCaught(int row);
 
+/**
+ * @brief funkcja przywraca wartość początkową tablicy LCD_array, czyli pola łapania(0) w pierwszej kolumnie i reszta puste znaki(-1)
+ * @see LCD_array
+ */
 void resetArray();
 
-// zmienna przyjmuje 1, gdy kafelek należy teraz złapać i wraca do 0 po złapaniu, a jeśli nie złapie się w porę to zmienia się w 2, co spowoduje przegraną
+/**
+ * @brief zmienna jest tablicą przechowującą status obu rzędów LCD
+ * @brief wynosi 0, gdy kafelka nie trzeba łapać lub wprost po złapaniu
+ * @brief wynosi 1, gdy kafelek należy teraz złapać 
+ * @brief wynosi 2, gdy kafelka nie złapie się w porę, co powoduje przegraną
+ */
 int catchStatus[2] = {0, 0};
 
 // tyle razy można za wcześnie wcisnąć przycisk, później przegrywa się grę
+/**
+ * @brief zmienna przechowuje pozostałą dozwoloną ilość nietrafionych kliknięć (żyć)
+ * @brief po osiągnięciu 0 powoduje przegraną, przy rozpoczęciu gry wraca do 10
+ */
 int lives = 10;
 
-// reprezentacja naszego ekranu LCD gry, która jest wypisywana co interwał na ekran
+/**
+ * @brief reprezentacja naszego ekranu gry, która później jest wypisywana co interwał na ekran
+ * @brief 0 to pole łapania, 1 to pole łapania z kafelkiem w środku, 2 to kafelek, -1 to pusta komórka
+ */
 int LCD_array[2][16] = {
         {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
         {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}};
 
-// spowolnienie TimerA
+/**
+ * @brief licznik spowalniający wykonywanie operacji w przerwaniach TimerA
+ */
 int counter = 0;
 
-// powstrzymuje problemy z "przytrzymywaniem" przycisku, zezwala na jedno wciśnięcie przycisku na interwał
+/**
+ * @brief powstrzymuje problemy z "przytrzymywaniem" pierwszego przycisku, zezwala na jedno wciśnięcie owego przycisku na interwał
+ * @brief 1 oznacza, że można wcisnąć, 0 blokuje wciskanie
+ */
 int BUTTON1UNUSED = 1;
+/**
+ * @brief powstrzymuje problemy z "przytrzymywaniem" drugiego przycisku, zezwala na jedno wciśnięcie owego przycisku na interwał
+ * @brief 1 oznacza, że można wcisnąć, 0 blokuje wciskanie
+ */
 int BUTTON2UNUSED = 1;
 
-// reprezentacje liczbowe naszych znaków własnych
+//@{
+/**
+ * @brief reprezentacje liczbowe znaków własnych
+ * 
+ */
 char catching[8] = {31, 17, 17, 17, 17, 17, 17, 31};
 char tile[8] = {4, 4, 4, 4, 4, 4, 4, 4};
 char caught[8] = {31, 21, 21, 21, 21, 21, 21, 31};
+//@}
 
 void main(void) {
     // wylaczenie watchdoga

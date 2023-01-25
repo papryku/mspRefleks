@@ -2,7 +2,7 @@
 #include "portyLcd.h"
 #include "lcd.h"
 #include "menu.h"
-#include "gra.h"
+#include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,6 +15,7 @@
 #define BUTTON4 (BIT7 & P4IN)
 #endif
 
+/** @file */
 
 int numberOfScores = 0;
 int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII

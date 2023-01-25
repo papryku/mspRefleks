@@ -1,3 +1,5 @@
+/** @file */
+
 #define          LCD_Data           P2OUT
 #define          _100us             300                //zwiększam by wyeliminować
 #define          _10us              30                 //potencjalne błędy przy biblitoce LCD
