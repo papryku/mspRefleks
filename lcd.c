@@ -38,6 +38,11 @@ void SEND_CHARS(char * napis)
  * @param num liczba do wypisania
  */
 void SEND_NUMBER(int num){
+  	if(num==0){
+  		SEND_CHAR('0');
+		return;
+	}
+  
     int arr[10];
     int i=0;
     int j,r;

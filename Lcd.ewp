@@ -1682,10 +1682,10 @@
     </settings>
   </configuration>
   <file>
-    <name>$PROJ_DIR$\gra.c</name>
+    <name>$PROJ_DIR$\game.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\gra.h</name>
+    <name>$PROJ_DIR$\game.h</name>
   </file>
   <file>
     <name>$PROJ_DIR$\lcd.c</name>
@@ -1697,16 +1697,16 @@
     <name>$PROJ_DIR$\main.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\portyLcd.c</name>
+    <name>$PROJ_DIR$\menu.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\portyLcd.h</name>
+    <name>$PROJ_DIR$\menu.h</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\uartservice.c</name>
+    <name>$PROJ_DIR$\portsLcd.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\uartservice.h</name>
+    <name>$PROJ_DIR$\portsLcd.h</name>
   </file>
 </project>
 

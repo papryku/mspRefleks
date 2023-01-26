@@ -23,7 +23,7 @@ int numberOfScores = 0;  //!< zmienna przechowująca ilość wyników w tabeli w
 int currentLetter = 'A'; //!< zmienna przechowująca aktualnie wybrany znak przez funkcję readChar()
 int currentScore = 0;    //!< zmienna przechowująca wynik aktualnie przeprowadzanej gry
 int clicks = 0;          //!< zmienna przechowująca ilość kliknięć(również nietrafionych) w aktualnej grze
-int caught = 0;          //!< zmienna przechowująca ilość złapanych kafelków w aktualnej grze
+int catches = 0;          //!< zmienna przechowująca ilość złapanych kafelków w aktualnej grze
 char currentInitials[2]; //!< tablica przechowująca inicjały wybrane do aktualnej gry
 
 /**
@@ -31,7 +31,7 @@ char currentInitials[2]; //!< tablica przechowująca inicjały wybrane do aktual
  * @param num przekazuje zdobyte punkty, przypadek 0 interpretowany jest jako zbyt wczesne wciśnięcie przycisku
  * @see currentScore
  * @see clicks
- * @see caught
+ * @see catches
  */
 void changeScore(int num) {
     currentScore = currentScore + num;
@@ -40,7 +40,7 @@ void changeScore(int num) {
     }
     if (num > 0) {
         clicks++;
-        caught++;
+        catches++;
     } else {
         clicks++;
     }
@@ -152,7 +152,8 @@ void sortScores(int n) {
  */
 struct Score createScore(char name[], int points) {
     Score newScore;
-    strcpy(newScore.name, name);
+	newScore.name[0]=name[0];
+	newScore.name[1]=name[1];
     newScore.points = points;
     return newScore;
 }
@@ -188,6 +189,15 @@ void addScore(struct Score newScore) {
 void printScores(int *gameStatus) {
     //BRAK OBSLUGI WYJATKU Z BRAKIEM JAKICHKOLWIEK WYNIKOW numberOfScores==0
     int i = 0;
+	if(numberOfScores ==0) {
+	  SEND_CHARS("Brak wynikow");
+	  while(1){
+		if (!(BUTTON4)) { //powrot do menu
+            menu(gameStatus);
+            return;
+        	}
+		}
+	}else{
     //for (int i = 0; i < numberOfScores; i++)
     while (1) //wyjście tylko za pomocą przycisku 4, możliwość porzuszania w górę i dół, możliwość pauzy
     {
@@ -228,6 +238,7 @@ void printScores(int *gameStatus) {
         i++;
         if (i >= numberOfScores) { i = 0; }
     }
+	}
 }
 
 /**
@@ -245,8 +256,7 @@ void menu(int *gameStatus) {
     gotoSecondLine();
     SEND_CHARS("2.Pokaz wyniki.");
     DelayB(100);
-    while (1) {
-
+    while (*gameStatus == 0) {
         if (!(BUTTON1))   // rozpoczecie gry
         {
             DelayB(100);    // opoznienie
@@ -260,7 +270,7 @@ void menu(int *gameStatus) {
             // rozpoczyna gre (gra.c)
             startGame();
             *gameStatus = 1;
-            return;
+            //return;
         }
 
         if (!(BUTTON2))   // wyswietlenie wyników
@@ -268,7 +278,7 @@ void menu(int *gameStatus) {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
             printScores(gameStatus); // drukowanie wyników
-            return;
+            //return;
         }
     }
 }
@@ -289,7 +299,7 @@ void endOfGame(int *gameStatus) {
 
     //int zeby potem nie castowac wypisujac
     //ustawienie accuracy i jako iloczyn zlapanych kafelkow i iloraz klikniec
-    int accuracy = 100.0 * caught / clicks;
+    int accuracy = 100.0 * catches / clicks;
     int endScore = (float) currentScore * (float) accuracy / 100.0;
 
     SEND_CMD(CLR_DISP);
@@ -302,22 +312,22 @@ void endOfGame(int *gameStatus) {
     SEND_CHAR(currentInitials[1]);
 
     SEND_CHARS(", WYNIK:");
-    if (currentScore == 0) {
-        SEND_CHAR('0');
-    } else {
+    //if (currentScore == 0) {
+   //     SEND_CHAR('0');
+    //} else {
         //wyslanie wyniku koncowego
         SEND_NUMBER(endScore);
-    }
+    //}
     //utworzenie nowego wyniku w strukturze Score i dodanie go do tablicy wyników
-    if (currentScore == 0) {
+    //--if (currentScore < 1) {
+     //   struct Score sc = createScore(currentInitials, 0);
+     //   addScore(sc);
+    //} else {
         struct Score sc = createScore(currentInitials, endScore);
         addScore(sc);
-    } else {
-        struct Score sc = createScore(currentInitials, currentScore);
-        addScore(sc);
-    }
-    currentScore = 0; clicks = 0; caught = 0;
+    //}
+    currentScore = 0; clicks = 0; catches = 0;
 
-    DelayB(200);
+    DelayB(400);
     menu(gameStatus); //tutaj zamiast kontynuować to program sie konczy..
 }
