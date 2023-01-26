@@ -14,7 +14,7 @@ var menu_8c =
     [ "printScores", "menu_8c.html#a8922c49bd6d030a011f49c61ffb7fd37", null ],
     [ "readChar", "menu_8c.html#af087f116858c5e696eb1f61889a7ba18", null ],
     [ "sortScores", "menu_8c.html#a761ad1a882df9efffc818824f8a59ccc", null ],
-    [ "caught", "menu_8c.html#a1e9640942722805dc3df006b72fc25c4", null ],
+    [ "catches", "menu_8c.html#a5997196001ff80b6d1dee838fcaf6715", null ],
     [ "clicks", "menu_8c.html#a736509b16931c4d4ab209bb29838a56c", null ],
     [ "currentInitials", "menu_8c.html#a499a38cf5310806347a87663961ed006", null ],
     [ "currentLetter", "menu_8c.html#a5b703c7cb0155357c687235f76e25b07", null ],

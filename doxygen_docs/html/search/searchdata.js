@@ -5,7 +5,8 @@ var indexSectionsWithContent =
   2: "glmp",
   3: "_acdegimprst",
   4: "bcglnpst",
-  5: "b"
+  5: "b",
+  6: "r"
 };
 
 var indexSectionNames =
@@ -15,7 +16,8 @@ var indexSectionNames =
   2: "files",
   3: "functions",
   4: "variables",
-  5: "defines"
+  5: "defines",
+  6: "pages"
 };
 
 var indexSectionLabels =
@@ -25,6 +27,7 @@ var indexSectionLabels =
   2: "Pliki",
   3: "Funkcje",
   4: "Zmienne",
-  5: "Definicje"
+  5: "Definicje",
+  6: "Strony"
 };
 

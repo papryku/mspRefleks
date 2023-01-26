@@ -282,3 +282,41 @@ void resetArray() {
         }
     }
 }
+
+/*! @mainpage Refleks
+ *
+ * @section intro_sec Introdukcja
+ *
+ * Program rozpoczyna się wyświetleniem menu.
+ *
+ * @subsection menu Menu: ekran wyboru rozpoczęcia gry i wyświetlenia wyników
+ * Gracz w menu ma dwie możliwości - rozpoczęcie nowej gry bądź wyświetlenie dotychczasowych wyników<br>
+ * Pierwszy przycisk odpowiada za rozpoczęcie nowej gry<br>
+ * Drugi przycisk odpowiada za wyświetlenie dotychczasowych wyników<br>
+ *
+ * @subsection gra Gra: ekran gry
+ * Jeżeli zdecyduje się rozpocząć nową rozgrywkę, zostanie poinstruowany aby przy pomocy wyświetlanych komunikatów wprowadzić swoje inicjały.<br> 
+ * Przy pomocy 3 przycisków należy wybrać dwie litery.<br>
+ * Pierwszy przycisk odpowada za zmiejszenie akualnie wyświetlanej litery o jeden w kolejności alfabetyczej.<br>
+ * Drugi zajmuje się zwiększaniem akualnie wyświetlanej litery o jeden w kolejności alfabetyczej.<br>
+ * Trzeci przycisk odpowiada za zatwierdzenie wybranej litery i dodanie jej do tablicy inicjałów.<br>
+ * 
+ * Po poprawnym wprowadzeniu swoich inicjałów zawodnik może rozpocząć rozgrywkę.
+
+ * Gracz ma za zadanie "przechwycić" zbliżające się kafelki, gdy znajdą się w wyznaczonym polu.<br>
+ * Zawodnik zyskuje 10 punktów za poprawne złapanie kafelka.<br>
+ * Każde kliknięcie jest zliczane do sumy kliknięć tak samo jak ilość złapanych kafelków<br>
+ * Pierwszy przycisk odpowiada za przechwyt górnej lini wyświetlacza, a drugi za dolną.<br>
+ 
+ * Gracz może przedwcześnie kliknąć w przyciski 10 razy, jeżeli nie zareaguje na jakikolwiek z kafelków znajdujących się polem odpowiadającym za jego przechwyt. Gdy kafelek trafi za pole łapania gra dobiega końca natychmiastowo. Po zakończeniu obliczana jest dokładność z jaką użytkownik trafiał w kafelki. Następnie zawodnik może zobaczyć zdobyty przez siebie wynik.<br>
+ * Przycisk można kliknąć raz przed przesunięciem kafelków, aby uniknąć wyłapywania jednego kliknięcia jako kilka<br>
+ * 
+ * Po zakończeniu gry zliczany i wyświetlany jest wynik, który trafia do tabeli wyników, a następnie wyświetlane jest menu.
+ * 
+ * @subsection wyniki Tablica wyników: ekran wypisujący wyniki
+ * Przejście do posortowanej malejąco tablicy wyników. Można poruszać się po niej manualnie lub automatycznie gdy użytkownik nie zdecyduje się na samodzielny przegląd wyników za pomocą przycisków.<br>
+ * Pierwszy przycisk przesuwa wyświetlaną tablice wyników w górę, w kierunku najlepszych rezultatów.<br>
+ * Drugi przesuwa wyświetlaną tablice wyników w dół.<br>
+ * Przycisk czwarty pozwala na powrócenie do menu głównego.
+ *
+ */
