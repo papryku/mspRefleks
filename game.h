@@ -1,3 +1,3 @@
 void startGame();
 
-void moveTiles(int tableLCD[][16]);
+void moveTiles(int LCD_array[][16]);

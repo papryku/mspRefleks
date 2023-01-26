@@ -19,9 +19,9 @@ struct Score createScore(char name[], int points);
 
 void addScore(struct Score newScore);
 
-void printScores(int *rozpoczeta);
+void printScores(int *gameStatus);
 
-void menu(int *rozpoczeta);
+void menu(int *gameStatus);
 
-void endOfGame(int *rozpoczeta);
+void endOfGame(int *gameStatus);
 /// @endcond

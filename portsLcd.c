@@ -2,6 +2,9 @@
 
 /** @file */
 
+/**
+ * @brief funkcja inicjalizuje port 2.0 układu MSP430f149 do współpracy z EasyWeb2
+ */
 void InitPortsLcd(void)
 {
   

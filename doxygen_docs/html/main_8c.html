@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pl">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>mspRefleks: Dokumentacja pliku main.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">mspRefleks<span id="projectnumber">&#160;1</span>
+   </div>
+   <div id="projectbrief">Projekt gry opierającej się na łapaniu w odpowiednim momencie spadających kafelków.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Wygenerowano przez Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Szukaj');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('main_8c.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Wczytywanie...</div>
+<div class="SRStatus" id="Searching">Szukanie...</div>
+<div class="SRStatus" id="NoMatches">Brak dopasowań</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#define-members">Definicje</a> &#124;
+<a href="#func-members">Funkcje</a> &#124;
+<a href="#var-members">Zmienne</a>  </div>
+  <div class="headertitle"><div class="title">Dokumentacja pliku main.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;msp430x14x.h&gt;</code><br />
+<code>#include &quot;lcd.h&quot;</code><br />
+<code>#include &quot;portsLcd.h&quot;</code><br />
+<code>#include &quot;menu.h&quot;</code><br />
+<code>#include &quot;game.h&quot;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Definicje</h2></td></tr>
+<tr class="memitem:a2a2f690f8bdeeb4003203ff5e3edaffc"><td class="memItemLeft" align="right" valign="top"><a id="a2a2f690f8bdeeb4003203ff5e3edaffc" name="a2a2f690f8bdeeb4003203ff5e3edaffc"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTONS</b></td></tr>
+<tr class="memdesc:a2a2f690f8bdeeb4003203ff5e3edaffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">flaga powstrzymująca program od wielokrotnego definiowania przycisków <br /></td></tr>
+<tr class="separator:a2a2f690f8bdeeb4003203ff5e3edaffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b8426d5c8d4a02dc1b15353d4bc613d"><td class="memItemLeft" align="right" valign="top"><a id="a8b8426d5c8d4a02dc1b15353d4bc613d" name="a8b8426d5c8d4a02dc1b15353d4bc613d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTON1</b>&#160;&#160;&#160;(BIT4 &amp; P4IN)</td></tr>
+<tr class="memdesc:a8b8426d5c8d4a02dc1b15353d4bc613d"><td class="mdescLeft">&#160;</td><td class="mdescRight">definicja pierwszego przycisku od lewej <br /></td></tr>
+<tr class="separator:a8b8426d5c8d4a02dc1b15353d4bc613d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acad5ba277242dbcd68edaff5f550f29e"><td class="memItemLeft" align="right" valign="top"><a id="acad5ba277242dbcd68edaff5f550f29e" name="acad5ba277242dbcd68edaff5f550f29e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTON2</b>&#160;&#160;&#160;(BIT5 &amp; P4IN)</td></tr>
+<tr class="memdesc:acad5ba277242dbcd68edaff5f550f29e"><td class="mdescLeft">&#160;</td><td class="mdescRight">definicja drugiego przycisku od lewej <br /></td></tr>
+<tr class="separator:acad5ba277242dbcd68edaff5f550f29e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64f0a5235b4b24fb04f54fb437011c75"><td class="memItemLeft" align="right" valign="top"><a id="a64f0a5235b4b24fb04f54fb437011c75" name="a64f0a5235b4b24fb04f54fb437011c75"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTON3</b>&#160;&#160;&#160;(BIT6 &amp; P4IN)</td></tr>
+<tr class="memdesc:a64f0a5235b4b24fb04f54fb437011c75"><td class="mdescLeft">&#160;</td><td class="mdescRight">definicja trzeciego przycisku od lewej <br /></td></tr>
+<tr class="separator:a64f0a5235b4b24fb04f54fb437011c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa07b2fc71aa0e26b4576b43ba001a32"><td class="memItemLeft" align="right" valign="top"><a id="aaa07b2fc71aa0e26b4576b43ba001a32" name="aaa07b2fc71aa0e26b4576b43ba001a32"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BUTTON4</b>&#160;&#160;&#160;(BIT7 &amp; P4IN)</td></tr>
+<tr class="memdesc:aaa07b2fc71aa0e26b4576b43ba001a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">definicja czwartego przycisku od lewej <br /></td></tr>
+<tr class="separator:aaa07b2fc71aa0e26b4576b43ba001a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Funkcje</h2></td></tr>
+<tr class="memitem:afd0369ef7a63a311fd0a8aef18a022f9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#afd0369ef7a63a311fd0a8aef18a022f9">isCaught</a> (int row)</td></tr>
+<tr class="memdesc:afd0369ef7a63a311fd0a8aef18a022f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">funkcja sprawdza, czy w polu łapania danego rzędu znajduje się kafelek  <br /></td></tr>
+<tr class="separator:afd0369ef7a63a311fd0a8aef18a022f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c6fcb44ae5c1dfdec91e83b8d70c3f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a8c6fcb44ae5c1dfdec91e83b8d70c3f5">resetArray</a> ()</td></tr>
+<tr class="memdesc:a8c6fcb44ae5c1dfdec91e83b8d70c3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">funkcja przywraca wartość początkową tablicy LCD_array, czyli pola łapania(0) w pierwszej kolumnie i reszta puste znaki(-1)  <br /></td></tr>
+<tr class="separator:a8c6fcb44ae5c1dfdec91e83b8d70c3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6288eba0f8e8ad3ab1544ad731eb7667"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a6288eba0f8e8ad3ab1544ad731eb7667">main</a> (void)</td></tr>
+<tr class="memdesc:a6288eba0f8e8ad3ab1544ad731eb7667"><td class="mdescLeft">&#160;</td><td class="mdescRight">główny program, wpierw inicjalizuje używane układy, następnie wywołuje <a class="el" href="menu_8c.html#a6cd9e13b89fff0f0bc92f0259ec2d447" title="funkcja wyswietlajaca na LCD możliwe akcje, które moze wykonać zawodnik">menu()</a>, później trwa nieskończona pętla z obsługą przycisków  <br /></td></tr>
+<tr class="separator:a6288eba0f8e8ad3ab1544ad731eb7667"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09ed4b2dbe24973d3f4b0a118fa06ee8"><td class="memItemLeft" align="right" valign="top">__interrupt void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a09ed4b2dbe24973d3f4b0a118fa06ee8">Timer_A</a> (void)</td></tr>
+<tr class="memdesc:a09ed4b2dbe24973d3f4b0a118fa06ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">instrukcje wykonywane przy przerwaniach spowodowanych TimerA  <br /></td></tr>
+<tr class="separator:a09ed4b2dbe24973d3f4b0a118fa06ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Zmienne</h2></td></tr>
+<tr class="memitem:a88da438414c465717dc0071bfbd9679a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a88da438414c465717dc0071bfbd9679a">gameStatus</a> = 0</td></tr>
+<tr class="memdesc:a88da438414c465717dc0071bfbd9679a"><td class="mdescLeft">&#160;</td><td class="mdescRight">zmienna przechowuje informację, czy gra aktualnie trwa, czy nie  <br /></td></tr>
+<tr class="separator:a88da438414c465717dc0071bfbd9679a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f3465f35a3c5bd41da2da7c29386d2e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a8f3465f35a3c5bd41da2da7c29386d2e">catchStatus</a> [2] = {0, 0}</td></tr>
+<tr class="memdesc:a8f3465f35a3c5bd41da2da7c29386d2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">zmienna jest tablicą przechowującą status obu rzędów LCD  <br /></td></tr>
+<tr class="separator:a8f3465f35a3c5bd41da2da7c29386d2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1d68ef9a5dd304c5015e07af7f2bb19"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#ac1d68ef9a5dd304c5015e07af7f2bb19">lives</a> = 10</td></tr>
+<tr class="memdesc:ac1d68ef9a5dd304c5015e07af7f2bb19"><td class="mdescLeft">&#160;</td><td class="mdescRight">zmienna przechowuje pozostałą dozwoloną ilość nietrafionych kliknięć (żyć)  <br /></td></tr>
+<tr class="separator:ac1d68ef9a5dd304c5015e07af7f2bb19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac04791439e799ba0bad3eb5920302e29"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#ac04791439e799ba0bad3eb5920302e29">LCD_array</a> [2][16]</td></tr>
+<tr class="memdesc:ac04791439e799ba0bad3eb5920302e29"><td class="mdescLeft">&#160;</td><td class="mdescRight">reprezentacja naszego ekranu gry, która później jest wypisywana co interwał na ekran  <br /></td></tr>
+<tr class="separator:ac04791439e799ba0bad3eb5920302e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a617a47c70795bcff659815ad0efd2266"><td class="memItemLeft" align="right" valign="top"><a id="a617a47c70795bcff659815ad0efd2266" name="a617a47c70795bcff659815ad0efd2266"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>counter</b> = 0</td></tr>
+<tr class="memdesc:a617a47c70795bcff659815ad0efd2266"><td class="mdescLeft">&#160;</td><td class="mdescRight">licznik spowalniający wykonywanie operacji w przerwaniach TimerA <br /></td></tr>
+<tr class="separator:a617a47c70795bcff659815ad0efd2266"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae353370af4b01f3304e35aebc177d49d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#ae353370af4b01f3304e35aebc177d49d">BUTTON1UNUSED</a> = 1</td></tr>
+<tr class="memdesc:ae353370af4b01f3304e35aebc177d49d"><td class="mdescLeft">&#160;</td><td class="mdescRight">powstrzymuje problemy z "przytrzymywaniem" pierwszego przycisku, zezwala na jedno wciśnięcie owego przycisku na interwał  <br /></td></tr>
+<tr class="separator:ae353370af4b01f3304e35aebc177d49d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a640b34daf7532c95729dba74fa323b68"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8c.html#a640b34daf7532c95729dba74fa323b68">BUTTON2UNUSED</a> = 1</td></tr>
+<tr class="memdesc:a640b34daf7532c95729dba74fa323b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">powstrzymuje problemy z "przytrzymywaniem" drugiego przycisku, zezwala na jedno wciśnięcie owego przycisku na interwał  <br /></td></tr>
+<tr class="separator:a640b34daf7532c95729dba74fa323b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6aed1e6989b4f4a90c647d6021e4409"><td class="memItemLeft" align="right" valign="top"><a id="ac6aed1e6989b4f4a90c647d6021e4409" name="ac6aed1e6989b4f4a90c647d6021e4409"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>catching</b> [8] = {31, 17, 17, 17, 17, 17, 17, 31}</td></tr>
+<tr class="memdesc:ac6aed1e6989b4f4a90c647d6021e4409"><td class="mdescLeft">&#160;</td><td class="mdescRight">reprezentacja liczbowa znaku własnego pola łapania <br /></td></tr>
+<tr class="separator:ac6aed1e6989b4f4a90c647d6021e4409"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1aa029e6e228b01d3e2b5a362cf5e3c"><td class="memItemLeft" align="right" valign="top"><a id="ab1aa029e6e228b01d3e2b5a362cf5e3c" name="ab1aa029e6e228b01d3e2b5a362cf5e3c"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>tile</b> [8] = {4, 4, 4, 4, 4, 4, 4, 4}</td></tr>
+<tr class="memdesc:ab1aa029e6e228b01d3e2b5a362cf5e3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">reprezentacja liczbowa znaku własnego kafelka <br /></td></tr>
+<tr class="separator:ab1aa029e6e228b01d3e2b5a362cf5e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad060bd50febab1f9662d73b225335292"><td class="memItemLeft" align="right" valign="top"><a id="ad060bd50febab1f9662d73b225335292" name="ad060bd50febab1f9662d73b225335292"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>caught</b> [8] = {31, 21, 21, 21, 21, 21, 21, 31}</td></tr>
+<tr class="memdesc:ad060bd50febab1f9662d73b225335292"><td class="mdescLeft">&#160;</td><td class="mdescRight">reprezentacja liczbowa znaku własnego pola łapania z kafelkiem w środku <br /></td></tr>
+<tr class="separator:ad060bd50febab1f9662d73b225335292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Dokumentacja funkcji</h2>
+<a id="afd0369ef7a63a311fd0a8aef18a022f9" name="afd0369ef7a63a311fd0a8aef18a022f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd0369ef7a63a311fd0a8aef18a022f9">&#9670;&#160;</a></span>isCaught()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int isCaught </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>row</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>funkcja sprawdza, czy w polu łapania danego rzędu znajduje się kafelek </p>
+<dl class="params"><dt>Parametry</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>rząd, który ma sprawdzić </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Zwracane wartości</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">0</td><td>jeśli nie ma tam kafelka </td></tr>
+    <tr><td class="paramname">1</td><td>jeśli jest tak kafelek </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6288eba0f8e8ad3ab1544ad731eb7667" name="a6288eba0f8e8ad3ab1544ad731eb7667"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6288eba0f8e8ad3ab1544ad731eb7667">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void main </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>główny program, wpierw inicjalizuje używane układy, następnie wywołuje <a class="el" href="menu_8c.html#a6cd9e13b89fff0f0bc92f0259ec2d447" title="funkcja wyswietlajaca na LCD możliwe akcje, które moze wykonać zawodnik">menu()</a>, później trwa nieskończona pętla z obsługą przycisków </p>
+<p>najpierw wyłączany jest watchdog, następnie inicjalizowane są przyciski, kolejno inicjalizowany jest LCD</p>
+<p>później tworzone są własne znaki i inicjalizowany jest TimerA po czym wywoływane jest <a class="el" href="menu_8c.html#a6cd9e13b89fff0f0bc92f0259ec2d447" title="funkcja wyswietlajaca na LCD możliwe akcje, które moze wykonać zawodnik">menu()</a> </p><dl class="section see"><dt>Zobacz również</dt><dd><a class="el" href="ports_lcd_8c.html#a29f2fb97b30bb8a6928c724c7744078e" title="funkcja inicjalizuje port 2.0 układu MSP430f149 do współpracy z EasyWeb2">InitPortsLcd()</a> </dd>
+<dd>
+<a class="el" href="lcd_8c.html#a51c2d2e6bc532dffc967a2dbb5b9f103" title="funkcja służąca do inicjalizacji LCD">InitLCD()</a> </dd>
+<dd>
+<a class="el" href="menu_8c.html#a6cd9e13b89fff0f0bc92f0259ec2d447" title="funkcja wyswietlajaca na LCD możliwe akcje, które moze wykonać zawodnik">menu(int *gameStatus)</a> </dd></dl>
+
+</div>
+</div>
+<a id="a8c6fcb44ae5c1dfdec91e83b8d70c3f5" name="a8c6fcb44ae5c1dfdec91e83b8d70c3f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c6fcb44ae5c1dfdec91e83b8d70c3f5">&#9670;&#160;</a></span>resetArray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void resetArray </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>funkcja przywraca wartość początkową tablicy LCD_array, czyli pola łapania(0) w pierwszej kolumnie i reszta puste znaki(-1) </p>
+<dl class="section see"><dt>Zobacz również</dt><dd><a class="el" href="main_8c.html#ac04791439e799ba0bad3eb5920302e29" title="reprezentacja naszego ekranu gry, która później jest wypisywana co interwał na ekran">LCD_array</a> </dd></dl>
+
+</div>
+</div>
+<a id="a09ed4b2dbe24973d3f4b0a118fa06ee8" name="a09ed4b2dbe24973d3f4b0a118fa06ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09ed4b2dbe24973d3f4b0a118fa06ee8">&#9670;&#160;</a></span>Timer_A()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__interrupt void Timer_A </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>instrukcje wykonywane przy przerwaniach spowodowanych TimerA </p>
+<p>wpierw sprawdzenie catchStatus dla obu rzędów, następnie ustawienie odpowiedniego znaku pola łapania(z kafelkiem lub bez),</p>
+<p>następnie przesunięcie wszystkich pozostałych kafelków w tablicy, generowanie nowych i wywolanie <a class="el" href="game_8c.html#a8f67ed33eb01434c5f6fd7513a48c75f" title="wypisuje podaną jako parametr tablicę na LCD">moveTiles()</a>,</p>
+<p>na koniec przywrócenie BUTTONxUNUSED do wartości 1 i obsługa sytuacji kończących grę</p>
+<p>przy lives==0 lub catchStatus[x]==2 kończy grę resetując stan zmiennych i wywołując <a class="el" href="menu_8c.html#a6b8ba60c3e1feaf05e8f116e640be046" title="funkcja kończąca rozgrywkę, wylicza i wyświetla końcowy wynik oraz inicjały, przekazuje je do tabeli ...">endOfGame()</a></p>
+<dl class="section see"><dt>Zobacz również</dt><dd><a class="el" href="main_8c.html#a8f3465f35a3c5bd41da2da7c29386d2e" title="zmienna jest tablicą przechowującą status obu rzędów LCD">catchStatus</a> </dd>
+<dd>
+<a class="el" href="main_8c.html#ac04791439e799ba0bad3eb5920302e29" title="reprezentacja naszego ekranu gry, która później jest wypisywana co interwał na ekran">LCD_array</a> </dd>
+<dd>
+<a class="el" href="game_8c.html#a8f67ed33eb01434c5f6fd7513a48c75f" title="wypisuje podaną jako parametr tablicę na LCD">moveTiles(int LCD_array[][16])</a> </dd>
+<dd>
+<a class="el" href="main_8c.html#ae353370af4b01f3304e35aebc177d49d" title="powstrzymuje problemy z &quot;przytrzymywaniem&quot; pierwszego przycisku, zezwala na jedno wciśnięcie owego pr...">BUTTON1UNUSED</a> </dd>
+<dd>
+<a class="el" href="main_8c.html#a640b34daf7532c95729dba74fa323b68" title="powstrzymuje problemy z &quot;przytrzymywaniem&quot; drugiego przycisku, zezwala na jedno wciśnięcie owego przy...">BUTTON2UNUSED</a> </dd>
+<dd>
+<a class="el" href="main_8c.html#ac1d68ef9a5dd304c5015e07af7f2bb19" title="zmienna przechowuje pozostałą dozwoloną ilość nietrafionych kliknięć (żyć)">lives</a> </dd>
+<dd>
+<a class="el" href="main_8c.html#a8c6fcb44ae5c1dfdec91e83b8d70c3f5" title="funkcja przywraca wartość początkową tablicy LCD_array, czyli pola łapania(0) w pierwszej kolumnie i ...">resetArray()</a> </dd>
+<dd>
+<a class="el" href="menu_8c.html#a6b8ba60c3e1feaf05e8f116e640be046" title="funkcja kończąca rozgrywkę, wylicza i wyświetla końcowy wynik oraz inicjały, przekazuje je do tabeli ...">endOfGame(int * gameStatus)</a> </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Dokumentacja zmiennych</h2>
+<a id="ae353370af4b01f3304e35aebc177d49d" name="ae353370af4b01f3304e35aebc177d49d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae353370af4b01f3304e35aebc177d49d">&#9670;&#160;</a></span>BUTTON1UNUSED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int BUTTON1UNUSED = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>powstrzymuje problemy z "przytrzymywaniem" pierwszego przycisku, zezwala na jedno wciśnięcie owego przycisku na interwał </p>
+<p>1 oznacza, że można wcisnąć, 0 blokuje wciskanie </p>
+
+</div>
+</div>
+<a id="a640b34daf7532c95729dba74fa323b68" name="a640b34daf7532c95729dba74fa323b68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a640b34daf7532c95729dba74fa323b68">&#9670;&#160;</a></span>BUTTON2UNUSED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int BUTTON2UNUSED = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>powstrzymuje problemy z "przytrzymywaniem" drugiego przycisku, zezwala na jedno wciśnięcie owego przycisku na interwał </p>
+<p>1 oznacza, że można wcisnąć, 0 blokuje wciskanie </p>
+
+</div>
+</div>
+<a id="a8f3465f35a3c5bd41da2da7c29386d2e" name="a8f3465f35a3c5bd41da2da7c29386d2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f3465f35a3c5bd41da2da7c29386d2e">&#9670;&#160;</a></span>catchStatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int catchStatus[2] = {0, 0}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>zmienna jest tablicą przechowującą status obu rzędów LCD </p>
+<p>wynosi 0, gdy kafelka nie trzeba łapać lub wprost po złapaniu</p>
+<p>wynosi 1, gdy kafelek należy teraz złapać</p>
+<p>wynosi 2, gdy kafelka nie złapie się w porę, co powoduje przegraną </p>
+
+</div>
+</div>
+<a id="a88da438414c465717dc0071bfbd9679a" name="a88da438414c465717dc0071bfbd9679a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88da438414c465717dc0071bfbd9679a">&#9670;&#160;</a></span>gameStatus</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int gameStatus = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>zmienna przechowuje informację, czy gra aktualnie trwa, czy nie </p>
+<p>wynosi 0, gdy gra nie jest w toku (menu, tabela wyników, odliczanie, ekran porażki)</p>
+<p>wynosi 1, gdy gra jest w toku </p>
+
+</div>
+</div>
+<a id="ac04791439e799ba0bad3eb5920302e29" name="ac04791439e799ba0bad3eb5920302e29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac04791439e799ba0bad3eb5920302e29">&#9670;&#160;</a></span>LCD_array</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int LCD_array[2][16]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Wartość początkowa:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">        {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},</div>
+<div class="line">        {0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}}</div>
+</div><!-- fragment -->
+<p>reprezentacja naszego ekranu gry, która później jest wypisywana co interwał na ekran </p>
+<p>0 to pole łapania, 1 to pole łapania z kafelkiem w środku, 2 to kafelek, -1 to pusta komórka </p>
+
+</div>
+</div>
+<a id="ac1d68ef9a5dd304c5015e07af7f2bb19" name="ac1d68ef9a5dd304c5015e07af7f2bb19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1d68ef9a5dd304c5015e07af7f2bb19">&#9670;&#160;</a></span>lives</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lives = 10</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>zmienna przechowuje pozostałą dozwoloną ilość nietrafionych kliknięć (żyć) </p>
+<p>po osiągnięciu 0 powoduje przegraną, przy rozpoczęciu gry wraca do 10 </p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="main_8c.html">main.c</a></li>
+    <li class="footer">Wygenerowano przez <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

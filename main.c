@@ -1,6 +1,6 @@
 #include <msp430x14x.h>
 #include "lcd.h"
-#include "portyLcd.h"
+#include "portsLcd.h"
 #include "menu.h"
 #include "game.h"
 #include <stdlib.h>
@@ -78,16 +78,19 @@ int BUTTON1UNUSED = 1;
  */
 int BUTTON2UNUSED = 1;
 
-//@{
-/**
- * @brief reprezentacje liczbowe znaków własnych
- * 
- */
-char catching[8] = {31, 17, 17, 17, 17, 17, 17, 31};
-char tile[8] = {4, 4, 4, 4, 4, 4, 4, 4};
-char caught[8] = {31, 21, 21, 21, 21, 21, 21, 31};
-//@}
+char catching[8] = {31, 17, 17, 17, 17, 17, 17, 31}; //!<reprezentacja liczbowa znaku własnego pola łapania
+char tile[8] = {4, 4, 4, 4, 4, 4, 4, 4};//!<reprezentacja liczbowa znaku własnego kafelka
+char caught[8] = {31, 21, 21, 21, 21, 21, 21, 31};//!<reprezentacja liczbowa znaku własnego pola łapania z kafelkiem w środku
 
+/**
+ * @brief główny program, wpierw inicjalizuje używane układy, następnie wywołuje menu(), później trwa nieskończona pętla z obsługą przycisków 
+ * @brief
+ * @brief najpierw wyłączany jest watchdog, następnie inicjalizowane są przyciski, kolejno inicjalizowany jest LCD
+ * @brief później tworzone są własne znaki i inicjalizowany jest TimerA po czym wywoływane jest menu() 
+ * @see InitPortsLcd()
+ * @see InitLCD()
+ * @see menu(int *gameStatus)
+ */
 void main(void) {
     // wylaczenie watchdoga
     WDTCTL = WDTPW + WDTHOLD;
@@ -125,10 +128,9 @@ void main(void) {
 
     // Timer_A ustawiamy na 500 kHz
     // a przerwanie generujemy co 100 ms
-    TACTL = TASSEL_1 + MC_1 + ID_3; // Wybieram ACLK, ACLK/8=500kHz,tryb Up
-    CCTL0 = CCIE;                   // w��czenie przerwa� od CCR0
-    CCR0 = 500000;                  // podzielnik 5000: przerwanie co 10 ms
-    //^tym sie trzeba pobawic jeszcze
+    TACTL = TASSEL_1 + MC_1 + ID_3; 
+    CCTL0 = CCIE;                   
+    CCR0 = 500000;                  
 
     _EINT(); // w��czenie przerwa�
     TACTL &= ~MC_1;
@@ -146,7 +148,7 @@ void main(void) {
                     changeScore(10);
                     if (catchStatus[0] == 1) catchStatus[0] = 0;
                 } else {
-                    changeScore(-5);
+                    changeScore(0);
                     lives--;
                 }
             }
@@ -158,18 +160,18 @@ void main(void) {
                     changeScore(10);
                     if (catchStatus[1] == 1) catchStatus[1] = 0;
                 } else {
-                    changeScore(-5);
+                    changeScore(0);
                     lives--;
                 }
             }
 
-                // do testow zatrzymywanie
+                // do testow, pauzowanie
                 //
-            else if (!(BUTTON3)) {
-                TACTL &= ~MC_1;
-            } else if (!(BUTTON4)) {
-                TACTL |= MC_1;
-            }
+            // else if (!(BUTTON3)) {
+            //     TACTL &= ~MC_1;
+            // } else if (!(BUTTON4)) {
+            //     TACTL |= MC_1;
+            // }
             //    -----------------------
         }
     }
@@ -187,16 +189,30 @@ int isCaught(int row) {
 // przerwania zegara
 #pragma vector = TIMERA0_VECTOR
 
+/**
+ * @brief instrukcje wykonywane przy przerwaniach spowodowanych TimerA
+ * @brief wpierw sprawdzenie catchStatus dla obu rzędów, następnie ustawienie odpowiedniego znaku pola łapania(z kafelkiem lub bez),
+ * @brief następnie przesunięcie wszystkich pozostałych kafelków w tablicy, generowanie nowych i wywolanie moveTiles(),
+ * @brief na koniec przywrócenie BUTTONxUNUSED do wartości 1 i obsługa sytuacji kończących grę
+ * @brief przy lives==0 lub catchStatus[x]==2 kończy grę resetując stan zmiennych i wywołując endOfGame()
+ *  
+ * @see catchStatus
+ * @see LCD_array
+ * @see moveTiles(int LCD_array[][16])
+ * @see BUTTON1UNUSED
+ * @see BUTTON2UNUSED
+ * @see lives
+ * @see resetArray()
+ * @see endOfGame(int * gameStatus)
+ */
 __interrupt void Timer_A(void) {
-    int r, c;
-
-    // licznik do spowolnienia, z tym sie pobawimy troche
-    counter++;
+    counter++; //licznik do spowolnienia
     if (counter == 8) {
+        int r, c;
         counter = counter % 8;
         // wpierw operacje na pierwszych dwoch kolumnach
         for (r = 0; r < 2; r++) {
-            // kafelek spierdolil, gejmower
+            // kafelek uciekł, gejmower
             if (catchStatus[r] == 1) {
                 catchStatus[r] = 2;
             }
@@ -210,7 +226,7 @@ __interrupt void Timer_A(void) {
                 LCD_array[r][0] = 0;
             }
         }
-        // potem przesuwa kafelki
+        // potem przesuwa kafelki w tablicy
         for (r = 0; r < 2; r++) {
             for (c = 2; c < 16; c++) {
                 if (LCD_array[r][c] == 2) {
@@ -219,6 +235,7 @@ __interrupt void Timer_A(void) {
                 }
             }
         }
+        // potem generuje(bądź nie) nowy kafelek lub kafelki
         switch (rand() % 8) // 4/8 razy pojedynczy kafelek, 1/8 razy podwojny, 3/8 razy nic
         {
             case 1:
@@ -237,8 +254,10 @@ __interrupt void Timer_A(void) {
                 break;
         }
 
-        // a na koniec
+        // a na koniec wypisuje tablicę na LCD
         moveTiles(LCD_array);
+
+        // przywraca możliwość wciskania przycisków
         BUTTON1UNUSED = 1;
         BUTTON2UNUSED = 1;
 

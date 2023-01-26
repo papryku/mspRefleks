@@ -1,5 +1,5 @@
 #include <msp430x14x.h>
-#include "portyLcd.h"
+#include "portsLcd.h"
 #include "lcd.h"
 #include "menu.h"
 #include "game.h"
@@ -7,43 +7,52 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef BUTTONS
-#define BUTTONS
-#define BUTTON1 (BIT4 & P4IN)
-#define BUTTON2 (BIT5 & P4IN)
-#define BUTTON3 (BIT6 & P4IN)
-#define BUTTON4 (BIT7 & P4IN)
-#endif
-
 /** @file */
 
-int numberOfScores = 0;
-int currentLetter = 'A'; // wartosc pierwszego znaku w tablicy ASCII
-int wynikAktualnej = 0;
-int iloscKlikniec = 0;
-int iloscZlapanych = 0;
-char inicjalyAktualnej[2];
+#ifndef BUTTONS
+
+#define BUTTONS //!< flaga powstrzymująca program od wielokrotnego definiowania przycisków
+#define BUTTON1 (BIT4 & P4IN) //!< definicja pierwszego przycisku od lewej
+#define BUTTON2 (BIT5 & P4IN) //!< definicja drugiego przycisku od lewej
+#define BUTTON3 (BIT6 & P4IN) //!< definicja trzeciego przycisku od lewej
+#define BUTTON4 (BIT7 & P4IN) //!< definicja czwartego przycisku od lewej
+
+#endif
+
+int numberOfScores = 0;  //!< zmienna przechowująca ilość wyników w tabeli wyników
+int currentLetter = 'A'; //!< zmienna przechowująca aktualnie wybrany znak przez funkcję readChar()
+int currentScore = 0;    //!< zmienna przechowująca wynik aktualnie przeprowadzanej gry
+int clicks = 0;          //!< zmienna przechowująca ilość kliknięć(również nietrafionych) w aktualnej grze
+int caught = 0;          //!< zmienna przechowująca ilość złapanych kafelków w aktualnej grze
+char currentInitials[2]; //!< tablica przechowująca inicjały wybrane do aktualnej gry
 
 /**
- * @brief modyfikuje wynik aktualnej gry
- * @param num przekazuje nowy wynik
+ * @brief modyfikuje wynik oraz składowe celności aktualnej gry
+ * @param num przekazuje zdobyte punkty, przypadek 0 interpretowany jest jako zbyt wczesne wciśnięcie przycisku
+ * @see currentScore
+ * @see clicks
+ * @see caught
  */
 void changeScore(int num) {
-    wynikAktualnej = wynikAktualnej + num;
-    if (wynikAktualnej < 0) {
-        wynikAktualnej = 0;
+    currentScore = currentScore + num;
+    if (currentScore < 0) {
+        currentScore = 0;
     }
-    if (num > 0) { //próba implementacji accuracy zeby nam mnie punktow ujebal, zamiast odejmowania jest zmniejszany
-        iloscKlikniec++;
-        iloscZlapanych++;
+    if (num > 0) {
+        clicks++;
+        caught++;
     } else {
-        iloscKlikniec++;
+        clicks++;
     }
 }
 
 /**
  * @brief funkcja pozwalająca wybrać literę
- * @return wybrana litere
+ * @brief przycisk pierwszy zmniejsza wartość litery(alfabetycznie w dół)
+ * @brief przycisk drugi zwiększa wartość litery(alfabetycznie w górę)
+ * @brief przycisk trzeci wybiera aktualną literę
+ * @return wybrana litera
+ * @see currentLetter
  */
 char readChar() {
     gotoSecondLine();
@@ -83,8 +92,9 @@ char readChar() {
 }
 
 /**
- * @brief funkcja pozwalająca wybrać inicjały, które później zwraca w tablicy
- * @return tablica inicjalow
+ * @brief funkcja pozwalająca wybrać inicjały wywołując dwukrotnie readChar()
+ * @return tablica z wybranymi inicjałami
+ * @see readChar()
  */
 char *getInitials() {
     char name[2];
@@ -106,13 +116,14 @@ char *getInitials() {
     return name;
 }
 
-// tablica wynikow
-struct Score scores[10];
+// tablica wyników
+struct Score scores[10]; //!< tablica przechowująca wyniki
 
 
 /**
- * @brief funkcja sortujaca tablice wynikow
- * @param n ilosc elementow w talicy wynikow
+ * @brief funkcja sortująca tablice wyników
+ * @param n ilość elementów w talicy wyników
+ * @see scores
  */
 void sortScores(int n) {
     int i, j;
@@ -125,7 +136,7 @@ void sortScores(int n) {
             }
         }
 
-        // Zamiana miejscami najwi?kszego elementu z elementem na pozycji i
+        // Zamiana miejscami największego elementu z elementem na pozycji i
         struct Score temp = scores[i];
         scores[i] = scores[max_idx];
         scores[max_idx] = temp;
@@ -133,10 +144,11 @@ void sortScores(int n) {
 }
 
 /**
- * @brief funkcja tworzaca nowy rekord po rozegraniu gry
- * @param name inicjaly zawodnika
+ * @brief funkcja tworząca nowy wynik po rozegraniu gry
+ * @param name inicjały zawodnika
  * @param points zdobyte przez niego punkty
- * @return ilosc elementow w tablicy wynikow
+ * @return wynik z podanymi inicjałami i punktami
+ * @see struct Score
  */
 struct Score createScore(char name[], int points) {
     Score newScore;
@@ -146,9 +158,10 @@ struct Score createScore(char name[], int points) {
 }
 
 /**
- * @brief metoda dodajaca nowy rekord do tablicy wynikow
+ * @brief funkcja dodająca nowy rekord do tablicy wyników i wywołująca sortowanie tablicy sortScores()
  * @param newScore nowy wynik
- * @return rekord nowego wyniku
+ * @see scores
+ * @see sortScores(int n)
  */
 
 void addScore(struct Score newScore) {
@@ -163,10 +176,17 @@ void addScore(struct Score newScore) {
 }
 
 /**
- * @brief metoda wypisujaca tablice wynikow rosnaco
- * @param rozpoczeta status rozgrywki
+ * @brief funkcja wypisująca tablicę wyników
+ * @brief przycisk 1 przechodzi do następnego wyniku
+ * @brief przycisk 2 powraca do poprzedniego wyniku
+ * @brief przycisk 4 powraca do menu()
+ * @param gameStatus wskaźnik statusu rozgrywki, do przekazania spowrotem do menu(gameStatus)
+ * @see gameStatus
+ * @see scores
+ * @see menu(int * gameStatus)
  */
-void printScores(int *rozpoczeta) {
+void printScores(int *gameStatus) {
+    //BRAK OBSLUGI WYJATKU Z BRAKIEM JAKICHKOLWIEK WYNIKOW numberOfScores==0
     int i = 0;
     //for (int i = 0; i < numberOfScores; i++)
     while (1) //wyjście tylko za pomocą przycisku 4, możliwość porzuszania w górę i dół, możliwość pauzy
@@ -176,7 +196,7 @@ void printScores(int *rozpoczeta) {
         SEND_NUMBER(i + 1);
         SEND_CHARS(". miejsce");
         gotoSecondLine();
-        //wypisanie inicjalow na aktualnej pozycji
+        //wypisanie inicjałów na aktualnej pozycji
         SEND_CHAR(scores[i].name[0]);
         SEND_CHAR(scores[i].name[1]);
         SEND_CHARS(" : ");
@@ -200,7 +220,7 @@ void printScores(int *rozpoczeta) {
                 DelayB(50);
                 break;
             } else if (!(BUTTON4)) { //powrot do menu
-                menu(rozpoczeta);
+                menu(gameStatus);
                 return;
             }
             DelayB(1);
@@ -211,11 +231,13 @@ void printScores(int *rozpoczeta) {
 }
 
 /**
- * @brief metoda wyswietlajaca na plytce mozliwe akcje jakie, ktore moze wykonac zawodnik moga za pomoca przyciskow zadecydowac czy chca rozpoczac nowa gre lub wyswielisc dotychczasowe wyniki
- * @param rozpoczeta status rozgrywki
+ * @brief funkcja wyswietlajaca na LCD możliwe akcje, które moze wykonać zawodnik 
+ * @brief przycisk 1 rozpoczyna nową grę
+ * @brief przycisk 2 wyświetla tabelę wyników
+ * @param gameStatus wskaźnik statusu rozgrywki, przy rozpoczęciu gry zmieniany jest na 1
  */
 
-void menu(int *rozpoczeta) {
+void menu(int *gameStatus) {
     // wylaczenie watchdoga
     WDTCTL = WDTPW + WDTHOLD;
     SEND_CMD(CLR_DISP);
@@ -233,19 +255,19 @@ void menu(int *rozpoczeta) {
             SEND_CHARS("Podaj inicjaly:");
 
             char *inicjaly = getInitials();
-            strcpy(inicjalyAktualnej, inicjaly);
+            strcpy(currentInitials, inicjaly);
             SEND_CMD(CLR_DISP);
             // rozpoczyna gre (gra.c)
             startGame();
-            *rozpoczeta = 1;
+            *gameStatus = 1;
             return;
         }
 
-        if (!(BUTTON2))   // wyswietlenie wynikow
+        if (!(BUTTON2))   // wyswietlenie wyników
         {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
-            printScores(rozpoczeta); // drukowanie wynikow
+            printScores(gameStatus); // drukowanie wyników
             return;
         }
     }
@@ -253,47 +275,49 @@ void menu(int *rozpoczeta) {
 
 
 /**
- * @brief funkcja kończąca rozgrywkę, wyświetla końcowy wynik i inicjały, przekazuje je do tabeli wyników i powraca do menu()
- * @param rozpoczeta status rozgrywki
+ * @brief funkcja kończąca rozgrywkę, wylicza i wyświetla końcowy wynik oraz inicjały, przekazuje je do tabeli wyników i powraca do menu()
+ * @param gameStatus wskaźnik statusu rozgrywki, do przekazania spowrotem do menu(gameStatus)
+ * @see menu(int * gameStatus)
+ * @see createScore(char name[], int points)
+ * @see addScore(struct Score newScore)
  */
-void endOfGame(int *rozpoczeta) {
+void endOfGame(int *gameStatus) {
     // wylaczenie watchdoga
     WDTCTL = WDTPW + WDTHOLD;
     TACTL &= ~MC_1;
-    *rozpoczeta = 0;
+    *gameStatus = 0;
 
     //int zeby potem nie castowac wypisujac
-    //ustawienie celnosci jako iloczyn zlapanych kafelkow i iloraz klikniec
-    int celnosc = 100.0 * iloscZlapanych / iloscKlikniec;
-    int koncowyWynik = (float) wynikAktualnej * (float) celnosc / 100.0;
+    //ustawienie accuracy i jako iloczyn zlapanych kafelkow i iloraz klikniec
+    int accuracy = 100.0 * caught / clicks;
+    int endScore = (float) currentScore * (float) accuracy / 100.0;
 
     SEND_CMD(CLR_DISP);
-    if (koncowyWynik == 0) {
-        SET_CURSOR(1, 1);
-        SEND_CHARS("PRZEGRYWASZ");
-    } else {
-        SET_CURSOR(4, 1);
-        SEND_CHARS("PRZEGRYWASZ");
-    }
+    SET_CURSOR(4, 1);
+    SEND_CHARS("PRZEGRYWASZ");
+
+    //wypisanie inicjałów aktualnego gracza
     SET_CURSOR(2, 2);
-    //wypisanie inicjalow aktualnego gracza
-    SEND_CHAR(inicjalyAktualnej[0]);
-    SEND_CHAR(inicjalyAktualnej[1]);
+    SEND_CHAR(currentInitials[0]);
+    SEND_CHAR(currentInitials[1]);
+
     SEND_CHARS(", WYNIK:");
-    if (wynikAktualnej == 0) {
+    if (currentScore == 0) {
         SEND_CHAR('0');
     } else {
         //wyslanie wyniku koncowego
-        SEND_NUMBER(koncowyWynik);
+        SEND_NUMBER(endScore);
     }
-    //utworzenie nowego wyniku w strukturze Score i dodanie go do tablicy wynikow
-    if (wynikAktualnej == 0) {
-        struct Score sc = createScore(inicjalyAktualnej, koncowyWynik);
+    //utworzenie nowego wyniku w strukturze Score i dodanie go do tablicy wyników
+    if (currentScore == 0) {
+        struct Score sc = createScore(currentInitials, endScore);
         addScore(sc);
     } else {
-        struct Score sc = createScore(inicjalyAktualnej, wynikAktualnej);
+        struct Score sc = createScore(currentInitials, currentScore);
         addScore(sc);
     }
-    wynikAktualnej = 0;
-    menu(rozpoczeta);
+    currentScore = 0; clicks = 0; caught = 0;
+
+    DelayB(200);
+    menu(gameStatus); //tutaj zamiast kontynuować to program sie konczy..
 }

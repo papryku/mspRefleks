@@ -1,6 +1,6 @@
 #include <msp430x14x.h>
 #include "lcd.h"
-#include "portyLcd.h"
+#include "portsLcd.h"
 
 /** @file */
 
@@ -89,7 +89,7 @@ void Delay (unsigned int a)
 /**
  * @brief funkcja opóźniająca program o 300 taktów * podany parametr
  * 
- * @param b ilość 300etek taktów
+ * @param b ilość 300tek taktów
  */
 void Delayx100us(unsigned char b)
 {
@@ -100,7 +100,7 @@ void Delayx100us(unsigned char b)
 /**
  * @brief funkcja opóźniająca program o 2137 taktów * podany parametr
  * 
- * @param b ilość 2137emek taktów
+ * @param b ilość 2137mek taktów
  */
 void DelayB(unsigned int b)
 {

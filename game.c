@@ -1,20 +1,22 @@
 #include <msp430x14x.h>
 #include "lcd.h"
-#include "portyLcd.h"
+#include "portsLcd.h"
 #include "game.h"
-
-#ifndef BUTTONS
-#define BUTTONS
-#define BUTTON1 (BIT4 & P4IN)
-#define BUTTON2 (BIT5 & P4IN)
-#define BUTTON3 (BIT6 & P4IN)
-#define BUTTON4 (BIT7 & P4IN)
-#endif
 
 /** @file */
 
+#ifndef BUTTONS
+
+#define BUTTONS //!< flaga powstrzymująca program od wielokrotnego definiowania przycisków
+#define BUTTON1 (BIT4 & P4IN) //!< definicja pierwszego przycisku od lewej
+#define BUTTON2 (BIT5 & P4IN) //!< definicja drugiego przycisku od lewej
+#define BUTTON3 (BIT6 & P4IN) //!< definicja trzeciego przycisku od lewej
+#define BUTTON4 (BIT7 & P4IN) //!< definicja czwartego przycisku od lewej
+
+#endif
+
 /**
- * @brief funkcja odpowiadajaca ustawieni kursorow i przygotowanie wyswietlacza do przeprowadzenia rozgrywki
+ * @brief funkcja odpowiadająca za przygotowanie wyświetlacza do gry, odliczanie i odpauzowanie TimerA
  */
 void startGame() {
     // pauza interrupta
@@ -44,17 +46,17 @@ void startGame() {
 }
 
 /**
- * @brief przesuwanie kafelka po wyswietlaczu
- * @param tableLCD tablica przechowujaca strukture wyswietlacza
+ * @brief wypisuje podaną jako parametr tablicę na LCD
+ * @param LCD_array tablica przechowująca reprezentację ekranu gry
  */
-void moveTiles(int tableLCD[][16]) {
+void moveTiles(int LCD_array[][16]) {
     int r;
     int c;
     for (r = 0; r < 2; r++) {
         SET_CURSOR(1, r + 1);
         for (c = 0; c < 16; c++) {
-            if (tableLCD[r][c] >= 0) {
-                SEND_CHAR(tableLCD[r][c]);
+            if (LCD_array[r][c] >= 0) {
+                SEND_CHAR(LCD_array[r][c]);
             } else {
                 SEND_CHAR(' ');
             }
