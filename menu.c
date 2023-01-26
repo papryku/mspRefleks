@@ -250,8 +250,9 @@ void printScores(int *gameStatus) {
 
 void menu(int *gameStatus) {
     // wylaczenie watchdoga
-    WDTCTL = WDTPW + WDTHOLD;
+    DelayB(50);
     SEND_CMD(CLR_DISP);
+    DelayB(50);
     SEND_CHARS("1.Nowa gra.");
     gotoSecondLine();
     SEND_CHARS("2.Pokaz wyniki.");
@@ -270,7 +271,6 @@ void menu(int *gameStatus) {
             // rozpoczyna gre (gra.c)
             startGame();
             *gameStatus = 1;
-            //return;
         }
 
         if (!(BUTTON2))   // wyswietlenie wyników
@@ -278,7 +278,6 @@ void menu(int *gameStatus) {
             DelayB(100);    // opoznienie
             clearDisplay(); // wyczyszczenie wyswietlacza
             printScores(gameStatus); // drukowanie wyników
-            //return;
         }
     }
 }
